@@ -1,0 +1,45 @@
+
+/* ----------------------APP---------------------- */
+.routerLink{
+    text-decoration: none;
+}
+
+#logoweb{
+    margin-left: 20px;
+}
+
+#navdrawer{
+    margin-top: 55px;
+}
+
+#bkg {
+    margin: auto;
+    width: 1300px;
+    height: 100%;
+}
+
+/* --------------------DEVICES-------------------- */
+#footer {
+    z-index: 4;
+}
+
+/* ---------------------ROOMS-------------------- */
+
+
+.card{
+    margin:20px;
+    margin-top:20px;
+}
+
+.card_bottom{
+    position: relative;
+    height:50px;
+    width:100%;
+}
+
+/* ---------------------ROOMS-------------------- */
+
+.home_card{
+    margin: 20px;
+  
+}
