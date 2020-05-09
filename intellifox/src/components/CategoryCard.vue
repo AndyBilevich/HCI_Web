@@ -1,39 +1,18 @@
 <template>
-  <div>
-    <div >
-      <v-card 
-        class="card"
+  <v-card 
+        class="card cards"
         height="200px"
         width="170px"
-        color = "red"
-        :color="var"
-        >
+      >
         <div>
-          <v-icon>{{category-icon}}</v-icon>
+          <v-icon>{{category_icon}}</v-icon>
         </div>
-
-        <div style="margin-top:80%;" class=" card_bottom background_fill">
+        <div class="card_bottom background_fill">
           <v-card-text class="text--primary" >
-              {{category-name}}
+              {{category_name}}
           </v-card-text>
         </div>
-        
-      </v-card>
-      
-    </div> 
-    
-    <v-btn 
-      color="purple"
-      fab
-      dark
-      big
-      bottom
-      right
-    >
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
-    
-  </div>
+  </v-card>
 </template>
 
 <script>
@@ -42,12 +21,24 @@
       hidden: false,
     }),
     props: {
-      category-name,
-      category-icon,
-      url-to-go
+      category_name: String,
+      category_icon: String,
+      url_to_go: String
     }
   }
 
   
 </script>
  
+<style scoped>
+.card{
+    margin: 20px;
+    cursor: pointer;
+}
+.card_bottom{
+    position: relative;
+    margin-top: 80%;
+    height:50px;
+    width:100%;
+}
+</style>

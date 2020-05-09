@@ -1,70 +1,11 @@
 <template>
   <div>
-    <div >
-
       <v-row dense>
         <v-col cols="3">
-          <v-card 
-            class="card"
-            height="200px"
-            width="170px"
-            color= "red"
-          >
-            <div>
-              <v-icon>mdi-folder-open</v-icon>
-            </div>
-
-         <div style="margin-top:80%;" class=" card_bottom background_fill">
-              <v-card-text class="text--primary" >
-                  Living room
-              </v-card-text>
-            </div>
-          </v-card>
+          <CategoryCard category_name="Living" category_icon="mdi-home"/>
         </v-col>
-
-        <v-col cols="3">
-          <v-card 
-            class="card"
-            height="200px"
-            width="170px"
-            color= "red"
-          >
-            <div>
-              <v-icon>mdi-folder-open</v-icon>
-            </div>
-
-            <div style="margin-top:80%;" class=" card_bottom background_fill">
-              <v-card-text class="text--primary" >
-                  Living room
-              </v-card-text>
-            </div>
-          </v-card>
-        </v-col>
-
       </v-row>
-    </div> 
 
-    <div >
-      <v-card 
-        class="card"
-        height="200px"
-        width="170px"
-        color = "red"
-        >
-        <div>
-          <v-icon>mdi-folder-open</v-icon>
-        </div>
-
-        <div style="margin-top:80%;" class=" card_bottom background_fill">
-          <v-card-text class="text--primary" >
-              Bathroom
-          </v-card-text>
-        </div>
-        
-      </v-card>
-      
-    </div> 
-    
     <v-btn 
       color="purple"
       fab
@@ -80,15 +21,25 @@
 </template>
 
 <script>
+  import CategoryCard from '@/components/CategoryCard';
   export default {
+    components: {
+      CategoryCard
+    },
     data: () => ({
       hidden: false,
     }),
   }
 </script>
  
-
-
-
-
- 
+<style scoped>
+.card{
+    margin: 20px;
+}
+.card_bottom{
+    position: relative;
+    margin-top: 80%;
+    height:50px;
+    width:100%;
+}
+</style>
