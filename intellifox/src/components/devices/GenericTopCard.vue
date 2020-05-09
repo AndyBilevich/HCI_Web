@@ -23,13 +23,18 @@
             absolute
             >
             <template v-slot:activator="{ on }">
-                <v-icon large>mdi-dots-vertical</v-icon>
+                <v-btn
+                v-on="on"
+                text
+                icon 
+                >
+                    <v-icon large>mdi-dots-vertical</v-icon>
+                </v-btn>
             </template>
             
             <v-list>
-                <v-list-item>hola1</v-list-item>
-                <v-list-item>hola1</v-list-item>
-                <v-list-item>hola1</v-list-item>
+                <v-list-item><v-icon>mdi-pencil</v-icon>Edit</v-list-item>
+                <v-list-item><v-icon>mdi-trash-can</v-icon>Delete</v-list-item>
             </v-list>
 
             </v-menu>

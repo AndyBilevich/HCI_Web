@@ -1,5 +1,6 @@
 <template>
   <div class="air_conditioners">
+  <AirConditionerCard/>
   </div>
 </template>
 
