@@ -1,78 +1,158 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
+import Vue from "vue";
+import VueRouter from "vue-router";
 
-import Favourites from '../views/Favourites.vue'
-import Homes from '../views/Homes.vue'
-import Rooms from '../views/Rooms.vue'
-import Devices from '../views/Devices.vue'
-import Routines from '../views/Routines.vue'
+import Favourites from "../views/Favourites.vue";
+import Homes from "../views/Homes.vue";
+import Rooms from "../views/Rooms.vue";
+import Devices from "../views/Devices.vue";
+import Routines from "../views/Routines.vue";
 
-import ElecCons from '../views/ElecCons.vue'
-import History from '../views/History.vue'
-import Settings from '../views/Settings.vue'
-import HelpFeed from '../views/HelpFeed.vue'
-import ErrorLog from '../views/ErrorLog.vue'
+import ElecCons from "../views/ElecCons.vue";
+import History from "../views/History.vue";
+import Settings from "../views/Settings.vue";
+import HelpFeed from "../views/HelpFeed.vue";
+import ErrorLog from "../views/ErrorLog.vue";
 
+import AirConditioners from "../views/devices/AirConditioner.vue";
+import Alarms from "../views/devices/Alarm.vue";
+import Awnings from "../views/devices/Awning.vue";
+import Blinds from "../views/devices/Blind.vue";
+import Curtains from "../views/devices/Curtain.vue";
+import Doors from "../views/devices/Door.vue";
+import Fridges from "../views/devices/Fridge.vue";
+import Lights from "../views/devices/Lights.vue";
+import Ovens from "../views/devices/Oven.vue";
+import Speakers from "../views/devices/Speaker.vue";
+import Sprinklers from "../views/devices/Sprinkler.vue";
+import Taps from "../views/devices/Tap.vue";
+import Vacuums from "../views/devices/Vacuum.vue";
 
-Vue.use(VueRouter)
+Vue.use(VueRouter);
 
 const routes = [
   {
-    path: '/favourites',
-    name: 'Favourites',
-    component: Favourites
+    path: "/favourites",
+    name: "Favourites",
+    component: Favourites,
   },
   {
-    path: '/homes',
-    name: 'Homes',
-    component: Homes
+    path: "/homes",
+    name: "Homes",
+    component: Homes,
   },
   {
-    path: '/rooms',
-    name: 'Rooms',
-    component: Rooms
+    path: "/rooms",
+    name: "Rooms",
+    component: Rooms,
   },
   {
-    path: '/devices',
-    name: 'Devices',
-    component: Devices
+    path: "/devices",
+    name: "Devices",
+    component: Devices,
   },
   {
-    path: '/routines',
-    name: 'Routines',
-    component: Routines
+    path: "/routines",
+    name: "Routines",
+    component: Routines,
   },
   {
-    path: '/eleccons',
-    name: 'ElecCons',
-    component: ElecCons
+    path: "/eleccons",
+    name: "ElecCons",
+    component: ElecCons,
   },
   {
-    path: '/history',
-    name: 'History',
-    component: History
+    path: "/history",
+    name: "History",
+    component: History,
   },
   {
-    path: '/settings',
-    name: 'Settings',
-    component: Settings
+    path: "/settings",
+    name: "Settings",
+    component: Settings,
   },
   {
-    path: '/helpfeed',
-    name: 'HelpFeed',
-    component: HelpFeed
+    path: "/helpfeed",
+    name: "HelpFeed",
+    component: HelpFeed,
   },
   {
-    path: '/errorlog',
-    name: 'ErrorLog',
-    component: ErrorLog
-  }
-]
+    path: "/errorlog",
+    name: "ErrorLog",
+    component: ErrorLog,
+  },
+  {
+    path: "/devices/air-conditioners",
+    name: "AirConditioners",
+    component: AirConditioners,
+  },
+  {
+    path: "/devices/alarms",
+    name: "Alarms",
+    component: Alarms,
+  },
+  {
+    path: "/devices/awnings",
+    name: "Awnings",
+    component: Awnings,
+  },
+  {
+    path: "/devices/blinds",
+    name: "Blinds",
+    component: Blinds,
+  },
+  {
+    path: "/devices/curtains",
+    name: "Curtains",
+    component: Curtains,
+  },
+  {
+    path: "/devices/doors",
+    name: "Doors",
+    component: Doors,
+  },
+  {
+    path: "/devices/fridges",
+    name: "Fridges",
+    component: Fridges,
+  },
+  {
+    path: "/devices/lights",
+    name: "Lights",
+    component: Lights,
+  },
+  {
+    path: "/devices/ovens",
+    name: "Ovens",
+    component: Ovens,
+  },
+  {
+    path: "/devices/speakers",
+    name: "Speakers",
+    component: Speakers,
+  },
+  {
+    path: "/devices/sprinklers",
+    name: "Sprinklers",
+    component: Sprinklers,
+  },
+  {
+    path: "/devices/taps",
+    name: "Taps",
+    component: Taps,
+  },
+  {
+    path: "/devices/vacuums",
+    name: "Vacuums",
+    component: Vacuums,
+  },
+];
 
 const router = new VueRouter({
-  mode: 'history',
+  mode: "history",
   base: process.env.BASE_URL,
-  routes
-})
+  routes,
+});
 
-export default router
+export default router;
+
+

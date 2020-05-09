@@ -1,47 +1,29 @@
 <template>
   <div class="homes">
-    <v-card class="home_card"
-      color="#26c6da"
-      max-width="400"
-    >
-      <v-card-title>
-        <span class="headline font-weight-light">Winter Cottage</span>
-      </v-card-title>
-
-      <v-card-text class="font-weight-bold">
-        "Ski house for winter holidays."
-      </v-card-text>
-
-      <v-card-text class="title font-weight-light">
-        Rooms: 5  Devices: 14
-      </v-card-text>
-    </v-card>
-
-    <v-card class="home_card"
-      color="#26c6da"
-      max-width="400"
-    >
-      <v-card-title>
-        <span class="headline font-weight-light">Winter Cottage</span>
-      </v-card-title>
-
-      <v-card-text class="font-weight-bold">
-        "Ski house for winter holidays."
-      </v-card-text>
-
-      <v-card-text class="title font-weight-light">
-        Rooms: 5  Devices: 14
-      </v-card-text>
-    </v-card>
-  
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <HomeCard color="#385F73" name="Cottage" desc="Ski house for winter holidays" />
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-
+import HomeCard from '@/components/HomeCard.vue';
 export default {
   name: 'Homes',
+  components: {
+    HomeCard
+  }
 
-}
+};
 </script>
+
+<style>
+.homes {
+  padding:
+}
+</style>

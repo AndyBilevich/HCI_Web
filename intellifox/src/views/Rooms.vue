@@ -1,18 +1,63 @@
 <template>
   <div>
     <div >
+
+      <v-row dense>
+        <v-col cols="3">
+          <v-card 
+            class="card"
+            height="200px"
+            width="170px"
+            color= "red"
+          >
+            <div>
+              <v-icon>mdi-folder-open</v-icon>
+            </div>
+
+         <div style="margin-top:80%;" class=" card_bottom background_fill">
+              <v-card-text class="text--primary" >
+                  Living room
+              </v-card-text>
+            </div>
+          </v-card>
+        </v-col>
+
+        <v-col cols="3">
+          <v-card 
+            class="card"
+            height="200px"
+            width="170px"
+            color= "red"
+          >
+            <div>
+              <v-icon>mdi-folder-open</v-icon>
+            </div>
+
+            <div style="margin-top:80%;" class=" card_bottom background_fill">
+              <v-card-text class="text--primary" >
+                  Living room
+              </v-card-text>
+            </div>
+          </v-card>
+        </v-col>
+
+      </v-row>
+    </div> 
+
+    <div >
       <v-card 
         class="card"
         height="200px"
         width="170px"
+        color = "red"
         >
-        <v-img
-          class="white--text align-end"
-          src="../assets/Po.jpg">
-        </v-img>
-        <div class="background_fill card_bottom">
+        <div>
+          <v-icon>mdi-folder-open</v-icon>
+        </div>
+
+        <div style="margin-top:80%;" class=" card_bottom background_fill">
           <v-card-text class="text--primary" >
-              Recontra aguante Po
+              Bathroom
           </v-card-text>
         </div>
         

@@ -13,7 +13,8 @@
 }
 
 #bkg {
-    margin: auto;
+    margin:auto;
+    padding: 20px;
     width: 1300px;
     height: 100%;
 }
@@ -27,19 +28,13 @@
 
 
 .card{
-    margin:20px;
-    margin-top:20px;
+    margin: 20px;
+   
 }
 
 .card_bottom{
     position: relative;
+    margin-top: 40;
     height:50px;
     width:100%;
-}
-
-/* ---------------------ROOMS-------------------- */
-
-.home_card{
-    margin: 20px;
-  
 }
