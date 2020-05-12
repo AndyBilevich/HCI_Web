@@ -13,9 +13,9 @@
 <script>
     export default {
         props: {
-            color,
-            name,
-            desc
+            color: String,
+            name: String,
+            desc: String
         }
     }
 </script>
