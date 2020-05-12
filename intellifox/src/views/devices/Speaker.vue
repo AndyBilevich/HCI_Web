@@ -1,5 +1,6 @@
 <template>
   <div class="speakers">
+    <h1>Speakers</h1>
     <v-container>
       <v-row dense>
         <v-col cols="6">
@@ -26,13 +27,6 @@
         <v-col cols="6">
           <SpeakerCard class="card"></SpeakerCard>
         </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-
       </v-row>
     </v-container>
   </div>
@@ -42,14 +36,13 @@
 import SpeakerCard from "@/components/devices/SpeakerCard.vue";
 export default {
   components: {
-    SpeakerCard,
-  },
+    SpeakerCard
+  }
 };
 </script>
 
 <style>
-
 .card {
-  margin: 20
+  margin: 20;
 }
 </style>

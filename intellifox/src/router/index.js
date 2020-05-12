@@ -27,6 +27,8 @@ import Sprinklers from "../views/devices/Sprinkler.vue";
 import Taps from "../views/devices/Tap.vue";
 import Vacuums from "../views/devices/Vacuum.vue";
 
+import AddDevice from "../views/AddDevice.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -145,6 +147,11 @@ const routes = [
     name: "Vacuums",
     component: Vacuums,
   },
+  {
+    path: "/add_device",
+    name: "AddDevice",
+    component: AddDevice,
+  },
 ];
 
 const router = new VueRouter({
@@ -154,5 +161,3 @@ const router = new VueRouter({
 });
 
 export default router;
-
-

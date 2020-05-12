@@ -1,6 +1,6 @@
 <template>
   <div class="homes">
-    <h1>Homes</h1>
+    <h1 class="title">Homes</h1>
     <v-container>
       <v-row dense>
         <v-col v-for="h in homes" :key="h.id" cols="6">
@@ -49,5 +49,8 @@ export default {
 .card {
   margin: 20;
   cursor: pointer;
+}
+.title {
+  text-align: left;
 }
 </style>

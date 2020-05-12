@@ -2,9 +2,8 @@
   <div class="devices">
     <h1>Devices</h1>
 
-  
     <v-row dense>
-      <v-col cols="3" >
+      <v-col cols="3">
         <router-link :class="miniHidd" class="routerLink" to="/devices/air-conditioners">
           <v-card class="device_card" color="#eeaaFF">
             <v-card-title>
@@ -95,16 +94,15 @@
       </v-col>
 
       <v-col cols="3">
-      <router-link :class="miniHidd" class="routerLink" to="/devices/speakers">
-        <v-card class="device_card" color="#eeddFF">
-          <v-card-title>
-            <span class="headline font-weight-light">Speakers</span>
-          </v-card-title>
-        </v-card>
-      </router-link>
+        <router-link :class="miniHidd" class="routerLink" to="/devices/speakers">
+          <v-card class="device_card" color="#eeddFF">
+            <v-card-title>
+              <span class="headline font-weight-light">Speakers</span>
+            </v-card-title>
+          </v-card>
+        </router-link>
       </v-col>
 
-      
       <v-col cols="3">
         <router-link :class="miniHidd" class="routerLink" to="/devices/sprinklers">
           <v-card class="device_card" color="#eeccFF">
@@ -134,19 +132,22 @@
           </v-card>
         </router-link>
       </v-col>
-
     </v-row>
+
+    <router-link class="routerLink" to="/add_device">
+      <v-btn color="purple" fab dark big bottom right>
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </router-link>
   </div>
 </template>
 
 
 <style>
-
-.device_card{
+.device_card {
   text-align: center;
   margin-top: 10px;
   margin-left: 10px;
   margin-right: 10px;
 }
-
 </style>

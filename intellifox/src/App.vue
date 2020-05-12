@@ -1,9 +1,7 @@
 
 
 <template>
-
-  <v-app id="inspire">
-
+  <v-app id="inspire" :light="!this.$vuetify.theme.dark" :dark="this.$vuetify.theme.dark">
     <v-navigation-drawer
       id="navdrawer"
       v-model="drawer"
@@ -42,7 +40,7 @@
             <v-list-item-content>
               <v-list-item-title class="icon--text">Rooms</v-list-item-title>
             </v-list-item-content>
-          </v-list-item>         
+          </v-list-item>
         </router-link>
         <router-link class="routerLink" to="/devices">
           <v-list-item link>
@@ -88,7 +86,7 @@
         <router-link :class="miniHidd" class="routerLink" to="/settings">
           <v-list-item link>
             <v-list-item-action>
-               <v-icon class="icon--text">mdi-cog-outline</v-icon>
+              <v-icon class="icon--text">mdi-cog-outline</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="icon--text">Settings</v-list-item-title>
@@ -118,70 +116,83 @@
       </v-list>
     </v-navigation-drawer>
 
-    <v-app-bar
-      elevation=0
-      app
-      clipped-left
-      class="window"
-    >
+    <v-app-bar elevation="0" app clipped-left class="window">
       <v-row align="center" justify="center">
-          <v-col>
-            <v-row align="center" justify="left">
-              <v-app-bar-nav-icon @click.stop="() => {
+        <v-col>
+          <v-row align="center" justify="left">
+            <v-app-bar-nav-icon
+              @click.stop="() => {
                   miniVar = !miniVar
                     if (miniHidd === 'd-none')
                       miniHidd = 'd-flex'
                     else
                       miniHidd = 'd-none'
-                }" />
-              <v-toolbar-title>
-                <v-img id="logoweb" src="./assets/logo_web.png" contain></v-img>
-              </v-toolbar-title>
-            </v-row>
-          </v-col>
-          <v-col align="center" justify="left">
-              <v-text-field
-                placeholder="Search..."
-                clearable
-                solo
-                append-icon="mdi-magnify"
-                hide-details
-              />
-          </v-col>
-          <v-col/>
+                }"
+            />
+            <v-toolbar-title>
+              <v-img id="logoweb" src="./assets/logo_web.png" contain></v-img>
+            </v-toolbar-title>
+          </v-row>
+        </v-col>
+        <v-col align="center" justify="left">
+          <v-text-field
+            placeholder="Search..."
+            clearable
+            solo
+            append-icon="mdi-magnify"
+            hide-details
+          />
+        </v-col>
+        <v-col />
       </v-row>
     </v-app-bar>
 
     <v-content align="center">
       <div id="bkg" class="background">
-          <router-view/>
-      </div> 
+        <router-view />
+      </div>
     </v-content>
-    
+
     <v-footer id="footer" class="window" absolute>
       <span>&copy; 2020</span>
     </v-footer>
   </v-app>
 </template>
 
-<style>
-  @import 'style/main.css';
+<style scoped>
+.routerLink {
+  text-decoration: none;
+}
+
+#logoweb {
+  margin-left: 20px;
+}
+
+#navdrawer {
+  margin-top: 55px;
+}
+
+#bkg {
+  margin: auto;
+  padding: 20px;
+  width: 1300px;
+  height: 100%;
+}
 </style>
 
 <script>
-  export default {
-    props: {
-      source: String,
-    },
-    data: () => ({
-      miniVar: true,
-      miniHidd: "d-none"
-    }),
-    created () {
-      this.$vuetify.theme.dark = true
-    },
+export default {
+  props: {
+    source: String
+  },
+  data: () => ({
+    miniVar: true,
+    miniHidd: "d-none"
+  }),
+  created() {
+    this.$vuetify.theme.dark = true;
   }
-  
+};
 </script>
 
          <!-- 
@@ -207,4 +218,4 @@
             mdi-blinds
 
 
-          -->
+          -->    
