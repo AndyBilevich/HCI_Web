@@ -23,18 +23,3 @@
 #footer {
     z-index: 4;
 }
-
-/* ---------------------ROOMS-------------------- */
-
-
-.card{
-    margin: 20px;
-   
-}
-
-.card_bottom{
-    position: relative;
-    margin-top: 40;
-    height:50px;
-    width:100%;
-}

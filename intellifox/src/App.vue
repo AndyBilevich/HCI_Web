@@ -27,7 +27,7 @@
         <router-link class="routerLink" to="/homes">
           <v-list-item link>
             <v-list-item-action>
-              <v-icon class="icon--text">mdi-home-outline</v-icon>
+              <v-icon class="icon--text">mdi-home-group</v-icon>
             </v-list-item-action>
             <v-list-item-content>
               <v-list-item-title class="icon--text">Homes</v-list-item-title>

@@ -1,16 +1,12 @@
-<template>
-  <div class="light_card">
-    light
-  </div>
+<template> 
+  <TopCard title="title" subtitle="subtitle" icon="mdi-lightbulb-outline"></TopCard>
 </template>
 
-<style></style>
-
 <script>
+import TopCard from "@/components/devices/GenericTopCard.vue";
 export default {
-  props: {
-    name,
+  components: {
+    TopCard,
   },
-  data: () => ({}),
 };
 </script>

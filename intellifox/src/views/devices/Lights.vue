@@ -1,7 +1,18 @@
 <template>
-  <div class="devices">
-    <h1>Lights</h1>
-    <LightCard></LightCard>
+  <div class="lights">
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <LightCard class="card"></LightCard>
+        </v-col>
+         <v-col cols="6">
+          <LightCard class="card"></LightCard>
+        </v-col>
+         <v-col cols="6">
+          <LightCard class="card"></LightCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

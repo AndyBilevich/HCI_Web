@@ -1,7 +1,6 @@
 <template>
   <div class="air_conditioners">
-    <h1>Air Conditioners</h1>
-    <AirConditionerCard></AirConditionerCard>
+  <AirConditionerCard/>
   </div>
 </template>
 
