@@ -22,7 +22,7 @@
   export default {
     data () {
       return {
-        switchDark: true
+        switchDark: this.$vuetify.theme.dark
       }
     },
     watch: {
