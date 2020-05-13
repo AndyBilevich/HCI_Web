@@ -193,7 +193,6 @@ export default {
     drawer: true,
     miniVar: true,
     miniHidd: "d-none",
-    drawer: true
   }),
   methods: {
     getDarkModeStatus: () => {
