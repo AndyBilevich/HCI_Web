@@ -178,6 +178,10 @@
   width: 1300px;
   height: 100%;
 }
+
+#footer {
+  z-index: 4;
+}
 </style>
 
 <script>
@@ -186,10 +190,19 @@ export default {
     source: String
   },
   data: () => ({
+    drawer: true,
     miniVar: true,
     miniHidd: "d-none",
     drawer: true
   }),
+  methods: {
+    getDarkModeStatus: () => {
+      return this.$vuetify.theme.dark
+    },
+    setDarkModeStatus: (status) => {
+      this.$vuetify.theme.dark = status;
+    }
+  },
   created() {
     this.$vuetify.theme.dark = true;
   }
