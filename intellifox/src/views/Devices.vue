@@ -3,134 +3,8 @@
     <h1>Devices</h1>
 
     <v-row dense>
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/air-conditioners">
-          <v-card class="device_card" color="#eeaaFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Air Conditioners</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/alarms">
-          <v-card class="device_card" color="#eebbFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Alarms</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/awnings">
-          <v-card class="device_card" color="#eeccFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Awnings</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/blinds">
-          <v-card class="device_card" color="#eeddFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Blinds</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/curtains">
-          <v-card class="device_card" color="#eeeeFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Curtains</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/doors">
-          <v-card class="device_card" color="#eeffFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Doors</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/fridges">
-          <v-card class="device_card" color="#FFFFFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Fridges</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/lights">
-          <v-card class="device_card" color="#eeffFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Lights</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/ovens">
-          <v-card class="device_card" color="#eeeeFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Ovens</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/speakers">
-          <v-card class="device_card" color="#eeddFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Speakers</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/sprinklers">
-          <v-card class="device_card" color="#eeccFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Sprinklers</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/taps">
-          <v-card class="device_card" color="#eebbFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Taps</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
-      </v-col>
-
-      <v-col cols="3">
-        <router-link :class="miniHidd" class="routerLink" to="/devices/vacuums">
-          <v-card class="device_card" color="#eeaaFF">
-            <v-card-title>
-              <span class="headline font-weight-light">Vacuums</span>
-            </v-card-title>
-          </v-card>
-        </router-link>
+      <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.name">
+          <CategoryCard :categoryName="indDevice.name" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
       </v-col>
     </v-row>
 
@@ -143,11 +17,81 @@
 </template>
 
 
-<style>
-.device_card {
-  text-align: center;
-  margin-top: 10px;
-  margin-left: 10px;
-  margin-right: 10px;
-}
-</style>
+<script>
+  import CategoryCard from "@/components/CategoryCard";
+  export default {
+    components: {
+      CategoryCard
+    },
+    data: () => ({
+      hidden: false,
+      deviceList: [
+        {
+          name: 'Air Conditioners',
+          icon: 'mdi-air-conditioner',
+          link: '/devices/air-conditioners'
+        },
+        {
+          name: 'Alarms',
+          icon: 'mdi-alarm-light-outline',
+          link: '/devices/alarms'
+        },
+        {
+          name: 'Awnings',
+          icon: 'mdi-cat',
+          link: '/devices/awnings'
+        },
+        {
+          name: 'Blinds',
+          icon: 'mdi-blinds',
+          link: '/devices/blinds'
+        },
+        {
+          name: 'Curtains',
+          icon: 'mdi-window-open-variant',
+          link: '/devices/curtains'
+        },
+        {
+          name: 'Doors',
+          icon: 'mdi-door',
+          link: '/devices/doors'
+        },
+        {
+          name: 'Fridges',
+          icon: 'mdi-fridge-outline',
+          link: '/devices/fridges'
+        },
+        {
+          name: 'Lights',
+          icon: 'mdi-lightbulb-on-outline',
+          link: '/devices/lights'
+        },
+        {
+          name: 'Ovens',
+          icon: 'mdi-toaster-oven',
+          link: '/devices/ovens'
+        },
+        {
+          name: 'Speakers',
+          icon: 'mdi-speaker',
+          link: '/devices/speakers'
+        },
+        {
+          name: 'Sprinklers',
+          icon: 'mdi-sprinkler-variant',
+          link: '/devices/sprinklers'
+        },
+        {
+          name: 'Taps',
+          icon: 'mdi-cat',
+          link: '/devices/taps'
+        },
+        {
+          name: 'Vacuums',
+          icon: 'mdi-robot-vacuum',
+          link: '/devices/vacuums'
+        },
+      ]
+    })
+  };
+</script>
