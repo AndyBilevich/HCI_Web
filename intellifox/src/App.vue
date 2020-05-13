@@ -4,7 +4,7 @@
   <v-app id="inspire" :light="!this.$vuetify.theme.dark" :dark="this.$vuetify.theme.dark">
     <v-navigation-drawer
       id="navdrawer"
-      v-model="drawer"
+      :v-model="drawer"
       :mini-variant="miniVar"
       fixed
       clipped
@@ -192,7 +192,7 @@ export default {
   data: () => ({
     drawer: true,
     miniVar: true,
-    miniHidd: "d-none"
+    miniHidd: "d-none",
   }),
   methods: {
     getDarkModeStatus: () => {

@@ -1,8 +1,8 @@
 <template>
   <div>
     <v-row dense>
-      <v-col cols="3">
-        <CategoryCard category_name="Living" category_icon="mdi-home" />
+      <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.name">
+          <CategoryCard :categoryName="indDevice.name" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
       </v-col>
     </v-row>
 
@@ -19,20 +19,24 @@
       CategoryCard
     },
     data: () => ({
-      hidden: false
+      hidden: false,
+      deviceList: [
+        {
+          name: 'Living',
+          icon: 'mdi-home',
+          link: '/rooms/algo'
+        },
+        {
+          name: 'BathRoom',
+          icon: 'mdi-home',
+          link: '/rooms/algo'
+        },
+        {
+          name: 'BedRoom',
+          icon: 'mdi-home',
+          link: '/rooms/algo'
+        },
+      ]
     })
   };
 </script>
- 
-<style scoped>
-  .card {
-    margin: 20px;
-  }
-  .card_bottom {
-    position: relative;
-    margin-top: 80%;
-    height: 50px;
-    width: 100%;
-  }
-  
-</style>
