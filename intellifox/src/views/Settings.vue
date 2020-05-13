@@ -1,12 +1,12 @@
 <template>
   <div class="settings">
-    <h1 class="title" >Settings</h1>
-
+    <h1 class="title text-left" >Settings</h1>
+  
   </div>
 </template>
 
 <style scoped>
 .title {
-  text-align: left;
+  margin-left: 35px;
 }
 </style>
