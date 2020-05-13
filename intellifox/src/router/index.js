@@ -28,6 +28,7 @@ import Taps from "../views/devices/Tap.vue";
 import Vacuums from "../views/devices/Vacuum.vue";
 
 import AddDevice from "../views/AddDevice.vue";
+import AddHome from "../views/AddHome.vue";
 
 Vue.use(VueRouter);
 
@@ -152,6 +153,12 @@ const routes = [
     name: "AddDevice",
     component: AddDevice,
   },
+  {
+    path: "/add_home",
+    name: "AddHome",
+    component: AddHome,
+  },
+  
 ];
 
 const router = new VueRouter({

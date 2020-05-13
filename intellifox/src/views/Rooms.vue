@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
 
-    <v-btn color="purple" absolute fab dark big bottom right>
+    <v-btn color="purple" absolute fab dark big right>
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </div>

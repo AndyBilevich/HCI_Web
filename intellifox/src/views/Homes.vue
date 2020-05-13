@@ -8,6 +8,14 @@
         </v-col>
       </v-row>
     </v-container>
+
+        
+    <router-link class="routerLink" to="/add_home">
+      <v-btn color="purple" fab dark big bottom right>
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </router-link>
+    
   </div>
 </template>
    
