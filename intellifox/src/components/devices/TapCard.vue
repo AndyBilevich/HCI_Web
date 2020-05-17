@@ -1,11 +1,12 @@
 <template> 
-  <div class="device_card">
+  <v-card class="device_card">
     <div class="device_top_card">
         <TopCard title="title" subtitle="subtitle" icon="mdi-water-pump"></TopCard>
     </div>
     <div class="device_bottom_card">
+      
     </div>
-  </div>
+  </v-card>
 </template>
 
 <script>
