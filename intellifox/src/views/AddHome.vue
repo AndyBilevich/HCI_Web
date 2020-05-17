@@ -37,10 +37,12 @@
     
       <v-row justify="end" align="end">
         <v-col cols="8"></v-col>
-        <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
-        <div class="my-2">
-            <v-btn depressed large color="primary">Save</v-btn>
-        </div>
+        <router-link class="routerLink" to="/homes">
+          <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
+        </router-link>
+        <router-link class="routerLink" to="/homes">
+          <v-btn class="my-2" depressed large color="primary">Save</v-btn>
+        </router-link>
       </v-row>
     
   </div>
@@ -48,5 +50,7 @@
 
 
 <style scoped>
-   
+   .routerLink {
+    text-decoration: none;
+  }  
 </style>
