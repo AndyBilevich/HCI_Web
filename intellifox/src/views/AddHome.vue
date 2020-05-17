@@ -6,18 +6,20 @@
         <v-col cols="1"></v-col>
 
         <v-col cols="4">
+          <h3 align="left">Name:</h3>
           <v-text-field
             label="Name:"
-            filled
+            solo
           ></v-text-field>
         </v-col>
 
         <v-col cols="1"></v-col>
 
         <v-col cols="4">
+          <h3 align="left">Description (optional):</h3>
           <v-text-field
-            label="Description (optional):"
-            filled
+            label="Description"
+            solo
           ></v-text-field>
         </v-col>
       </v-row>
@@ -26,9 +28,10 @@
       <v-row>
         <v-col cols="1"></v-col>        
         <v-col cols="4">
+        <h3 align="left">Pin (optional):</h3>
           <v-text-field
-            label="Pin (optional):"
-            filled
+            label="Pin"
+            solo
           ></v-text-field>
         </v-col>
       </v-row>

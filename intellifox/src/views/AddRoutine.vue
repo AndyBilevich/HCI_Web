@@ -4,10 +4,16 @@
         <v-row>
             <v-col cols="6">
                 <v-row>
-                    <v-text-field label="Name:" filled/>
+                    <v-col cols="10">
+                        <h3 align="left">Name</h3>
+                        <v-text-field label="Name" solo/>
+                    </v-col>
                 </v-row>    
                 <v-row>
-                    <v-text-field label="Description (optional):" filled/>
+                    <v-col cols="10">
+                        <h3 align="left">Description (optional):</h3>
+                        <v-text-field label="Description" solo/>
+                    </v-col>
                 </v-row>
                 <v-row class="pl-2">
                     <h3 class="pt-5">Require PIN code:</h3>
