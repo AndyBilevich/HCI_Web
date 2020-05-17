@@ -29,6 +29,7 @@ import Vacuums from "../views/devices/Vacuum.vue";
 
 import AddDevice from "../views/AddDevice.vue";
 import AddHome from "../views/AddHome.vue";
+import AddRoutine from "../views/AddRoutine.vue"
 
 Vue.use(VueRouter);
 
@@ -158,7 +159,12 @@ const routes = [
     name: "AddHome",
     component: AddHome,
   },
-  
+  {
+    path: "/add_routine",
+    name: "AddRoutine",
+    component: AddRoutine,
+  },
+
 ];
 
 const router = new VueRouter({
