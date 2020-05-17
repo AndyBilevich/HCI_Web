@@ -1,7 +1,19 @@
 <template>
   <div class="fridges">
     <h1>Fridges</h1>
-    <FridgeCard></FridgeCard>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <FridgeCard class="card"></FridgeCard>
+        </v-col>
+         <v-col cols="6">
+          <FridgeCard class="card"></FridgeCard>
+        </v-col>
+         <v-col cols="6">
+          <FridgeCard class="card"></FridgeCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

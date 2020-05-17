@@ -1,7 +1,19 @@
 <template>
   <div class="blinds">
     <h1>Blinds</h1>
-    <BlindCard></BlindCard>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <BlindCard class="card"></BlindCard>
+        </v-col>
+         <v-col cols="6">
+          <BlindCard class="card"></BlindCard>
+        </v-col>
+         <v-col cols="6">
+          <BlindCard class="card"></BlindCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

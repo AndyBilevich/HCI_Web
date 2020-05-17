@@ -1,7 +1,19 @@
 <template>
   <div class="doors">
     <h1>Doors</h1>
-    <DoorCard></DoorCard>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <DoorCard class="card"></DoorCard>
+        </v-col>
+         <v-col cols="6">
+          <DoorCard class="card"></DoorCard>
+        </v-col>
+         <v-col cols="6">
+          <DoorCard class="card"></DoorCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

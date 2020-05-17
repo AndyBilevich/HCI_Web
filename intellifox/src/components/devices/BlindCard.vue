@@ -1,19 +1,12 @@
-<template>
-    <div>Blind</div>
+<template> 
+  <TopCard title="title" subtitle="subtitle" icon="mdi-blinds"></TopCard>
 </template>
 
-<style>
-  
-</style>
-
 <script>
-  export default {
-    props: {
-      
-    },
-    data: () => ({
-      
-    }),
-  }
-  
+import TopCard from "@/components/devices/GenericTopCard.vue";
+export default {
+  components: {
+    TopCard,
+  },
+};
 </script>

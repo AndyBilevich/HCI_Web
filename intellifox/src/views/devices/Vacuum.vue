@@ -1,7 +1,19 @@
 <template>
   <div class="vacuums">
     <h1>Vacuums</h1>
-    <VacuumCard></VacuumCard>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <VacuumCard class="card"></VacuumCard>
+        </v-col>
+         <v-col cols="6">
+          <VacuumCard class="card"></VacuumCard>
+        </v-col>
+         <v-col cols="6">
+          <VacuumCard class="card"></VacuumCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

@@ -1,6 +1,19 @@
 <template>
   <div class="air_conditioners">
-  <AirConditionerCard/>
+    <h1>Air Conditioner</h1>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <AirConditionerCard class="card"></AirConditionerCard>
+        </v-col>
+         <v-col cols="6">
+          <AirConditionerCard class="card"></AirConditionerCard>
+        </v-col>
+         <v-col cols="6">
+          <AirConditionerCard class="card"></AirConditionerCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 

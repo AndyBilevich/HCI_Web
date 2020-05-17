@@ -1,7 +1,19 @@
 <template>
   <div class="ovens">
     <h1>Ovens</h1>
-    <OvenCard></OvenCard>
+    <v-container>
+      <v-row dense>
+        <v-col cols="6">
+          <OvenCard class="card"></OvenCard>
+        </v-col>
+         <v-col cols="6">
+          <OvenCard class="card"></OvenCard>
+        </v-col>
+         <v-col cols="6">
+          <OvenCard class="card"></OvenCard>
+        </v-col>
+      </v-row>
+    </v-container>
   </div>
 </template>
 
