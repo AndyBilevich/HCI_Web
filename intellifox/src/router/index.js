@@ -29,6 +29,9 @@ import Vacuums from "../views/devices/Vacuum.vue";
 
 import AddDevice from "../views/AddDevice.vue";
 import AddHome from "../views/AddHome.vue";
+import AddRoutine from "../views/AddRoutine.vue"
+import EditHome from "../views/EditHome.vue";
+
 
 import EditDevice from "../views/EditDevice.vue";
 
@@ -165,7 +168,16 @@ const routes = [
     name: "EditDevice",
     component: EditDevice,
   },
-  
+  {
+    path: "/add_routine",
+    name: "AddRoutine",
+    component: AddRoutine,
+  },
+  {
+    path: "/edit_home",
+    name: "EditHome",
+    component: EditHome,
+  },
 ];
 
 const router = new VueRouter({

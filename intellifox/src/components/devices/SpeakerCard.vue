@@ -33,4 +33,4 @@ export default {
           <span class="play_icon"><v-icon>play</v-icon></span>
           <span class="overflow_icon"><v-icon>july3puntitos</v-icon></span>
         </span>
-      </v-sheet> -->
+</v-sheet> -->
