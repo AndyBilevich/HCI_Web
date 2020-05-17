@@ -8,7 +8,7 @@
       <v-menu close-on-click close-on-content-click class="menu">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" text icon>
-                    <v-icon large color="background2" dark>mdi-dots-vertical</v-icon>
+                    <v-icon large color="background2">mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
                  <v-list>
@@ -49,7 +49,7 @@
       <v-menu close-on-click close-on-content-click class="menu">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" text icon>
-                    <v-icon large color="text" dark>mdi-dots-vertical</v-icon>
+                    <v-icon large color="text">mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
                  <v-list>

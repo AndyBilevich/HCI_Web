@@ -92,7 +92,7 @@
       switchDark: function() {
         //called whenever switch1 changes
         this.$vuetify.theme.dark = this.switchDark;
-        localStorage.setItem('darkMode', JSON.stringify(this.switchDark));
+        localStorage.setItem('darkMode', JSON.stringify({dark: this.switchDark}));
       },
     }
   }

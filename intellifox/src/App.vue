@@ -1,7 +1,7 @@
 
 
 <template>
-  <v-app id="inspire" :light="!this.$vuetify.theme.dark" :dark="this.$vuetify.theme.dark">
+  <v-app :light="!this.$vuetify.theme.dark" :dark="this.$vuetify.theme.dark">
     <v-navigation-drawer
       id="navdrawer"
       :v-model="drawer"
@@ -158,7 +158,7 @@
     >
       <v-content align="center">
         <div id="bkg" class="background2">
-          <router-view />
+          <router-view/>
         </div>
       </v-content>
     </v-row>
@@ -206,11 +206,14 @@ export default {
   data: () => ({
     drawer: true,
     miniVar: true,
-    miniHidd: "d-none",
+    miniHidd: "d-none"
   }),
   created() {
-    this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
-  }
+    let aux = JSON.parse(localStorage.getItem('darkMode'));
+    if (!aux)
+      aux = {dark: true};
+    this.$vuetify.theme.dark = aux.dark;
+  },
 };
 </script>
 
