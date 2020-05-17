@@ -50,7 +50,7 @@
           <v-card-title class="headline">Be careful</v-card-title>
 
           <v-card-text>
-            Are you sure you want to delete this house? <br/> This action is irreversible.
+            Are you sure you want to delete this device? <br/> This action is irreversible.
           </v-card-text>
 
           <v-card-actions>
