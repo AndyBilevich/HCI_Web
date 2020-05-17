@@ -13,6 +13,9 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
+
+
+
   </div>
 </template>
 
@@ -83,7 +86,7 @@
         },
         {
           name: 'Taps',
-          icon: 'mdi-cat',
+          icon: 'mdi-water-pump',
           link: '/devices/taps'
         },
         {

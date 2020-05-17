@@ -33,6 +33,8 @@ import AddRoutine from "../views/AddRoutine.vue"
 import EditHome from "../views/EditHome.vue";
 
 
+import EditDevice from "../views/EditDevice.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -160,6 +162,11 @@ const routes = [
     path: "/add_home",
     name: "AddHome",
     component: AddHome,
+  },
+  {
+    path: "/edit_device",
+    name: "EditDevice",
+    component: EditDevice,
   },
   {
     path: "/add_routine",
