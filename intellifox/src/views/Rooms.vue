@@ -1,5 +1,6 @@
 <template>
   <div>
+    <h1>Rooms</h1>
     <v-row dense>
       <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.name">
           <CategoryCard :categoryName="indDevice.name" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
