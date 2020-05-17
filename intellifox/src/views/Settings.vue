@@ -89,9 +89,10 @@
       }
     },
     watch: {
-      switchDark(newValue){
+      switchDark: function() {
         //called whenever switch1 changes
-        this.$vuetify.theme.dark = newValue;
+        this.$vuetify.theme.dark = this.switchDark;
+        localStorage.setItem('darkMode', JSON.stringify(this.switchDark));
       },
     }
   }
