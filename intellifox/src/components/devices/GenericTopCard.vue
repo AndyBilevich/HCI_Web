@@ -1,19 +1,23 @@
 <template>
   <div>
     <div class="text-center" >
-      <v-card color="#385F73">
+      <v-card color="background1">
         <v-row align="center">
           <v-col cols="2">
             <v-icon size="100">{{icon}}</v-icon>
           </v-col>
           <v-col cols="7">
-            <v-card-title class="headline">
+            <v-row>
+              <v-card-title class="headline">
               {{ title }}
               <v-btn v-on="on" text icon>
                 <v-icon>mdi-chevron-right</v-icon>
               </v-btn>
             </v-card-title>
-            <v-card-subtitle>{{subtitle}}</v-card-subtitle>
+            </v-row>
+            <v-row>
+              <v-card-subtitle>{{subtitle}}</v-card-subtitle>
+            </v-row>
           </v-col>
           <v-col cols="3">
             <v-btn v-on="on" text icon>
