@@ -11,7 +11,9 @@
       permanent
       class="window"
     >
-      <v-list dense>
+      <v-list 
+        dense 
+      >
         <router-link class="routerLink" to="/favourites">
           <v-list-item link>
             <v-list-item-action>
@@ -147,11 +149,16 @@
       </v-row>
     </v-app-bar>
 
-    <v-content align="center">
-      <div id="bkg" class="background">
-        <router-view />
-      </div>
-    </v-content>
+    <v-col @click.stop="() => {
+        miniVar = true;
+        miniHidd = 'd-none';
+        }">
+      <v-content align="center">
+        <div id="bkg" class="background">
+          <router-view />
+        </div>
+      </v-content>
+    </v-col>
 
     <v-footer id="footer" class="window" absolute>
       <span>&copy; 2020</span>
@@ -194,14 +201,6 @@ export default {
     miniVar: true,
     miniHidd: "d-none",
   }),
-  methods: {
-    getDarkModeStatus: () => {
-      return this.$vuetify.theme.dark
-    },
-    setDarkModeStatus: (status) => {
-      this.$vuetify.theme.dark = status;
-    }
-  },
   created() {
     this.$vuetify.theme.dark = true;
   }
