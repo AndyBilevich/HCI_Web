@@ -22,91 +22,91 @@
     <v-row>
       <v-col>
         <v-btn class="cards" fab x-large >
-          <v-icon class="background--text">mdi-lightbulb-on-outline</v-icon>
+          <v-icon class="background2--text">mdi-lightbulb-on-outline</v-icon>
         </v-btn>
         <p class="mt-1">Light</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-air-conditioner</v-icon>
+          <v-icon class="background2--text">mdi-air-conditioner</v-icon>
         </v-btn>
         <p class="mt-1">A/C</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-alarm-light-outline</v-icon>
+          <v-icon class="background2--text">mdi-alarm-light-outline</v-icon>
         </v-btn>
         <p class="mt-1">Alarm</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-blinds</v-icon>
+          <v-icon class="background2--text">mdi-blinds</v-icon>
         </v-btn>
         <p class="mt-1">Blind</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-window-open-variant</v-icon>
+          <v-icon class="background2--text">mdi-window-open-variant</v-icon>
         </v-btn>
         <p class="mt-1">Courtain</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-door</v-icon>
+          <v-icon class="background2--text">mdi-door</v-icon>
         </v-btn>
         <p class="mt-1">Door</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-fridge-outline</v-icon>
+          <v-icon class="background2--text">mdi-fridge-outline</v-icon>
         </v-btn>
         <p class="mt-1">Fridge</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-toaster-oven</v-icon>
+          <v-icon class="background2--text">mdi-toaster-oven</v-icon>
         </v-btn>
-        <p>Oven</p>
+        <p class="mt-1">Oven</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-speaker</v-icon>
+          <v-icon class="background2--text">mdi-speaker</v-icon>
         </v-btn>
         <p class="mt-1">Speaker</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-sprinkler-variant</v-icon>
+          <v-icon class="background2--text">mdi-sprinkler-variant</v-icon>
         </v-btn>
         <p class="mt-1">Sprinkler</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-robot-vacuum</v-icon>
+          <v-icon class="background2--text">mdi-robot-vacuum</v-icon>
         </v-btn>
         <p class="mt-1">Vacuum</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-water-pump</v-icon>
+          <v-icon class="background2--text">mdi-water-pump</v-icon>
         </v-btn>  
         <p class="mt-1">Tap</p>
       </v-col>
 
       <v-col>
         <v-btn class="cards" fab x-large>
-          <v-icon class="background--text">mdi-cat</v-icon>
+          <v-icon class="background2--text">mdi-cat</v-icon>
         </v-btn>
         <p class="mt-1">Awning</p>
       </v-col>
@@ -127,7 +127,7 @@
           solo
           :items="dropdown_font"
           label="None"
-          color="#121212"
+          color="background1"
       ></v-overflow-btn>
       </v-col>
     </v-row>
