@@ -1,5 +1,28 @@
 <template>
   <div class="eleccons">
-    <h1>This is the electrical consumption page</h1>
+    <v-row class="pl-2"> 
+      <h1 class="pt-5">Electrical consumption</h1>
+      <v-col cols="3">
+      <v-overflow-btn 
+          solo
+          class="ml-5"
+          :items="dropdown_time"
+          label="Choose"
+      ></v-overflow-btn>
+      </v-col>
+    </v-row>
   </div>
 </template>
+
+<script>
+  export default {
+    data: () => ({
+      dropdown_time: [
+        'This year', 
+        'This month', 
+        'This week', 
+        'Today',
+      ],
+    }),
+  }
+</script>
