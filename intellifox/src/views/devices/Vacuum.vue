@@ -1,6 +1,13 @@
 <template>
   <div class="vacuums">
-    <h1>Vacuums</h1>
+    <v-row>
+      <router-link class="routerLink" to="/devices">
+        <v-btn color="primary" fab dark big bottom text right>
+          <v-icon x-large >mdi-keyboard-backspace</v-icon>
+        </v-btn>
+      </router-link>
+      <h1>Vacuums</h1>
+    </v-row>
     <v-container>
       <v-row dense>
         <v-col cols="6">

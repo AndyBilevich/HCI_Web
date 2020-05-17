@@ -9,6 +9,12 @@
                 <v-row>
                     <v-text-field label="Description (optional):" filled/>
                 </v-row>
+                <v-row class="pl-2">
+                    <h3 class="pt-5">Require PIN code:</h3>
+                    <v-checkbox
+                        v-model="checkbox"
+                    ></v-checkbox>
+                </v-row>
                 <v-row>
                     <v-col cols="4">
                         <h2 class="text-left">Chosen Color:</h2>
@@ -96,7 +102,7 @@
                     </v-card>
                 </v-dialog>
             </v-col>
-            
+
         <v-row>
             
         </v-row>
