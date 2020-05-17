@@ -9,7 +9,7 @@
     </v-row>
 
     <router-link class="routerLink" to="/add_routine">
-      <v-btn color="primary" fab dark big bottom right>
+      <v-btn class="add_btn" color="primary" fab dark big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
@@ -50,6 +50,12 @@ export default {
 <style>
 .card {
   margin: 20;
+}
+.add_btn {
+  position: absolute;
+  bottom: 7%;
+  left: 88%;
+  float: right;
 }
 </style>
 

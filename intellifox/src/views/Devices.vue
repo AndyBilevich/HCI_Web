@@ -9,7 +9,7 @@
     </v-row>
 
     <router-link class="routerLink" to="/add_device">
-      <v-btn color="primary" fab dark big bottom right>
+      <v-btn class="add_btn" color="primary" fab dark big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
@@ -98,3 +98,14 @@
     })
   };
 </script>
+
+<style>
+
+.add_btn {
+  position: absolute;
+  bottom: 7%;
+  left: 88%;
+  float: right;
+}
+
+</style>

@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
 
-    <v-btn color="primary" absolute fab big right>
+    <v-btn class="add_btn" color="primary" absolute fab big right>
       <v-icon>mdi-plus</v-icon>
     </v-btn>
   </div>
@@ -40,3 +40,12 @@
     })
   };
 </script>
+
+<style>
+.add_btn {
+  position: absolute;
+  bottom: 7%;
+  left: 88%;
+  float: right;
+}
+</style>

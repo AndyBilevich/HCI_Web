@@ -11,7 +11,7 @@
     </v-container>
         
     <router-link class="routerLink" to="/add_home">
-      <v-btn color="primary" fab big bottom right>
+      <v-btn class="add_btn" color="primary" fab big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
@@ -59,5 +59,11 @@ export default {
 }
 .title {
   margin-left: 35px;
+}
+.add_btn {
+  position: absolute;
+  bottom: 7%;
+  left: 88%;
+  float: right;
 }
 </style>
