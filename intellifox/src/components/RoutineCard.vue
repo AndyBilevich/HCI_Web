@@ -1,16 +1,20 @@
 <template>
   <div>
     <div class="text-center">
-      <v-card color="#385F73" dark>
+      <v-card color="background1" dark>
         <v-row align="center">
           <v-col cols="2">
             <v-icon size="100" :color="color" >mdi-circle</v-icon>
           </v-col>
           <v-col cols="7">
-            <v-card-title class="headline">
+            <v-row>
+              <v-card-title class="headline">
               {{ name }}
-            </v-card-title>
-            <v-card-subtitle>{{ desc }}</v-card-subtitle>
+              </v-card-title>
+            </v-row>
+            <v-row>
+              <v-card-subtitle>{{ desc }}</v-card-subtitle>
+            </v-row>
           </v-col>
           <v-col cols="3">
             <v-btn v-on="on" text icon>

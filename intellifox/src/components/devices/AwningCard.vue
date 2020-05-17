@@ -1,19 +1,12 @@
-<template>
-    <div>Awning</div>
+<template> 
+  <TopCard title="title" subtitle="subtitle" icon="mdi-cat"></TopCard>
 </template>
 
-<style>
-  
-</style>
-
 <script>
-  export default {
-    props: {
-      
-    },
-    data: () => ({
-      
-    }),
-  }
-  
+import TopCard from "@/components/devices/GenericTopCard.vue";
+export default {
+  components: {
+    TopCard,
+  },
+};
 </script>
