@@ -27,10 +27,10 @@
       <v-col cols="6">
         <div class="tab_container">
           <div class="ins_tab_container">
-            <h3 class="text-left overline">Font</h3>
+            <h3 class="text-left overline">Units</h3>
             <v-row>
               <v-col cols="6">
-              <h4 class="text-left font-regular">Font Size</h4>
+              <h4 class="text-left font-regular">Temperature</h4>
               </v-col>
               <v-spacer/>
               <v-col cols="3">
@@ -42,22 +42,26 @@
                 >
                   <template v-slot:activator="{ on }">
                     <v-btn
-                      color="background_fill"
+                      color="background1"
                       v-on="on"
                     >
                       {{items[selected].title}}
                     </v-btn>
                   </template>
                   <v-list
-                    color="background"
+                    color="background2"
                   >
-                    <v-list-item
+                    <div
                       v-for="(item, index) in items"
                       :key="index"
-                      @click="selected=index"
                     >
-                      <v-list-item-title class="text-center">{{ item.title }}</v-list-item-title>
-                    </v-list-item>
+                      <v-list-item
+                        v-if="index != selected"
+                        @click="selected=index"
+                      >
+                        <v-list-item-title class="text-center">{{ item.title }}</v-list-item-title>
+                      </v-list-item>
+                    </div>
                   </v-list>
                 </v-menu>
               </v-col>
@@ -76,8 +80,8 @@
     data () {
       return {
         items: [
-          { title: 'C' },
-          { title: 'F' },
+          { id: 0, title: 'C' },
+          { id: 1, title: 'F' },
         ],
         selected: 0,
         switchDark: this.$vuetify.theme.dark,
@@ -106,5 +110,8 @@
 }
 .ins_tab_container {
   height:100%;
+}
+.menu_list_item {
+  height: 20px;
 }
 </style>

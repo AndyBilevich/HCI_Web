@@ -149,16 +149,19 @@
       </v-row>
     </v-app-bar>
 
-    <v-col @click.stop="() => {
+    <v-row
+      id="screen_cont" 
+      @click.stop="() => {
         miniVar = true;
         miniHidd = 'd-none';
-        }">
+      }"
+    >
       <v-content align="center">
-        <div id="bkg" class="background">
+        <div id="bkg" class="background2">
           <router-view />
         </div>
       </v-content>
-    </v-col>
+    </v-row>
 
     <v-footer id="footer" class="window" absolute>
       <span>&copy; 2020</span>
@@ -177,6 +180,10 @@
 
 #navdrawer {
   margin-top: 55px;
+}
+
+#screen_cont {
+  height:100%;
 }
 
 #bkg {

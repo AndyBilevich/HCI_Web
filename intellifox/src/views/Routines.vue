@@ -9,7 +9,7 @@
     </v-row>
 
     <router-link class="routerLink" to="/add_routine">
-      <v-btn color="purple" fab dark big bottom right>
+      <v-btn color="primary" fab dark big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>

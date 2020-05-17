@@ -11,43 +11,43 @@
     <p align="left">Device type:</p>
 
     <v-col cols="12" align="center" justi>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-lightbulb-on-outline</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-air-conditioner</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-alarm-light-outline</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-blinds</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-window-open-variant</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-door</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-fridge-outline</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-toaster-oven</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-speaker</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-sprinkler-variant</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-robot-vacuum</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-water-pump</v-icon>
       </v-btn>
-      <v-btn color="purple" fab dark x-large>
+      <v-btn color="primary" fab dark x-large>
         <v-icon>mdi-cat</v-icon>
       </v-btn>
     </v-col>

@@ -35,12 +35,12 @@
             <v-col cols="4">
                 <v-dialog v-model="dialog" scrollable max-width="600px" >
                     <template v-slot:activator="{ on }">
-                        <v-btn color="purple" x-large v-on="on">
+                        <v-btn color="primary" x-large v-on="on">
                             <v-icon>mdi-plus</v-icon>
                             Add Action
                         </v-btn>
                     </template>
-                    <v-card>
+                    <v-card color="background3">
                         <v-card-title>
                             <span class="headline">Add Action</span>
                         </v-card-title>
@@ -63,7 +63,7 @@
                             <v-row>
                                 <v-col align="center" justify="left">
                                     <v-text-field
-                                        background-color="background"
+                                        background2-color="background2"
                                         placeholder="Search..."
                                         clearable
                                         solo
@@ -73,7 +73,7 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-card  color="grey" width="100%" style="height: 300px; overflow: scroll;">
+                                <v-card  color="background2" width="100%" style="height: 300px; overflow: scroll;">
                                     <div v-for="device in devList" :key="device.name">
                                         <v-row>
                                             <v-row>
@@ -81,7 +81,7 @@
                                                 <v-col cols="1">
                                                     <v-icon medium >{{ device.icon }}</v-icon>
                                                 </v-col>
-                                                <v-col cols="10">
+                                                <v-col cols="9">
                                                     <h1>{{ device.name }}</h1>
                                                 </v-col>
                                             </v-row>
@@ -92,10 +92,10 @@
                             </v-row>
                         </v-container>
                         </v-card-text>
-                            <v-card-actions>
+                        <v-card-actions>
                             <v-spacer></v-spacer>
-                            <v-btn color="purple darken-1" text @click="dialog = false">Close</v-btn>
-                            <v-btn color="purple darken-1" text @click="dialog = false">Add</v-btn>
+                            <v-btn class="ma-2" outlined large color="primary" @click="dialog = false">Close</v-btn>
+                            <v-btn class="my-2" depressed large color="primary" @click="dialog = false">Add</v-btn>
                         </v-card-actions>
                     </v-card>
                 </v-dialog>

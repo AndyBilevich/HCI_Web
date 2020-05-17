@@ -1,13 +1,14 @@
 <template>
-  <v-card v-if="selected" class="cards background_fill--text">
+  <div>
+  <v-card v-if="selected" class="cards background1--text">
     
     <v-card-title>
-      <span class="headline background_fill--text">{{name}}</span>
+      <span class="headline background1--text">{{name}}</span>
       <v-spacer/>
       <v-menu close-on-click close-on-content-click class="menu">
                 <template v-slot:activator="{ on }">
                   <v-btn v-on="on" text icon>
-                    <v-icon large color="background" dark>mdi-dots-vertical</v-icon>
+                    <v-icon large color="background2" dark>mdi-dots-vertical</v-icon>
                   </v-btn>
                 </template>
                  <v-list>
@@ -34,14 +35,14 @@
       </v-menu>
     </v-card-title>
 
-    <v-card-subtitle class="text-left background_fill--text">{{desc}}</v-card-subtitle>
+    <v-card-subtitle class="text-left background1--text">{{desc}}</v-card-subtitle>
     <v-card-actions>
-      <v-card-subtitle class="text-left background_fill--text">Rooms: Devices:</v-card-subtitle>
+      <v-card-subtitle class="text-left background1--text">Rooms: Devices:</v-card-subtitle>
     </v-card-actions>
 
   </v-card>
 
-  <v-card class="background_fill" v-else>
+  <v-card class="background1" v-else>
     <v-card-title>
       <span class="headline text--text">{{name}}</span>
       <v-spacer/>
@@ -78,41 +79,42 @@
     <v-card-actions>
       <v-card-subtitle class="text-left">Rooms: Devices:</v-card-subtitle>
     </v-card-actions>
-
-    <v-dialog
-      v-model="dialog"
-      max-width="290"
-    >
-      <v-card>
-        <v-card-title class="headline">Delete</v-card-title>
-
-        <v-card-text>
-          Are you sure you want to delete this house. This action is irreversible
-        </v-card-text>
-
-        <v-card-actions>
-          <v-spacer></v-spacer>
-
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="dialog = false"
-          >
-            Nope
-          </v-btn>
-
-          <v-btn
-            color="green darken-1"
-            flat="flat"
-            @click="dialog = false"
-          >
-            Yeaaaah!!
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
   </v-card>
   
+  <v-dialog
+    v-model="dialog"
+    max-width="290"
+  >
+    <v-card color="background3">
+      <v-card-title class="headline">Be careful</v-card-title>
+
+      <v-card-text>
+        Are you sure you want to delete this house? <br/> This action is irreversible.
+      </v-card-text>
+
+      <v-card-actions>
+        <v-spacer></v-spacer>
+
+        <v-btn
+          color="window"
+          flat
+          @click="dialog = false"
+        >
+          Cancel
+        </v-btn>
+
+        <v-btn
+          color="error"
+          flat
+          @click="dialog = false"
+        >
+          Delete
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+  </div>
 </template>
 
 <script>

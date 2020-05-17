@@ -7,8 +7,8 @@ export default new Vuetify({
     theme: {
       themes: {
         dark: {
-          background_fill: '#121212',
-          background: '#363636',
+          background1: '#121212',
+          background2: '#363636',
           window: '#242424',
           sidebar: '#8A8A8A',
           icon: '#ABABAB',
@@ -18,7 +18,7 @@ export default new Vuetify({
           primary: '#BB86FC',
           cards: '#E2CDFD',
           error: '#ED483D',
-          error_window: '#636363'
+          background3: '#636363'
         }
       }    
     }

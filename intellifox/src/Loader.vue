@@ -18,7 +18,7 @@ export default {
   top: 0;
   left: 0;
   z-index: 10000;
-  background-color: white;
+  background2-color: white;
 }
 .inside_loader {
   margin-left: auto;
