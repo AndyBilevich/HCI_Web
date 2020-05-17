@@ -3,17 +3,20 @@
     <h1 align="left">Add device</h1>
 
     <v-row dense> 
-      <v-col cols="6">
-        <h3 align="left">Name:</h3> 
-        <v-col cols="10">
-          <v-text-field label="Name" solo></v-text-field>
-        </v-col>
+      <v-col cols="4">
+          <h3 align="left">Name:</h3>
+          <v-text-field
+            label="Name:"
+            solo
+          ></v-text-field>
       </v-col>
-      <v-col cols="6">
-        <h3 align="left">Description (optional):</h3> 
-        <v-col cols="10">
-          <v-text-field label="Description" solo></v-text-field>
-        </v-col>
+      <v-col cols="1"></v-col>
+      <v-col cols="4">
+          <h3 align="left">Description (optional):</h3>
+          <v-text-field
+            label="description"
+            solo
+          ></v-text-field>
       </v-col>
     </v-row>
 
@@ -40,7 +43,7 @@
           solo
           :items="dropdown_rooms"
           label="None"
-          color="#121212"
+          color="background1"
       ></v-overflow-btn>
       </v-col>
     </v-row>
@@ -137,8 +140,8 @@
 
 
 
-<style>
-
+<style scoped>
+  
 </style>
 
 

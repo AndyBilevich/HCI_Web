@@ -209,7 +209,7 @@ export default {
     miniHidd: "d-none",
   }),
   created() {
-    this.$vuetify.theme.dark = true;
+    this.$vuetify.theme.dark = JSON.parse(localStorage.getItem('darkMode'));
   }
 };
 </script>

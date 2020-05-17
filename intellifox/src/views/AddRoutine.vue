@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1 class="text-left">Add Routine</h1>
-   
         <v-row>
             <v-col cols="6">
                 <v-row>
@@ -9,6 +8,12 @@
                 </v-row>    
                 <v-row>
                     <v-text-field label="Description (optional):" filled/>
+                </v-row>
+                <v-row class="pl-2">
+                    <h3 class="pt-5">Require PIN code:</h3>
+                    <v-checkbox
+                        v-model="checkbox"
+                    ></v-checkbox>
                 </v-row>
                 <v-row>
                     <v-col cols="4">
@@ -28,10 +33,7 @@
                     <v-color-picker v-model="color" hide-inputs></v-color-picker>
                 </v-row>
             </v-col>
-            
-
         </v-row>
-
             <v-col cols="4">
                 <v-dialog v-model="dialog" scrollable max-width="600px" >
                     <template v-slot:activator="{ on }">
@@ -100,9 +102,9 @@
                     </v-card>
                 </v-dialog>
             </v-col>
+
         <v-row>
             
-
         </v-row>
 
         <v-row justify="end" align="end">
@@ -112,6 +114,7 @@
                 <v-btn depressed large color="primary">Save</v-btn>
             </div>
         </v-row>
+
   </div>
 </template>
 

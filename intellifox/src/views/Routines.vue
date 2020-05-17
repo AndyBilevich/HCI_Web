@@ -3,8 +3,7 @@
     <h1>Routines</h1>
     <v-row dense>
       <v-col cols="6" v-for="routine in routineList" :key="routine.name">
-          <RoutineCard :name="routine.name" :desc="routine.desc" :color="routine.color"  />
-      
+          <RoutineCard class="card" :name="routine.name" :desc="routine.desc" :color="routine.color"  />
       </v-col>
     </v-row>
 

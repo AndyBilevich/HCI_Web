@@ -1,25 +1,31 @@
 <template>
   <div>
     <div class="text-center" >
-      <v-card color="#385F73">
+      <v-card color="background1">
         <v-row align="center">
-          <v-col cols="2">
+          <v-col cols="3">
             <v-icon size="100">{{icon}}</v-icon>
           </v-col>
-          <v-col cols="7">
-            <v-card-title class="headline">
-              {{ title }}
-              <v-btn v-on="on" text icon>
-                <v-icon>mdi-chevron-right</v-icon>
-              </v-btn>
-            </v-card-title>
-            <v-card-subtitle>{{subtitle}}</v-card-subtitle>
+          <v-col cols="6">
+            <v-row>
+              <v-card-actions>
+                <v-card-title class="headline">
+                {{ title }}
+                <v-btn icon @click="click">
+                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                </v-card-title>
+              </v-card-actions>
+            </v-row>
+            <v-row>
+              <v-card-subtitle>{{subtitle}}</v-card-subtitle>
+            </v-row>
           </v-col>
           <v-col cols="3">
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-heart</v-icon>
             </v-btn>
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-power</v-icon>
             </v-btn>
             <v-menu close-on-click close-on-content-click absolute>
@@ -55,7 +61,6 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
-
             <v-btn
               color="window"
               flat="flat"
@@ -63,7 +68,6 @@
             >
               Cancel
             </v-btn>
-
             <v-btn
               color="error"
               flat="flat"
@@ -72,9 +76,11 @@
               Delete
             </v-btn>
           </v-card-actions>
+
         </v-card>
       </v-dialog>
 
+      
 
     </v-card>
     </div>
@@ -92,6 +98,8 @@ export default {
     title: String,
     subtitle: String,
     deleteID: String,
+    show: Boolean,
+    click: Function,
   }
 };
 </script>
