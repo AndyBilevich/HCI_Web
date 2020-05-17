@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="text-center">
-      <v-card color="background1" dark>
+      <v-card color="background1">
         <v-row align="center">
           <v-col cols="2">
             <v-icon size="100" :color="color" >mdi-circle</v-icon>
