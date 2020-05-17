@@ -9,10 +9,13 @@
     </v-row>
 
     <router-link class="routerLink" to="/add_device">
-      <v-btn color="purple" fab dark big bottom right>
+      <v-btn color="primary" fab dark big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
+
+
+
   </div>
 </template>
 
@@ -83,7 +86,7 @@
         },
         {
           name: 'Taps',
-          icon: 'mdi-cat',
+          icon: 'mdi-water-pump',
           link: '/devices/taps'
         },
         {

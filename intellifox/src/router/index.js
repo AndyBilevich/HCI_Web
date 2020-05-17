@@ -30,6 +30,8 @@ import Vacuums from "../views/devices/Vacuum.vue";
 import AddDevice from "../views/AddDevice.vue";
 import AddHome from "../views/AddHome.vue";
 
+import EditDevice from "../views/EditDevice.vue";
+
 Vue.use(VueRouter);
 
 const routes = [
@@ -157,6 +159,11 @@ const routes = [
     path: "/add_home",
     name: "AddHome",
     component: AddHome,
+  },
+  {
+    path: "/edit_device",
+    name: "EditDevice",
+    component: EditDevice,
   },
   
 ];
