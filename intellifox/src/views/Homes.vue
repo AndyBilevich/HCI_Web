@@ -5,7 +5,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="h in homes" :key="h.id" cols="6">
-          <HomeCard class="card" :selected="selectedHomeID === h.id" :name="h.name" :desc="h.desc" @click.native="() => {selectedHomeID = h.id;}"/>
+          <HomeCard class="card" :show="show" :selected="selectedHomeID === h.id" :name="h.name" :desc="h.desc" @click.native="() => {selectedHomeID = h.id;}"/>
         </v-col>
       </v-row>
     </v-container>

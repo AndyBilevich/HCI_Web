@@ -11,7 +11,7 @@
               <v-card-actions>
                 <v-card-title class="headline">
                 {{ title }}
-                <v-btn icon @click="show = !show">
+                <v-btn icon @click="click">
                   <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                 </v-btn>
                 </v-card-title>
@@ -22,10 +22,10 @@
             </v-row>
           </v-col>
           <v-col cols="3">
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-heart</v-icon>
             </v-btn>
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-power</v-icon>
             </v-btn>
             <v-menu close-on-click close-on-content-click absolute>
@@ -80,14 +80,7 @@
         </v-card>
       </v-dialog>
 
-      <v-expand-transition>
-        <div v-show="show">
-          <v-divider></v-divider>
-          <v-card-text>
-            I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-          </v-card-text>
-        </div>
-      </v-expand-transition>
+      
 
     </v-card>
     </div>
@@ -99,13 +92,14 @@ export default {
   data: () => ({
     hidden: false,
     dialog:false,
-    show:false,
   }),
   props: {
     icon: String,
     title: String,
     subtitle: String,
     deleteID: String,
+    show: Boolean,
+    click: Function,
   }
 };
 </script>
