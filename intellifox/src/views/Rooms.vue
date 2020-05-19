@@ -7,9 +7,11 @@
       </v-col>
     </v-row>
 
-    <v-btn class="add_btn" color="primary" absolute fab big right>
-      <v-icon>mdi-plus</v-icon>
-    </v-btn>
+    <router-link class="routerLink" to="/add_room">
+      <v-btn class="add_btn" color="primary" fab big bottom right>
+        <v-icon>mdi-plus</v-icon>
+      </v-btn>
+    </router-link>
   </div>
 </template>
 
