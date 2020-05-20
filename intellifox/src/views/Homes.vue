@@ -38,7 +38,6 @@ export default {
   },
   mounted: function() {
     this.updateHomes();
-    console.log(`home_id was ${this.selectedHomeID}`);
   },
   data: function() {
     return {
@@ -48,7 +47,6 @@ export default {
   },
   methods: {
     updateHomes: async function() {
-      console.log("fetching rooms");
       try {
         const ans = await HomeApi.getAll();
         this.homes = ans.result; 
@@ -60,7 +58,6 @@ export default {
   },
   watch: {
     selectedHomeID: function(new_val) {
-      console.log(`newID: ${new_val}`);
       this.$emit('update_home', new_val);
     }
   }

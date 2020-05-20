@@ -25,7 +25,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      
+
       <v-row>
         <v-col cols="1"></v-col>        
         <v-col cols="4">
@@ -65,7 +65,6 @@ export default {
   },
   methods: {
     addHome: async function() {
-      console.log("" + this.name + "," + this.desc + "," + this.pin);
       const home = new Home(
         null,
         this.name,

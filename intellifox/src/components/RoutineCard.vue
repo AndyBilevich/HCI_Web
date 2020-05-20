@@ -17,10 +17,10 @@
             </v-row>
           </v-col>
           <v-col cols="3">
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-heart</v-icon>
             </v-btn>
-            <v-btn v-on="on" text icon>
+            <v-btn text icon>
               <v-icon large>mdi-play</v-icon>
             </v-btn>
             <v-menu close-on-click close-on-content-click absolute>
@@ -45,7 +45,7 @@
         v-model="dialog"
         max-width="290"
       >
-        <v-card color="error_window">
+        <v-card color="background3">
           <v-card-title class="headline">Be careful</v-card-title>
 
           <v-card-text>
@@ -57,7 +57,6 @@
 
             <v-btn
               color="window"
-              flat="flat"
               @click="dialog = false"
             >
               Cancel
@@ -65,7 +64,6 @@
 
             <v-btn
               color="error"
-              flat="flat"
               @click="dialog = false"
             >
               Delete

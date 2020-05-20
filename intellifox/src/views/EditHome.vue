@@ -69,7 +69,9 @@ import { HomeApi, Home } from '@/api';
 export default {
   data: function() {
     return {
-      home: {},
+      home: {
+        meta: {}
+      },
     }
   },
   methods: {
@@ -93,13 +95,10 @@ export default {
     retrieveHome: async function(id) {
       const ans = await HomeApi.get(id);
       this.home = ans.result;
-      if (!this.home.meta)
-        this.home.meta = {};
     }
   },
   mounted: function() {
     this.home.id = this.$route.params.id
-    console.log(this.home.id); 
     this.retrieveHome(this.home.id);
   }
 };

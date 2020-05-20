@@ -223,7 +223,6 @@ export default {
   methods: {
     updateHome: async function(new_id) {
       try {
-        console.log(`in App, newID: ${new_id}`);
         const ans = await HomeApi.get(new_id);
         this.home = ans.result;
         localStorage.setItem('lastHome', JSON.stringify({id: new_id}));
@@ -231,9 +230,9 @@ export default {
         console.log(err);
       }
     },
-    retrieveTheme: async function() {
+    retrieveTheme: function() {
       try {
-        let aux = await JSON.parse(localStorage.getItem('darkMode'));
+        let aux = JSON.parse(localStorage.getItem('darkMode'));
         if (!aux)
           aux = {dark: true};
         this.$vuetify.theme.dark = aux.dark;
@@ -241,13 +240,13 @@ export default {
         console.log(err);        
       }
     },
-    retrieveHome: async function() {
+    retrieveHome: function() {
       try {
-        let aux = await JSON.parse(localStorage.getItem('lastHome'));
+        let aux = JSON.parse(localStorage.getItem('lastHome'));
         if (aux) {
-          const ans = await HomeApi.get(aux.id);
-          this.home = ans.result;
-        }        
+          this.home.id = aux.id;
+          this.updateHome(aux.id);
+        }
       } catch (err) {
         console.log(err);            
       }

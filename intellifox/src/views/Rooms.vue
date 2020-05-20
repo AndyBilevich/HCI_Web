@@ -2,8 +2,8 @@
   <div>
     <h1>Rooms</h1>
     <v-row dense>
-      <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.name">
-          <CategoryCard :categoryName="indDevice.name" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
+      <v-col cols="2" v-for="d in devices" :key="d.id">
+          <CategoryCard :categoryName="d.name" :categoryIcon="d.icon" :whereTo="d.link" />
       </v-col>
     </v-row>
 
@@ -19,6 +19,10 @@
   import { RoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
+    name: 'Rooms',
+    props: {
+      home_id: String,
+    },
     components: {
       CategoryCard
     },
@@ -28,7 +32,7 @@
     data: function() {
       return {
         hidden: false,
-       
+        devices: [],
       }
     },
     methods: {

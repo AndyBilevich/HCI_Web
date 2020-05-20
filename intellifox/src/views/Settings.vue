@@ -77,6 +77,7 @@
 
 <script>
   export default {
+    name: 'Settings',
     data: function() {
       return {
         items: [
