@@ -5,7 +5,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="h in homes" :key="h.id" cols="6">
-          <HomeCard class="card" :show="show" :selected="selectedHomeID === h.id" :name="h.name" :desc="h.desc" @click.native="() => {selectedHomeID = h.id;}"/>
+          <HomeCard class="card" :show="show" :selected="selectedHomeID === h.id" :name="h.name" :desc="h.meta.desc" @click.native="() => {selectedHomeID = h.id;}"/>
         </v-col>
       </v-row>
     </v-container>
@@ -22,6 +22,7 @@
 <script>
 // @ is an alias to /src
 import HomeCard from '@/components/HomeCard.vue';
+import { HomeApi } from '@/api';
 export default {
   name: 'Homes',
   components: {
@@ -29,7 +30,8 @@ export default {
   },
   data: () => ({
     selectedHomeID: 1,
-    homes: [
+    homes: [],
+    test_homes: [
       {
         id: 1,
         name: "Winter Cottage",
@@ -45,7 +47,22 @@ export default {
         name: "Home"
       }
     ]
-  })
+  }),
+  mounted: () => {
+    console.log("Buscando madres de gabi");
+    try {
+      this.homes = this.getHomes();
+    }
+    catch {
+      console.log("Gabi se rompio toda en la fiesta de anoche con su amiga no heterosexual");
+    }
+  },
+  methods: {
+    async getHomes(){
+      const ans = await HomeApi.getAll();
+      return ans.result;
+    }
+  }
 };
 </script>
 
