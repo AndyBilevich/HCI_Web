@@ -47,9 +47,10 @@
 
 <script>
   export default {
-    data: () => ({
-      dropdown_font: ['Living room', 'Bed', 'Bathroom', 'Garden', 'room1', 'room2', 'room3', 'room4'],
-  
-    }),
+    data: function() {
+      return {
+        dropdown_font: ['Living room', 'Bed', 'Bathroom', 'Garden', 'room1', 'room2', 'room3', 'room4'],
+      }
+    },
   }
 </script>

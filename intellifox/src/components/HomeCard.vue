@@ -3,7 +3,7 @@
   <v-card v-if="selected" class="cards background1--text">
     
     <v-card-title>
-      <span class="headline background1--text">{{name}}</span>
+      <span class="headline background1--text">{{home.name}}</span>
       <v-spacer/>
       <v-menu close-on-click close-on-content-click class="menu">
                 <template v-slot:activator="{ on }">
@@ -13,12 +13,12 @@
                 </template>
                  <v-list>
                   <v-list-item>
-                    <router-link class="routerLink" to='/edit_home' >
-                      <v-btn text>
-                        <v-icon>mdi-pencil</v-icon> 
-                        Edit
-                      </v-btn>
-                    </router-link>  
+                   <v-list-item @click="editHome">
+                    <v-btn text>
+                      <v-icon>mdi-pencil</v-icon> 
+                      Edit
+                    </v-btn>
+                  </v-list-item> 
                   </v-list-item>
                   <v-list-item>
                     <v-btn 
@@ -35,16 +35,16 @@
       </v-menu>
     </v-card-title>
 
-    <v-card-subtitle class="text-left background1--text">{{desc}}</v-card-subtitle>
+    <v-card-subtitle class="text-left background1--text">{{home.meta.desc}}</v-card-subtitle>
     <v-card-actions>
-      <v-card-subtitle class="text-left background1--text">Rooms: Devices:</v-card-subtitle>
+      <v-card-subtitle class="text-left background1--text">Rooms: {{home.meta.rooms}} Devices: {{home.meta.devs}}</v-card-subtitle>
     </v-card-actions>
 
   </v-card>
 
   <v-card class="background1" v-else>
     <v-card-title>
-      <span class="headline text--text">{{name}}</span>
+      <span class="headline text--text">{{home.name}}</span>
       <v-spacer/>
       <v-menu close-on-click close-on-content-click class="menu">
                 <template v-slot:activator="{ on }">
@@ -53,13 +53,11 @@
                   </v-btn>
                 </template>
                  <v-list>
-                  <v-list-item>
-                    <router-link class="routerLink" to='/edit_home' >
-                      <v-btn text>
-                        <v-icon>mdi-pencil</v-icon> 
-                        Edit
-                      </v-btn>
-                    </router-link>  
+                  <v-list-item @click="editHome">
+                    <v-btn text>
+                      <v-icon>mdi-pencil</v-icon> 
+                      Edit
+                    </v-btn>
                   </v-list-item>
                   <v-list-item>
                     <v-btn 
@@ -75,9 +73,9 @@
                 </v-list>
       </v-menu>
     </v-card-title>
-    <v-card-subtitle class="text-left">{{desc}}</v-card-subtitle>
+    <v-card-subtitle class="text-left">{{home.meta.desc}}</v-card-subtitle>
     <v-card-actions>
-      <v-card-subtitle class="text-left">Rooms: Devices:</v-card-subtitle>
+      <v-card-subtitle class="text-left"></v-card-subtitle>
     </v-card-actions>
   </v-card>
   
@@ -106,7 +104,10 @@
         <v-btn
           color="error"
           flat
-          @click="dialog = false"
+          @click="() => {
+            dialog = false
+            deleteHome();
+          }"
         >
           Delete
         </v-btn>
@@ -118,16 +119,29 @@
 </template>
 
 <script>
+import router from '@/router';
+import { HomeApi } from '@/api';
 export default {
   props: {
-    id: String,
-    name: String,
-    desc: String,
     selected: Boolean,
+    home: Object,
   },
   data: () => ({
     dialog: false,
-  })
+  }),
+  methods: {
+    deleteHome: async function() {
+      try {
+        await HomeApi.delete(this.home.id);
+        this.$emit('update');
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    editHome: function() {
+      router.push({ name: 'EditHome', params: { id: this.home.id }})
+    }
+  },
 };
 </script>
 

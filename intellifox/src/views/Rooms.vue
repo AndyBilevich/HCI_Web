@@ -16,31 +16,33 @@
 </template>
 
 <script>
+  import { RoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
     components: {
       CategoryCard
     },
-    data: () => ({
-      hidden: false,
-      deviceList: [
-        {
-          name: 'Living',
-          icon: 'mdi-home',
-          link: '/rooms/algo'
-        },
-        {
-          name: 'BathRoom',
-          icon: 'mdi-home',
-          link: '/rooms/algo'
-        },
-        {
-          name: 'BedRoom',
-          icon: 'mdi-home',
-          link: '/rooms/algo'
-        },
-      ]
-    })
+    mounted: function() {
+      this.updateRooms();
+    },
+    data: function() {
+      return {
+        hidden: false,
+       
+      }
+    },
+    methods: {
+      updateRooms: async function() {
+        console.log("fetching rooms");
+        try {
+          const ans = await RoomApi.getAll();
+          this.rooms = ans.result; 
+        }
+        catch(err) {
+          console.log(`ERROR: ${err}`);
+        }
+      }
+    }
   };
 </script>
 

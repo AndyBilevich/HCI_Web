@@ -16,13 +16,15 @@
 
 <script>
   export default {
-    data: () => ({
-      dropdown_time: [
-        'This year', 
-        'This month', 
-        'This week', 
-        'Today',
-      ],
-    }),
+    data: function() {
+      return {
+        dropdown_time: [
+          'This year', 
+          'This month', 
+          'This week', 
+          'Today',
+        ],
+      }
+    },
   }
 </script>

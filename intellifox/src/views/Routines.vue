@@ -23,7 +23,8 @@ export default {
   components: {
     RoutineCard
   },
-  data: () => ({
+  data: function() {
+    return {
       hidden: false,
       routineList: [
         {
@@ -42,8 +43,9 @@ export default {
           color: 'blue'
         },
       ]
-    })
-  };
+    }
+  }
+};
 </script>
 
 <style>

@@ -59,34 +59,36 @@
     components: {
       AddRoomCard
     },
-    data: () => ({
-      selectedIconID: 0,
-      devices: [
-        {
-          id: 0,
-          icon: "mdi-rhombus-split"
-        },
-        {
-          id: 1,
-          icon: "mdi-bed-outline"
-        },
-        {
-          id: 2,
-          icon: "mdi-shower"
-        },
-        {
-          id: 3,
-          icon: "mdi-flower-tulip-outline"
-        },
-        {
-          id: 4,
-          icon: "mdi-table-chair"
-        },
-        {
-          id: 5,
-          icon: "mdi-silverware-fork-knife"
-        },
-      ]
-    }),
+    data: function() {
+      return {
+        selectedIconID: 0,
+        devices: [
+          {
+            id: 0,
+            icon: "mdi-rhombus-split"
+          },
+          {
+            id: 1,
+            icon: "mdi-bed-outline"
+          },
+          {
+            id: 2,
+            icon: "mdi-shower"
+          },
+          {
+            id: 3,
+            icon: "mdi-flower-tulip-outline"
+          },
+          {
+            id: 4,
+            icon: "mdi-table-chair"
+          },
+          {
+            id: 5,
+            icon: "mdi-silverware-fork-knife"
+          },
+        ]
+      }
+    },
   }
 </script>

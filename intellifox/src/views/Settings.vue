@@ -77,7 +77,7 @@
 
 <script>
   export default {
-    data () {
+    data: function() {
       return {
         items: [
           { id: 0, title: 'C' },
@@ -89,10 +89,10 @@
       }
     },
     watch: {
-      switchDark: function() {
+      switchDark: function(new_value) {
         //called whenever switch1 changes
-        this.$vuetify.theme.dark = this.switchDark;
-        localStorage.setItem('darkMode', JSON.stringify({dark: this.switchDark}));
+        this.$vuetify.theme.dark = new_value;
+        localStorage.setItem('darkMode', JSON.stringify({dark: new_value}));
       },
     }
   }

@@ -35,7 +35,7 @@
             </v-col>
          
             <v-col cols="6" >
-                <v-row justify="center">
+                <v-row>
                     <v-color-picker v-model="color" hide-inputs></v-color-picker>
                 </v-row>
             </v-col>
@@ -69,7 +69,7 @@
                                 </v-col>
                             </v-row>
                             <v-row>
-                                <v-col align="center" justify="left">
+                                <v-col align="center">
                                     <v-text-field
                                         background2-color="background2"
                                         placeholder="Search..."
@@ -113,7 +113,7 @@
             
         </v-row>
 
-        <v-row justify="end" align="end">
+        <v-row align="end">
             <v-col cols="8"></v-col>
             <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
             <div class="my-2">
@@ -127,55 +127,57 @@
 
 <script>
   export default {
-    data: () => ({
-      dev_rooms: ['Living room', 'Bed', 'Bathroom', 'Garden', 'Garden', 'Garden'],
-      dev_types: ['Light', 'A/C', 'Blind', 'Speaker', 'Alarm', 'Dor'],
-      type: 'hex',
-      hex: '#FF00FF',
-      dialog: false,
-      dialogm1: '',
-      devList: [
-        {
-            name: "mati's table light",
-            icon: "mdi-lightbulb-on-outline"
-        },
-        {
-            name: "mati's room A/Cs",
-            icon: "mdi-air-conditioner"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-        {
-            name: "mati's room blinds",
-            icon: "mdi-blinds"
-        },
-      ],
-      addedDevList: [
-        {
-          name: 'Air Conditioners',
-          icon: 'mdi-air-conditioner',
-          link: '/devices/air-conditioners'
-        },
-      ]
-    }),
+    data: function() {
+        return {
+            dev_rooms: ['Living room', 'Bed', 'Bathroom', 'Garden', 'Garden', 'Garden'],
+            dev_types: ['Light', 'A/C', 'Blind', 'Speaker', 'Alarm', 'Dor'],
+            type: 'hex',
+            hex: '#FF00FF',
+            dialog: false,
+            dialogm1: '',
+            devList: [
+                {
+                    name: "mati's table light",
+                    icon: "mdi-lightbulb-on-outline"
+                },
+                {
+                    name: "mati's room A/Cs",
+                    icon: "mdi-air-conditioner"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+                {
+                    name: "mati's room blinds",
+                    icon: "mdi-blinds"
+                },
+            ],
+            addedDevList: [
+                {
+                name: 'Air Conditioners',
+                icon: 'mdi-air-conditioner',
+                link: '/devices/air-conditioners'
+                },
+            ]
+        }
+    },
 
     computed: {
       color: {

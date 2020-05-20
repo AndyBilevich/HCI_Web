@@ -2,7 +2,7 @@ export { Api };
 
 class Api {
   static get baseUrl() {
-    return 'http://127.0.0.1:8080/api';
+    return 'http://127.0.0.1:8082/api';
   }
 
   static get timeout() {
@@ -16,18 +16,18 @@ class Api {
       init.signal = controller.signal
 
       fetch(url, init)
-      .then(response => {
-        return response.json();
-      })
-      .then(data => {
-        if (data.error)
-          reject(data.error);
-        else
-          resolve(data);
-      })
-      .catch(error => {
-        reject({ "code": 99, "description": error.message.toLowerCase() });
-      });
+        .then(response => {
+          return response.json();
+        })
+        .then(data => {
+          if (data.error)
+            reject(data.error);
+          else
+            resolve(data);
+        })
+        .catch(error => {
+          reject({ "code": 99, "description": error.message.toLowerCase() });
+        });
     });
   }
 

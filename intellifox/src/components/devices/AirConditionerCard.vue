@@ -7,22 +7,24 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-              <v-btn-toggle
-                v-model="toggle_exclusive"
-                mandatory
-                class="pa-5"
-              >
-                <v-btn>
-                  <v-icon>mdi-snowflake</v-icon>
-                </v-btn>
-                <v-btn>
-                  <v-icon>mdi-weather-sunny</v-icon>
-                </v-btn>
-                <v-btn>
-                  <v-icon>mdi-fan</v-icon>
-                </v-btn>
-              </v-btn-toggle>
-                </div>
+              <v-row>
+                <v-btn-toggle
+                  v-model="mode"
+                  mandatory
+                  class="pa-5"
+                >
+                  <v-btn>
+                    <v-icon>mdi-snowflake</v-icon>
+                  </v-btn>
+                  <v-btn>
+                    <v-icon>mdi-weather-sunny</v-icon>
+                  </v-btn>
+                  <v-btn>
+                    <v-icon>mdi-fan</v-icon>
+                  </v-btn>
+                </v-btn-toggle>
+              </v-row>
+          </div>
         </v-expand-transition>
     </div>
   </v-card>

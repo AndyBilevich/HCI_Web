@@ -126,20 +126,22 @@
 
 <script>
   export default {
-    data: () => ({
-      dev_types: ['Light', 'A/C', 'Blind', 'Speaker', 'Alarm', 'Door'],
-      type: 'hex',
-      hex: '#FF00FF',
-      dialog1: false,
-      dialog2: false,
-      dialogm1: '',
-      
+    data: function() {
+      return {
+        dev_types: ['Light', 'A/C', 'Blind', 'Speaker', 'Alarm', 'Door'],
+        type: 'hex',
+        hex: '#FF00FF',
+        dialog1: false,
+        dialog2: false,
+        dialogm1: '',
+        
 
-      rules: [
-        value => !!value || 'Required.',
-        value => (value && value.length >= 3) || 'Min 3 characters',
-      ],
-    }),
+        rules: [
+          value => !!value || 'Required.',
+          value => (value && value.length >= 3) || 'Min 3 characters',
+        ],
+      }
+    },
 
   }
 </script>

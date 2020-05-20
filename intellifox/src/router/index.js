@@ -165,7 +165,7 @@ const routes = [
     component: AddHome,
   },
   {
-    path: "/edit_device",
+    path: "/edit_device/",
     name: "EditDevice",
     component: EditDevice,
   },
@@ -175,7 +175,7 @@ const routes = [
     component: AddRoutine,
   },
   {
-    path: "/edit_home",
+    path: "/edit_home/:id",
     name: "EditHome",
     component: EditHome,
   },

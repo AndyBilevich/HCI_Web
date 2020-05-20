@@ -8,6 +8,7 @@
         <v-col cols="4">
           <h3 align="left">Name:</h3>
           <v-text-field
+            v-model="name"
             label="Name:"
             solo
           ></v-text-field>
@@ -18,39 +19,72 @@
         <v-col cols="4">
           <h3 align="left">Description (optional):</h3>
           <v-text-field
+            v-model="desc"
             label="Description"
             solo
           ></v-text-field>
         </v-col>
       </v-row>
-
-
+      
       <v-row>
         <v-col cols="1"></v-col>        
         <v-col cols="4">
         <h3 align="left">Pin (optional):</h3>
           <v-text-field
+            v-model="pin"
             label="Pin"
             solo
           ></v-text-field>
         </v-col>
       </v-row>
     
-
-    
-      <v-row justify="end" align="end">
+      <v-row align="end">
         <v-col cols="8"></v-col>
         <router-link class="routerLink" to="/homes">
           <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
         </router-link>
         <router-link class="routerLink" to="/homes">
-          <v-btn class="my-2" depressed large color="primary">Save</v-btn>
+          <v-btn @click="addHome" class="my-2" depressed large color="primary">Save</v-btn>
         </router-link>
       </v-row>
     
   </div>
 </template>
 
+<script>
+import { HomeApi, Home } from '@/api';
+export default {
+  data: function() {
+    return {
+      name:"",
+      desc:"",
+      pin:"",
+      rooms:0,
+      devs:0
+    }
+  },
+  methods: {
+    addHome: async function() {
+      console.log("" + this.name + "," + this.desc + "," + this.pin);
+      const home = new Home(
+        null,
+        this.name,
+        {
+          pin: this.pin,
+          desc: this.desc,
+          rooms: this.rooms,
+          devs: this.devs
+        }
+      );
+      try {
+        await HomeApi.add(home);
+      } catch (err) {
+        console.log(err);
+      }
+    }
+  }
+};
+</script>
 
 <style scoped>
    .routerLink {

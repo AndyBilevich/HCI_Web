@@ -26,76 +26,78 @@
     components: {
       CategoryCard
     },
-    data: () => ({
-      hidden: false,
-      deviceList: [
-        {
-          name: 'Air Conditioners',
-          icon: 'mdi-air-conditioner',
-          link: '/devices/air-conditioners'
-        },
-        {
-          name: 'Alarms',
-          icon: 'mdi-alarm-light-outline',
-          link: '/devices/alarms'
-        },
-        {
-          name: 'Awnings',
-          icon: 'mdi-cat',
-          link: '/devices/awnings'
-        },
-        {
-          name: 'Blinds',
-          icon: 'mdi-blinds',
-          link: '/devices/blinds'
-        },
-        {
-          name: 'Curtains',
-          icon: 'mdi-window-open-variant',
-          link: '/devices/curtains'
-        },
-        {
-          name: 'Doors',
-          icon: 'mdi-door',
-          link: '/devices/doors'
-        },
-        {
-          name: 'Fridges',
-          icon: 'mdi-fridge-outline',
-          link: '/devices/fridges'
-        },
-        {
-          name: 'Lights',
-          icon: 'mdi-lightbulb-on-outline',
-          link: '/devices/lights'
-        },
-        {
-          name: 'Ovens',
-          icon: 'mdi-toaster-oven',
-          link: '/devices/ovens'
-        },
-        {
-          name: 'Speakers',
-          icon: 'mdi-speaker',
-          link: '/devices/speakers'
-        },
-        {
-          name: 'Sprinklers',
-          icon: 'mdi-sprinkler-variant',
-          link: '/devices/sprinklers'
-        },
-        {
-          name: 'Taps',
-          icon: 'mdi-water-pump',
-          link: '/devices/taps'
-        },
-        {
-          name: 'Vacuums',
-          icon: 'mdi-robot-vacuum',
-          link: '/devices/vacuums'
-        },
-      ]
-    })
+    data: function() {
+      return {
+        hidden: false,
+        deviceList: [
+          {
+            name: 'Air Conditioners',
+            icon: 'mdi-air-conditioner',
+            link: '/devices/air-conditioners'
+          },
+          {
+            name: 'Alarms',
+            icon: 'mdi-alarm-light-outline',
+            link: '/devices/alarms'
+          },
+          {
+            name: 'Awnings',
+            icon: 'mdi-cat',
+            link: '/devices/awnings'
+          },
+          {
+            name: 'Blinds',
+            icon: 'mdi-blinds',
+            link: '/devices/blinds'
+          },
+          {
+            name: 'Curtains',
+            icon: 'mdi-window-open-variant',
+            link: '/devices/curtains'
+          },
+          {
+            name: 'Doors',
+            icon: 'mdi-door',
+            link: '/devices/doors'
+          },
+          {
+            name: 'Fridges',
+            icon: 'mdi-fridge-outline',
+            link: '/devices/fridges'
+          },
+          {
+            name: 'Lights',
+            icon: 'mdi-lightbulb-on-outline',
+            link: '/devices/lights'
+          },
+          {
+            name: 'Ovens',
+            icon: 'mdi-toaster-oven',
+            link: '/devices/ovens'
+          },
+          {
+            name: 'Speakers',
+            icon: 'mdi-speaker',
+            link: '/devices/speakers'
+          },
+          {
+            name: 'Sprinklers',
+            icon: 'mdi-sprinkler-variant',
+            link: '/devices/sprinklers'
+          },
+          {
+            name: 'Taps',
+            icon: 'mdi-water-pump',
+            link: '/devices/taps'
+          },
+          {
+            name: 'Vacuums',
+            icon: 'mdi-robot-vacuum',
+            link: '/devices/vacuums'
+          },
+        ]
+      }
+    }
   };
 </script>
 

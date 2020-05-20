@@ -5,7 +5,12 @@
     <v-container>
       <v-row dense>
         <v-col v-for="h in homes" :key="h.id" cols="6">
-          <HomeCard class="card" :show="show" :selected="selectedHomeID === h.id" :name="h.name" :desc="h.meta.desc" @click.native="() => {selectedHomeID = h.id;}"/>
+          <HomeCard 
+            class="card" 
+            @update="updateHomes" 
+            :selected="selectedHomeID === h.id" 
+            :home="h" 
+            @click.native="() => {selectedHomeID = h.id;}"/>
         </v-col>
       </v-row>
     </v-container>
@@ -25,42 +30,38 @@ import HomeCard from '@/components/HomeCard.vue';
 import { HomeApi } from '@/api';
 export default {
   name: 'Homes',
+  props: {
+    home_id: String,
+  },
   components: {
     HomeCard
   },
-  data: () => ({
-    selectedHomeID: 1,
-    homes: [],
-    test_homes: [
-      {
-        id: 1,
-        name: "Winter Cottage",
-        desc: "Ski house for winter holidays"
-      },
-      {
-        id: 2,
-        name: "Summer House",
-        desc: "In front of the sea"
-      },
-      {
-        id: 3,
-        name: "Home"
-      }
-    ]
-  }),
-  mounted: () => {
-    console.log("Buscando madres de gabi");
-    try {
-      this.homes = this.getHomes();
-    }
-    catch {
-      console.log("Gabi se rompio toda en la fiesta de anoche con su amiga no heterosexual");
+  mounted: function() {
+    this.updateHomes();
+    console.log(`home_id was ${this.selectedHomeID}`);
+  },
+  data: function() {
+    return {
+      selectedHomeID: this.home_id,
+      homes: [],
     }
   },
   methods: {
-    async getHomes(){
-      const ans = await HomeApi.getAll();
-      return ans.result;
+    updateHomes: async function() {
+      console.log("fetching rooms");
+      try {
+        const ans = await HomeApi.getAll();
+        this.homes = ans.result; 
+      }
+      catch(err) {
+        console.log(`ERROR: ${err}`);
+      }
+    }
+  },
+  watch: {
+    selectedHomeID: function(new_val) {
+      console.log(`newID: ${new_val}`);
+      this.$emit('update_home', new_val);
     }
   }
 };

@@ -119,9 +119,9 @@
     </v-navigation-drawer>
 
     <v-app-bar elevation="0" app clipped-left class="window">
-      <v-row align="center" justify="center">
+      <v-row align="center">
         <v-col>
-          <v-row align="center" justify="left">
+          <v-row align="center">
             <v-app-bar-nav-icon
               @click.stop="() => {
                   miniVar = !miniVar
@@ -136,7 +136,11 @@
             </v-toolbar-title>
           </v-row>
         </v-col>
-        <v-col align="center" justify="left">
+        <v-col cols="2">
+          <div v-if="!home">No home selected</div>
+          <div v-else>at {{home.name}}</div>
+        </v-col>
+        <v-col align="center">
           <v-text-field
             placeholder="Search..."
             clearable
@@ -158,7 +162,7 @@
     >
       <v-content align="center">
         <div id="bkg" class="background2">
-          <router-view/>
+          <router-view :home_id="home.id" @update_home="updateHome"/>
         </div>
       </v-content>
     </v-row>
@@ -199,21 +203,56 @@
 </style>
 
 <script>
+import { HomeApi } from '@/api';
 export default {
   props: {
     source: String
   },
-  data: () => ({
-    drawer: true,
-    miniVar: true,
-    miniHidd: "d-none"
-  }),
-  created() {
-    let aux = JSON.parse(localStorage.getItem('darkMode'));
-    if (!aux)
-      aux = {dark: true};
-    this.$vuetify.theme.dark = aux.dark;
+  data: function() {
+    return ({
+      drawer: true,
+      miniVar: true,
+      miniHidd: "d-none",
+      home: {},
+    })
   },
+  created() {
+    this.retrieveTheme();
+    this.retrieveHome();
+  },
+  methods: {
+    updateHome: async function(new_id) {
+      try {
+        console.log(`in App, newID: ${new_id}`);
+        const ans = await HomeApi.get(new_id);
+        this.home = ans.result;
+        localStorage.setItem('lastHome', JSON.stringify({id: new_id}));
+      } catch (err) {
+        console.log(err);
+      }
+    },
+    retrieveTheme: async function() {
+      try {
+        let aux = await JSON.parse(localStorage.getItem('darkMode'));
+        if (!aux)
+          aux = {dark: true};
+        this.$vuetify.theme.dark = aux.dark;
+      } catch (err) {
+        console.log(err);        
+      }
+    },
+    retrieveHome: async function() {
+      try {
+        let aux = await JSON.parse(localStorage.getItem('lastHome'));
+        if (aux) {
+          const ans = await HomeApi.get(aux.id);
+          this.home = ans.result;
+        }        
+      } catch (err) {
+        console.log(err);            
+      }
+    },
+  }
 };
 </script>
 

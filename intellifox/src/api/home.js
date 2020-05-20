@@ -4,15 +4,15 @@ export { HomeApi, Home };
 
 class HomeApi {
   static get url() {
-    return `${Api.baseUrl}/rooms`;
+    return `${Api.baseUrl}/homes`;
   }
 
-  static add(room, controller) {
-   return Api.post(HomeApi.url, room, controller);
+  static add(home, controller) {
+    return Api.post(HomeApi.url, home, controller);
   }
 
-  static modify(room, controller) {
-    return Api.put(`${HomeApi.url}/${room.id}`, room, controller);
+  static modify(home, controller) {
+    return Api.put(`${HomeApi.url}/${home.id}`, home, controller);
   }
 
   static delete(id, controller) {

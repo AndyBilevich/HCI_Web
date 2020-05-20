@@ -64,77 +64,79 @@
     components: {
       AddDeviceButton
     },
-    data: () => ({
-      dropdown_rooms: ['Living room', 'Bed', 'Bathroom', 'Garden', 'room1', 'room2', 'room3', 'room4'],
-      selectedDeviceID: 0,
-      devices: [
-        {
-          id: 1,
-          name: "Light",
-          icon: "mdi-lightbulb-on-outline"
-        },
-        {
-          id: 2,
-          name: "A/C",
-          icon: "mdi-air-conditioner"
-        },
-        {
-          id: 3,
-          name: "Alarm",
-          icon: "mdi-alarm-light-outline"
-        },
-        {
-          id: 4,
-          name: "Blind",
-          icon: "mdi-blinds"
-        },
-        {
-          id: 5,
-          name: "Courtain",
-          icon: "mdi-window-open-variant"
-        },
-        {
-          id: 6,
-          name: "Door",
-          icon: "mdi-door"
-        },
-        {
-          id: 7,
-          name: "Fridge",
-          icon: "mdi-fridge-outline"
-        },
-        {
-          id: 8,
-          name: "Oven",
-          icon: "mdi-toaster-oven"
-        },
-        {
-          id: 9,
-          name: "Speaker",
-          icon: "mdi-speaker"
-        },
-        {
-          id: 10,
-          name: "Sprinkler",
-          icon: "mdi-sprinkler-variant"
-        },
-        {
-          id: 11,
-          name: "Vacuum",
-          icon: "mdi-robot-vacuum"
-        },
-        {
-          id: 12,
-          name: "Tap",
-          icon: "mdi-water-pump"
-        },
-        {
-          id: 13,
-          name: "Awning",
-          icon: "mdi-cat"
-        },
-      ]
-    }),
+    data: function() {
+      return {
+        dropdown_rooms: ['Living room', 'Bed', 'Bathroom', 'Garden', 'room1', 'room2', 'room3', 'room4'],
+        selectedDeviceID: 0,
+        devices: [
+          {
+            id: 1,
+            name: "Light",
+            icon: "mdi-lightbulb-on-outline"
+          },
+          {
+            id: 2,
+            name: "A/C",
+            icon: "mdi-air-conditioner"
+          },
+          {
+            id: 3,
+            name: "Alarm",
+            icon: "mdi-alarm-light-outline"
+          },
+          {
+            id: 4,
+            name: "Blind",
+            icon: "mdi-blinds"
+          },
+          {
+            id: 5,
+            name: "Courtain",
+            icon: "mdi-window-open-variant"
+          },
+          {
+            id: 6,
+            name: "Door",
+            icon: "mdi-door"
+          },
+          {
+            id: 7,
+            name: "Fridge",
+            icon: "mdi-fridge-outline"
+          },
+          {
+            id: 8,
+            name: "Oven",
+            icon: "mdi-toaster-oven"
+          },
+          {
+            id: 9,
+            name: "Speaker",
+            icon: "mdi-speaker"
+          },
+          {
+            id: 10,
+            name: "Sprinkler",
+            icon: "mdi-sprinkler-variant"
+          },
+          {
+            id: 11,
+            name: "Vacuum",
+            icon: "mdi-robot-vacuum"
+          },
+          {
+            id: 12,
+            name: "Tap",
+            icon: "mdi-water-pump"
+          },
+          {
+            id: 13,
+            name: "Awning",
+            icon: "mdi-cat"
+          },
+        ]
+      }
+    },
   }
 </script>
 
