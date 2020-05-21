@@ -27,7 +27,7 @@
               <v-col cols="8">
               <v-overflow-btn 
                   solo
-                  :value="selectedHomeID"
+                  v-model="selectedHomeID"
                   :items="homes"
                   label="None"
                   color="background1"
@@ -70,12 +70,6 @@
         selectedIcon: 'mdi-rhombus-split',
         selectedHomeID: this.home_id || '',
         homes: [],
-        homes_example: [
-          {
-            text: 'Casa',
-            value: 'ID'
-          }
-        ]
       }
     },
     methods:{
@@ -119,6 +113,11 @@
         }
         
         this.back();
+      }
+    },
+    watch: {
+      selectedHomeID(newVal) {
+        console.log(`Home ID: ${newVal}`);
       }
     }
   }

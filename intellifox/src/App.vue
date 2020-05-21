@@ -14,107 +14,9 @@
       <v-list 
         dense 
       >
-        <router-link class="routerLink" to="/favourites">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-cards-heart</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Favourites</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/homes">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-home-group</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Homes</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/rooms">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-door</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Rooms</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/devices">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-remote</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Devices</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link class="routerLink" to="/routines">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-calendar-clock</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Routines</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
+        <DrawerItem v-for="item in main_opt" :key="item.index" :icon="item.icon" :text="item.name" :to="item.to"/>
         <v-divider :class="miniHidd"></v-divider>
-        <router-link :class="miniHidd" class="routerLink" to="/eleccons">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-lightning-bolt-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Electrical Cons.</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link :class="miniHidd" class="routerLink" to="/history">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-history</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">History</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link :class="miniHidd" class="routerLink" to="/settings">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-cog-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Settings</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link :class="miniHidd" class="routerLink" to="/helpfeed">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-help-circle-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Help and Feed</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
-        <router-link :class="miniHidd" class="routerLink" to="/errorlog">
-          <v-list-item link>
-            <v-list-item-action>
-              <v-icon class="icon--text">mdi-alert-outline</v-icon>
-            </v-list-item-action>
-            <v-list-item-content>
-              <v-list-item-title class="icon--text">Error Log</v-list-item-title>
-            </v-list-item-content>
-          </v-list-item>
-        </router-link>
+        <DrawerItem v-for="item in sec_opt" :class="miniHidd" :key="item.index" :icon="item.icon" :text="item.name" :to="item.to"/>
       </v-list>
     </v-navigation-drawer>
 
@@ -203,16 +105,104 @@
 </style>
 
 <script>
+import DrawerItem from '@/components/DrawerItem'
 import { HomeApi } from '@/api';
 export default {
   props: {
     source: String
+  },
+  components: {
+    DrawerItem,
   },
   data: function() {
     return ({
       drawer: true,
       miniVar: true,
       miniHidd: 'd-none',
+      main_opt: [
+        {
+          index: 0,
+          name: 'Favourites',
+          icon: 'mdi-cards-heart',
+          to: {
+            path: '/favourites'
+          }
+        },
+        {
+          index: 1,
+          name: 'Homes',
+          icon: 'mdi-home-group',
+          to: {
+            path: '/homes'
+          }
+        },
+        {
+          index: 2,
+          name: 'Rooms',
+          icon: 'mdi-door',
+          to: {
+            path: '/rooms'
+          }
+        },
+        {
+          index: 3,
+          name: 'Devices',
+          icon: 'mdi-remote',
+          to: {
+            path: '/devices'
+          }
+        },
+        {
+          index: 4,
+          name: 'Routines',
+          icon: 'mdi-calendar-clock',
+          to: {
+            path: '/routines'
+          }
+        }
+      ],
+      sec_opt: [
+        {
+          index: 5,
+          name: 'Electrical Cons.',
+          icon: 'mdi-lightning-bolt-outline',
+          to: {
+            path: '/eleccons'
+          }
+        },
+        {
+          index: 6,
+          name: 'History',
+          icon: 'mdi-history',
+          to: {
+            path: '/history'
+          }
+        },
+        {
+          index: 7,
+          name: 'Settings',
+          icon: 'mdi-cog-outline',
+          to: {
+            path: '/settings'
+          }
+        },
+        {
+          index: 8,
+          name: 'Help & Feedback',
+          icon: 'mdi-help-circle-outline',
+          to: {
+            path: '/helpfeed'
+          }
+        },
+        {
+          index: 9,
+          name: 'Error Log',
+          icon: 'mdi-alert-outline',
+          to: {
+            path: '/errorlog'
+          }
+        }
+      ],
       home: {},
     })
   },
