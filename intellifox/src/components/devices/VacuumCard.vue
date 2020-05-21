@@ -14,6 +14,7 @@
                 <v-btn-toggle
                   v-model="mode"
                   mandatory
+                  tile
                   class="py-5"
                 >
                   <v-btn>

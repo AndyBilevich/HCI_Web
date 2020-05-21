@@ -32,6 +32,7 @@
                     >
                       <template v-slot:append>
                         <v-text-field
+                          readonly
                           v-model="slider"
                           class="mt-0 pt-0"
                           hide-details

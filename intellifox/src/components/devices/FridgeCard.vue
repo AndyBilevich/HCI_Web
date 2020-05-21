@@ -11,7 +11,7 @@
                   <h3 class="mt-5 ml-5">Freezer temperature:</h3>
                   <v-col cols="6">
                     <v-slider
-                      v-model="slider"
+                      v-model="freezer"
                       class="align-center mr-3"
                       :max="maxf"
                       :min="minf"
@@ -19,7 +19,8 @@
                     >
                       <template v-slot:append>
                         <v-text-field
-                          v-model="slider"
+                          readonly
+                          v-model="freezer"
                           class="mt-0 pt-0"
                           hide-details
                           type="number"
@@ -34,7 +35,7 @@
                   <h3 class="mt-5 ml-5">Fridge temperature:</h3>
                   <v-col cols="6">
                     <v-slider
-                      v-model="slider"
+                      v-model="fridge"
                       class="align-center"
                       :max="maxr"
                       :min="minr"
@@ -42,7 +43,8 @@
                     >
                       <template v-slot:append>
                         <v-text-field
-                          v-model="slider"
+                          readonly
+                          v-model="fridge"
                           class="mt-0 pt-0"
                           hide-details
                           type="number"

@@ -7,9 +7,81 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-card-text>
-              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-            </v-card-text>
+            <v-col>   
+              <v-row>
+                <v-col cols="2"></v-col>
+                <h3 class="mt-3">Temperature:</h3>
+                <v-col cols="1"></v-col>
+                <v-btn icon x-large @click="temperature = (temperature == 90 ? temperature : temperature-10)">
+                  <v-icon x-large>mdi-chevron-down</v-icon>
+                </v-btn>
+                <h1>{{temperature}}°</h1>
+                <v-btn icon x-large @click="temperature = (temperature == 230 ? temperature : temperature+10)">
+                  <v-icon x-large>mdi-chevron-up</v-icon>
+                </v-btn>
+              </v-row>
+
+              <v-col> 
+                <h3 align="left" class="mx-5 mt-5">Heat source:</h3>
+                <v-btn-toggle
+                  v-model="heat"
+                  mandatory
+                  tile
+                  class="mt-5"
+                >
+                  <v-btn width="160">
+                    above
+                  </v-btn>
+                  <v-btn width="160">
+                    below
+                  </v-btn>
+                  <v-btn width="160">
+                    conventional
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+
+              <v-col> 
+                <h3 align="left" class="mx-5 mt-5">Grill mode:</h3>
+                <v-btn-toggle
+                  v-model="grill"
+                  mandatory
+                  tile
+                  class="mt-5"
+                >
+                  <v-btn width="160">
+                    Off
+                  </v-btn>
+                  <v-btn width="160">
+                    complete
+                  </v-btn>
+                  <v-btn width="160">
+                    economic
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+
+              <v-col> 
+                <h3 align="left" class="mx-5 mt-5">Convection mode:</h3>
+                <v-btn-toggle
+                  v-model="convection"
+                  mandatory
+                  tile
+                  class="mt-5"
+                >
+                  <v-btn width="160">
+                    Off
+                  </v-btn>
+                  <v-btn width="160">
+                    conventional
+                  </v-btn>
+                  <v-btn width="160">
+                    economic
+                  </v-btn>
+                </v-btn-toggle>
+              </v-col>
+
+            </v-col>
           </div>
         </v-expand-transition>
     </div>
@@ -24,6 +96,8 @@ export default {
   },
   data: () => ({
     show:false,
+    temperature:90,
   }),
+
 };
 </script>
