@@ -13,13 +13,13 @@
     <v-container>
       <v-row dense>
         <v-col cols="6">
-          <SprinklerCard class="card"></SprinklerCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
          <v-col cols="6">
-          <SprinklerCard class="card"></SprinklerCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
          <v-col cols="6">
-          <SprinklerCard class="card"></SprinklerCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
       </v-row>
     </v-container>
@@ -27,10 +27,10 @@
 </template>
 
 <script>
-import SprinklerCard from "@/components/devices/SprinklerCard.vue";
+import WaterCard from "@/components/devices/WaterCard.vue";
 export default {
   components: {
-    SprinklerCard,
+    WaterCard,
   },
 };
 </script>

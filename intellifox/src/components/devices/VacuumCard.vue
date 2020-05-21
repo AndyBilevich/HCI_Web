@@ -7,9 +7,47 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-card-text>
-              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-            </v-card-text>
+            
+            <v-row>
+ 
+                <v-row></v-row>
+                <v-btn-toggle
+                  v-model="mode"
+                  mandatory
+                  class="py-5"
+                >
+                  <v-btn>
+                    <v-icon>mdi-fan</v-icon>
+                    vacuum
+                  </v-btn>
+                  <v-btn>
+                    <v-icon>mdi-broom</v-icon>
+                    mop
+                  </v-btn>
+                </v-btn-toggle>
+                <v-row></v-row>
+
+                <v-row>             
+                  <v-col cols="1"></v-col>
+                  <v-btn icon x-large class="ma-5" v-if="!play" @click="play=true">
+                    <v-icon x-large>mdi-play</v-icon>
+                    start
+                  </v-btn>
+                  <v-btn icon x-large class="ma-5" v-if="play" @click="play=false">
+                    <v-icon x-large>mdi-pause</v-icon>
+                    stop
+                  </v-btn>
+                </v-row>
+
+
+                <v-row>
+                  <v-btn large class="ma-5" color="primary">
+                      <v-icon>mdi-power-plug</v-icon>
+                      charge
+                  </v-btn>
+                </v-row>
+            </v-row>
+
           </div>
         </v-expand-transition>
     </div>
@@ -24,6 +62,7 @@ export default {
   },
   data: () => ({
     show:false,
+    play:false,
   }),
 };
 </script>

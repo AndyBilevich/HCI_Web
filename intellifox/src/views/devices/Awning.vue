@@ -11,13 +11,13 @@
     <v-container>
       <v-row dense>
         <v-col cols="6">
-          <AwningCards class="card"></AwningCards>
+          <WindowCards class="card"></WindowCards>
         </v-col>
          <v-col cols="6">
-          <AwningCards class="card"></AwningCards>
+          <WindowCards class="card"></WindowCards>
         </v-col>
          <v-col cols="6">
-          <AwningCards class="card"></AwningCards>
+          <WindowCards class="card"></WindowCards>
         </v-col>
       </v-row>
     </v-container>
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import AwningCards from "@/components/devices/AwningCard.vue";
+import WindowCards from "@/components/devices/WindowCard.vue";
 export default {
   components: {
-    AwningCards,
+    WindowCards,
   },
 };
 </script>

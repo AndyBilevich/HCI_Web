@@ -7,9 +7,68 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-card-text>
-              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-            </v-card-text>
+                <v-row>
+                  <h3 class="mt-5 ml-5">Freezer temperature:</h3>
+                  <v-col cols="6">
+                    <v-slider
+                      v-model="slider"
+                      class="align-center mr-3"
+                      :max="maxf"
+                      :min="minf"
+                      hide-details 
+                    >
+                      <template v-slot:append>
+                        <v-text-field
+                          v-model="slider"
+                          class="mt-0 pt-0"
+                          hide-details
+                          type="number"
+                          style="width: 40px"
+                        ></v-text-field>
+                      </template>
+                    </v-slider>
+                  </v-col>
+                </v-row>
+
+                <v-row>
+                  <h3 class="mt-5 ml-5">Fridge temperature:</h3>
+                  <v-col cols="6">
+                    <v-slider
+                      v-model="slider"
+                      class="align-center"
+                      :max="maxr"
+                      :min="minr"
+                      hide-details 
+                    >
+                      <template v-slot:append>
+                        <v-text-field
+                          v-model="slider"
+                          class="mt-0 pt-0"
+                          hide-details
+                          type="number"
+                          style="width: 40px"
+                        ></v-text-field>
+                      </template>
+                    </v-slider>
+                  </v-col>
+
+                  <v-row>
+                    <v-col cols="2" class="mt-5"></v-col>
+                    <h3 class="mt-5 ml-5">Mode:</h3>
+                    <v-btn-toggle class="ma-5" tile>
+                        <v-btn>
+                          party
+                        </v-btn>
+                        <v-btn>
+                          normal
+                        </v-btn>
+                        <v-btn>
+                          vacation
+                        </v-btn>
+                      </v-btn-toggle>
+                      
+                  </v-row>
+                </v-row>
           </div>
         </v-expand-transition>
     </div>
@@ -24,6 +83,10 @@ export default {
   },
   data: () => ({
     show:false,
+    minr:2,
+    maxr:8,
+    minf:"-20",
+    maxf:"-8",
   }),
 };
 </script>

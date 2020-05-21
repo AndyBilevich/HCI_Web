@@ -11,13 +11,13 @@
     <v-container>
       <v-row dense>
         <v-col cols="6">
-          <TapCard class="card"></TapCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
          <v-col cols="6">
-          <TapCard class="card"></TapCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
          <v-col cols="6">
-          <TapCard class="card"></TapCard>
+          <WaterCard class="card"></WaterCard>
         </v-col>
       </v-row>
     </v-container>
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import TapCard from "@/components/devices/TapCard.vue";
+import WaterCard from "@/components/devices/WaterCard.vue";
 export default {
   components: {
-    TapCard,
+   WaterCard,
   },
 };
 </script>

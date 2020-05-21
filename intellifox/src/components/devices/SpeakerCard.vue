@@ -7,9 +7,54 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-card-text>
-              I'm a thing. But, like most politicians, he promised more than he could deliver. You won't have time for sleeping, soldier, not with all the bed making you'll be doing. Then we'll go with that data file! Hey, you add a one and two zeros to that or we walk! You're going to do his laundry? I've got to find a way to escape.
-            </v-card-text>
+            <v-row>  
+
+            <v-col class="ml-5">
+              <v-row>
+                <v-slider
+                  readonly
+                ></v-slider>
+              </v-row>
+
+              <v-row>            
+                  <v-col cols="1"></v-col>
+                  <v-btn icon x-large class="my-5">
+                    <v-icon x-large>mdi-skip-previous</v-icon>
+                  </v-btn>
+                  <v-btn icon x-large class="ma-5" v-if="!play" @click="play=true">
+                    <v-icon x-large>mdi-play</v-icon>
+                  </v-btn>
+                  <v-btn icon x-large class="ma-5" v-if="play" @click="play=false">
+                    <v-icon x-large>mdi-pause</v-icon>
+                  </v-btn>
+                  <v-btn icon x-large class="my-5">
+                    <v-icon x-large>mdi-skip-next</v-icon>
+                  </v-btn>
+              </v-row>
+            </v-col>
+
+            <v-col cols="5">
+                <v-row class="ml-5">         
+                  <v-col cols="1"></v-col>
+                  <v-btn icon>
+                    <v-icon>mdi-chevron-down</v-icon>
+                  </v-btn>
+                  <p class="mt-1">Volume</p>
+                  <v-btn icon>
+                    <v-icon>mdi-chevron-up</v-icon>
+                  </v-btn>
+                </v-row>
+                  <v-slider
+                    v-model="media"
+                    vertical
+                    value="100"
+                    class="mr-3"
+                  ></v-slider>
+              </v-col>
+
+          </v-row>
+
+
           </div>
         </v-expand-transition>
     </div>
@@ -24,6 +69,7 @@ export default {
   },
   data: () => ({
     show:false,
+    play:false,
   }),
 };
 </script>

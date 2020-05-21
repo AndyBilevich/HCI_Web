@@ -11,13 +11,13 @@
     <v-container>
       <v-row dense>
         <v-col cols="6">
-          <BlindCard class="card"></BlindCard>
+          <WindowCard class="card"></WindowCard>
         </v-col>
          <v-col cols="6">
-          <BlindCard class="card"></BlindCard>
+          <WindowCard class="card"></WindowCard>
         </v-col>
          <v-col cols="6">
-          <BlindCard class="card"></BlindCard>
+          <WindowCard class="card"></WindowCard>
         </v-col>
       </v-row>
     </v-container>
@@ -25,10 +25,10 @@
 </template>
 
 <script>
-import BlindCard from "@/components/devices/BlindCard.vue";
+import WindowCard from "@/components/devices/WindowCard.vue";
 export default {
   components: {
-    BlindCard,
+    WindowCard,
   },
 };
 </script>
