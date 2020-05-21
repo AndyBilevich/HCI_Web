@@ -7,7 +7,7 @@
         <v-col v-for="h in homes" :key="h.id" cols="6">
           <HomeCard 
             class="card" 
-            @update="updateHomes" 
+            @update="retrieveHomes" 
             :selected="selectedHomeID === h.id" 
             :home="h" 
             @click.native="() => {selectedHomeID = h.id;}"/>
@@ -37,7 +37,7 @@ export default {
     HomeCard
   },
   mounted: function() {
-    this.updateHomes();
+    this.retrieveHomes();
   },
   data: function() {
     return {
@@ -46,13 +46,13 @@ export default {
     }
   },
   methods: {
-    updateHomes: async function() {
+    retrieveHomes: async function() {
       try {
         const ans = await HomeApi.getAll();
         this.homes = ans.result; 
       }
       catch(err) {
-        console.log(`ERROR: ${err}`);
+        console.log(err);
       }
     }
   },
@@ -82,3 +82,4 @@ export default {
   float: right;
 }
 </style>
+a

@@ -125,10 +125,10 @@
             <v-app-bar-nav-icon
               @click.stop="() => {
                   miniVar = !miniVar
-                    if (miniHidd === 'd-none')
-                      miniHidd = 'd-flex'
-                    else
-                      miniHidd = 'd-none'
+                  if (miniHidd === 'd-none')
+                    miniHidd = 'd-flex';
+                  else
+                    miniHidd = 'd-none';
                 }"
             />
             <v-toolbar-title>
@@ -212,7 +212,7 @@ export default {
     return ({
       drawer: true,
       miniVar: true,
-      miniHidd: "d-none",
+      miniHidd: 'd-none',
       home: {},
     })
   },
