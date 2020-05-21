@@ -135,6 +135,7 @@
             hex: '#FF00FF',
             dialog: false,
             dialogm1: '',
+            checkbox: false,
             devList: [
                 {
                     name: "mati's table light",

@@ -2,8 +2,8 @@
   <div>
     <h1>Rooms</h1>
     <v-row dense>
-      <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.name">
-          <CategoryCard :categoryName="indDevice.name" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
+      <v-col cols="2" v-for="r in rooms" :key="r.id">
+          <CategoryCard :categoryName="r.name" :categoryIcon="r.meta.icon" :whereTo="`/rooms/${r.id}`" />
       </v-col>
     </v-row>
 
@@ -16,30 +16,33 @@
 </template>
 
 <script>
-  import { RoomApi } from '@/api';
+  import { HomeRoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
+    name: 'Rooms',
+    props: {
+      home_id: String,
+    },
     components: {
       CategoryCard
     },
     mounted: function() {
-      this.updateRooms();
+      this.retrieveRooms();
     },
     data: function() {
       return {
         hidden: false,
-       
+        rooms: [],
       }
     },
     methods: {
-      updateRooms: async function() {
-        console.log("fetching rooms");
+      retrieveRooms: async function() {
         try {
-          const ans = await RoomApi.getAll();
+          const ans = await HomeRoomApi.get(this.home_id);
           this.rooms = ans.result; 
         }
         catch(err) {
-          console.log(`ERROR: ${err}`);
+          console.log(err);
         }
       }
     }

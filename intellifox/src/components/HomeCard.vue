@@ -95,7 +95,6 @@
 
         <v-btn
           color="window"
-          flat
           @click="dialog = false"
         >
           Cancel
@@ -103,7 +102,6 @@
 
         <v-btn
           color="error"
-          flat
           @click="() => {
             dialog = false
             deleteHome();

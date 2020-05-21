@@ -4,26 +4,18 @@ export { HomeRoomApi };
 
 class HomeRoomApi {
   static get url() {
-    return `${Api.baseUrl}/rooms`;
+    return `${Api.baseUrl}/homes`;
   }
 
-  static add(room, controller) {
-   return Api.post(HomeRoomApi.url, room, controller);
+  static get(homeId, controller) {
+   return Api.get(`${HomeRoomApi.url}/${homeId}/rooms`, {homeId}, controller);
   }
 
-  static modify(room, controller) {
-    return Api.put(`${HomeRoomApi.url}/${room.id}`, room, controller);
+  static add(homeId, roomId, controller) {
+    return Api.post(`${HomeRoomApi.url}/${homeId}/rooms/${roomId}`, {homeId, roomId}, controller);
   }
 
-  static delete(id, controller) {
-    return Api.delete(`${HomeRoomApi.url}/${id}`, controller);
-  }
-
-  static get(id, controller) {
-    return Api.get(`${HomeRoomApi.url}/${id}`, controller);
-  }
-
-  static getAll(controller) {
-    return Api.get(HomeRoomApi.url, controller);
+  static delete(roomId, controller) {
+    return Api.delete(`${HomeRoomApi.url}/rooms/${roomId}`, {roomId}, controller);
   }
 }

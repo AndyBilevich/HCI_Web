@@ -25,7 +25,7 @@
           ></v-text-field>
         </v-col>
       </v-row>
-      
+
       <v-row>
         <v-col cols="1"></v-col>        
         <v-col cols="4">
@@ -40,18 +40,15 @@
     
       <v-row align="end">
         <v-col cols="8"></v-col>
-        <router-link class="routerLink" to="/homes">
-          <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
-        </router-link>
-        <router-link class="routerLink" to="/homes">
-          <v-btn @click="addHome" class="my-2" depressed large color="primary">Save</v-btn>
-        </router-link>
+        <v-btn @click="back" class="ma-2" outlined large color="primary">Cancel</v-btn>
+        <v-btn @click="addHome" class="my-2" depressed large color="primary">Save</v-btn>
       </v-row>
     
   </div>
 </template>
 
 <script>
+import router from '@/router';
 import { HomeApi, Home } from '@/api';
 export default {
   data: function() {
@@ -64,8 +61,10 @@ export default {
     }
   },
   methods: {
+    back: function() {
+      router.go(-1);
+    },
     addHome: async function() {
-      console.log("" + this.name + "," + this.desc + "," + this.pin);
       const home = new Home(
         null,
         this.name,
@@ -81,6 +80,7 @@ export default {
       } catch (err) {
         console.log(err);
       }
+      this.back();
     }
   }
 };
