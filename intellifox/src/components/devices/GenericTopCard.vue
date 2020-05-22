@@ -18,7 +18,7 @@
               </v-card-actions>
             </v-row>
             <v-row>
-              <v-card-subtitle>{{ switch1 == true ? "on" : "off" }}</v-card-subtitle>
+              <v-card-subtitle>{{ subtitle }}</v-card-subtitle>
             </v-row>
           </v-col>
           <!-- <v-col cols="6"> -->
@@ -32,7 +32,9 @@
             </v-col>
             <v-col cols="1">
               <v-switch
-                v-model="switch1"
+                v-model="switchState"
+                :disabled="switchLocked"
+                :loading="switchLoads"
                 color = "primary"
               ></v-switch>
             </v-col>
@@ -90,8 +92,7 @@
         </v-card>
       </v-dialog>
 
-      
-
+    
     </v-card>
     </div>
   </div>
@@ -99,21 +100,38 @@
 
 <script>
 export default {
-  data: () => ({
-    hidden: false,
-    dialog:false,
-    fav:false, 
-    switch1: true,
-  }),
+  data: function() {
+    return {
+      hidden:false,
+      dialog:false,
+      fav:false, 
+      switch1:this.switchState,
+      switchDisabled:this.switchLocked,
+      switchLoading:this.switchLoads,
+    }
+  },
   props: {
     icon: String,
     title: String,
     subtitle: String,
-    state1: String,
-    state2: String,
     deleteID: String,
     show: Boolean,
     click: Function,
+    switchState: Boolean,
+    switchLocked: Boolean,
+    switchLoads: Boolean,
+  },
+  methods: {
+    switchLock: function() {
+      this.switchLoading = 'error';
+      this.switchDisabled = true;
+    }
+  },
+  watch: {
+    switchState: function(new_val) {
+      this.switchLock();
+      this.$emit('switch_changed', new_val);
+    }
   }
 };
 </script>

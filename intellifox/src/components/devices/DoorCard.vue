@@ -1,7 +1,15 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard :click=" () => {show = !show}" :title="title" :subtitle="desc" icon="mdi-door"></TopCard>
+      <TopCard
+        @switch_changed="switchOnOff"
+        :switchState="switchState"
+        :switchLoads="switchLoading"
+        :switchLocked="switchLocked"
+        :click="() => {show = !show}" 
+        :title="title" 
+        :subtitle="desc" 
+        icon="mdi-door"></TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>
@@ -22,7 +30,8 @@
 </template>
 
 <script>
-import TopCard from "@/components/devices/GenericTopCard.vue";
+import { DeviceApi } from '@/api';
+import TopCard from "@/components/devices/GenericTopCard";
 export default {
   props: {
     model: Object,
@@ -34,11 +43,15 @@ export default {
     this.door = this.model;
     this.updateTitle();
     this.updateDesc();
+    this.updateState();
     console.log(this.door)
   },
   data: function() {
     return {
       show:false,
+      switchState:false,
+      switchLoading:false,
+      switchLocked:false,
       locked:false,
       door: {},
       title: '',
@@ -47,11 +60,35 @@ export default {
   },
   methods: {
     updateTitle: function() {
-      this.title = this.door.name;
+      this.title = this.model.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.state.lock == 'blocked')?'Blocked':'Unblocked'}`}`;
+      this.desc = `${(this.model.state.status === 'opened')? 'Opened':`Closed - ${(this.model.state.lock == 'blocked')?'Blocked':'Unblocked'}`}`;
+    },
+    updateState: function() {
+      this.switchState = (this.door.state.status === 'opened')?true:false;
+    },
+    switchOnOff: async function(new_switch_state) {
+      let ans;
+      this.switchState = new_switch_state;
+      this.switchLoading = true;
+      this.switchLocked = true;
+      if (new_switch_state)
+        ans = await DeviceApi.setAction(this.door.id, 'open');
+      else
+        ans = await DeviceApi.setAction(this.door.id, 'close');
+      if (ans.result) {
+        const ans2 = await DeviceApi.getState(this.door.id);
+        this.door.state = ans2.result;
+        this.updateTitle();
+        this.updateDesc();
+        this.updateState();
+      }
+      this.switchLocked = false;
+      this.switchLoading = false;
+
+      console.log(this.door);
     }
-  }
+  },
 };
 </script>

@@ -154,9 +154,7 @@
             id: this.devices[this.selectedDeviceIndex].id,
           },
           this.name,
-          {
-            desc: this.desc,
-          }
+          null
         );
         try {
           const ans = await DeviceApi.add(device);
