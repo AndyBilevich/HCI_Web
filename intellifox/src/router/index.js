@@ -179,7 +179,7 @@ const routes = [
     component: AddRoom,
   },//-------------------------------------------------------------------
   {
-    path: "/edit_device/:id",
+    path: "/devices/edit",
     name: "EditDevice",
     component: EditDevice,
   },

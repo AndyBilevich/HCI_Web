@@ -41,6 +41,10 @@ export default {
           .filter(d => {
             return !d.room || ( d.room.home && d.room.home.id === this.home_id )
           })
+<<<<<<< HEAD
+=======
+        console.log(ans.result);
+>>>>>>> 912ae552e068f5d5fccd21b866f0e10e1b5b56c4
       }
       catch(err) {
         console.log(err);
