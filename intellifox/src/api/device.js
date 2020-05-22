@@ -4,15 +4,15 @@ export { DeviceApi, Device };
 
 class DeviceApi {
   static get url() {
-    return `${Api.baseUrl}/rooms`;
+    return `${Api.baseUrl}/devices`;
   }
 
-  static add(room, controller) {
-   return Api.post(DeviceApi.url, room, controller);
+  static add(device, controller) {
+   return Api.post(DeviceApi.url, device, controller);
   }
 
-  static modify(room, controller) {
-    return Api.put(`${DeviceApi.url}/${room.id}`, room, controller);
+  static modify(device, controller) {
+    return Api.put(`${DeviceApi.url}/${device.id}`, device, controller);
   }
 
   static delete(id, controller) {
@@ -26,13 +26,42 @@ class DeviceApi {
   static getAll(controller) {
     return Api.get(DeviceApi.url, controller);
   }
+
+  static getLogs(id, limit, offset, controller) {
+    return Api.get(`${DeviceApi.url}/${id}/logs/limit/${limit}/offset/${offset}`, controller);
+  }
+
+  static getAllLogs(limit, offset, controller) {
+    return Api.get(`${DeviceApi.url}/logs/limit/${limit}/offset/${offset}`, controller);
+  }
+
+  static getEvents(id, controller) {
+    return Api.get(`${DeviceApi.url}/${id}/events`, controller);
+  }
+
+  static getAllEvents(controller) {
+    return Api.get(`${DeviceApi.url}/events`, controller);
+  }
+
+  static getState(id, controller) {
+    return Api.get(`${DeviceApi.url}/${id}/state`, controller);
+  }
+
+  static setAction(id, actionName, controller) {
+    return Api.put(`${DeviceApi.url}/${id}/${actionName}`, controller);
+  }
+
+  static getDevicesByType(typeId, controller) {
+    return Api.get(`${DeviceApi.url}/devicetypes/${typeId}/`, controller);
+  }
 }
 
 class Device {
-  constructor(id, name, meta) {
+  constructor(id, type, name, meta) {
     if (id) {
       this.id = id;
     }
+    this.type = type;
     this.name = name;
     this.meta = meta;
   }

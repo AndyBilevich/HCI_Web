@@ -1,7 +1,7 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard :click=" () => {show = !show}" title="title" subtitle="subtitle" icon="mdi-window-open-variant"></TopCard>
+      <TopCard :click=" () => {show = !show}" title="title" subtitle="subtitle" icon="mdi-blinds"></TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>

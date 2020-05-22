@@ -7,23 +7,15 @@ class RoomDeviceApi {
     return `${Api.baseUrl}/rooms`;
   }
 
-  static add(room, controller) {
-   return Api.post(RoomDeviceApi.url, room, controller);
+  static get(roomId, controller) {
+   return Api.get(`${RoomDeviceApi.url}/${roomId}/devices`, {roomId}, controller);
   }
 
-  static modify(room, controller) {
-    return Api.put(`${RoomDeviceApi.url}/${room.id}`, room, controller);
+  static add(roomId, deviceId, controller) {
+    return Api.post(`${RoomDeviceApi.url}/${roomId}/devices/${deviceId}`, {roomId, deviceId}, controller);
   }
 
-  static delete(id, controller) {
-    return Api.delete(`${RoomDeviceApi.url}/${id}`, controller);
-  }
-
-  static get(id, controller) {
-    return Api.get(`${RoomDeviceApi.url}/${id}`, controller);
-  }
-
-  static getAll(controller) {
-    return Api.get(RoomDeviceApi.url, controller);
+  static delete(deviceId, controller) {
+    return Api.delete(`${RoomDeviceApi.url}/devices/${deviceId}`, {deviceId}, controller);
   }
 }

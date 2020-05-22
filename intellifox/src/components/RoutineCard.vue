@@ -17,8 +17,11 @@
             </v-row>
           </v-col>
           <v-col cols="3">
-            <v-btn text icon>
+            <v-btn text icon large v-if="fav" @click="fav=false">
               <v-icon large>mdi-heart</v-icon>
+            </v-btn>
+            <v-btn text icon v-if="!fav" @click="fav=true">
+              <v-icon large>mdi-heart-outline</v-icon>
             </v-btn>
             <v-btn text icon>
               <v-icon large>mdi-play</v-icon>

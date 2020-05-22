@@ -12,11 +12,11 @@
                   <v-col cols="2"></v-col>
                   <h3 class="mt-3">Temperature:</h3>
                   <v-col cols="1"></v-col>
-                      <v-btn icon x-large @click="temperature= (temperature == 15 ? temperature : temperature-1)">
+                      <v-btn icon x-large @click="temperature= (temperature == 18 ? temperature : temperature-1)">
                         <v-icon x-large>mdi-chevron-down</v-icon>
                       </v-btn>
                       <h1>{{temperature}}°</h1>
-                      <v-btn icon x-large @click="temperature= (temperature == 30 ? temperature : temperature+1)">
+                      <v-btn icon x-large @click="temperature= (temperature == 38 ? temperature : temperature+1)">
                         <v-icon x-large>mdi-chevron-up</v-icon>
                       </v-btn>
                 </v-row>
@@ -137,7 +137,7 @@ export default {
   },
   data: () => ({
     show:false,
-    temperature:15,
+    temperature:18,
   }),
 };
 </script>
