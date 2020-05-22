@@ -16,7 +16,7 @@
 </template>
 
 <script>
-  import { HomeRoomApi } from '@/api';
+  import { HomeRoomApi, RoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
     name: 'Rooms',
@@ -40,6 +40,13 @@
         try {
           const ans = await HomeRoomApi.get(this.home_id);
           this.rooms = ans.result; 
+          const ans2 = await RoomApi.getAll();
+          var i;
+          for (i = 0; i < ans2.result.length; i++) {
+              if(!ans2.result[i].home){
+                  this.rooms.push( ans2.result[i] );
+              }
+          }
         }
         catch(err) {
           console.log(err);
