@@ -69,7 +69,7 @@
         desc:"",
         selectedIcon: 'mdi-rhombus-split',
         selectedHomeID: this.home_id || '',
-        homes: [],
+        homes: [ {text:"none", value:"-1" } ],
       }
     },
     methods:{
@@ -107,7 +107,9 @@
         );
         try {
           const ans = await RoomApi.add(room);
-          await HomeRoomApi.add(this.selectedHomeID, ans.result.id);
+          if(this.selectedHomeID != "-1"){
+            await HomeRoomApi.add(this.selectedHomeID, ans.result.id);
+          }
         } catch (err) {
           console.log(err);
         }

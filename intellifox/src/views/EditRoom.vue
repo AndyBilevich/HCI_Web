@@ -73,7 +73,7 @@
         selectedIcon: '',
         originalHomeID: this.home_id || '',
         selectedHomeID: this.home_id || '',
-        homes: [],
+        homes: [ {text:"none", value:"-1" } ],
       }
     },
     
@@ -114,7 +114,9 @@
                 console.log(this.selectedHomeID);
                 if(this.originalHomeID != this.selectedHomeID){
                   await HomeRoomApi.delete(this.room.id,);
-                  await HomeRoomApi.add(this.selectedHomeID, this.room.id,);
+                  if(this.selectedHomeID != "-1"){
+                    await HomeRoomApi.add(this.selectedHomeID, this.room.id,);
+                  }
                   router.go(-1);
                 }
             } catch (err) {
