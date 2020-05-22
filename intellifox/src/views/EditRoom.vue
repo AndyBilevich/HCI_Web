@@ -11,7 +11,7 @@
             solo
           ></v-text-field>
           <h3 align="left">Image:</h3>
-          <AddRoomCard :givenIconName="$route.params.icon" @upd_icon="updateIcon"></AddRoomCard>
+          <AddRoomCard :givenIconName="$route.query.icon" @upd_icon="updateIcon"></AddRoomCard>
       </v-col>
       <v-col cols="1"></v-col>
       <v-col cols="4">
@@ -63,16 +63,15 @@
     },
     created: async function(){
       this.retrieveHomes();
-      this.room.id = this.$route.params.id;
+      this.room.id = this.$route.query.id;
       await this.retrieveRoom(this.room.id);
-      console.log(this.selectedIcon);
     },
     data: function() {
       return {
         room:{ meta: {} },
         selectedIcon: '',
-        originalHomeID: this.home_id || '',
-        selectedHomeID: this.home_id || '',
+        originalHomeID: this.$route.query.home,
+        selectedHomeID: this.$route.query.home,
         homes: [],
       }
     },
@@ -84,7 +83,7 @@
         retrieveHomes: async function() {
           try {
             const ans = await HomeApi.getAll();
-            this.homes = [ {text:"None", value:"" } ]; 
+            this.homes = [ {text:"None", value:"none" } ]; 
             ans.result.forEach(h => {
               this.homes.push({
                 text: h.name,
@@ -110,11 +109,11 @@
             );
             try {
                 await RoomApi.modify(room);
-                console.log(this.originalHomeID);
-                console.log(this.selectedHomeID);
                 if(this.originalHomeID != this.selectedHomeID){
-                  await HomeRoomApi.delete(this.room.id,);
-                  if(this.selectedHomeID != ""){
+                  if(this.originalHomeID != 'none'){
+                    await HomeRoomApi.delete(this.room.id,);
+                  }
+                  if(this.selectedHomeID != "none"){
                     await HomeRoomApi.add(this.selectedHomeID, this.room.id,);
                   }
                   router.go(-1);

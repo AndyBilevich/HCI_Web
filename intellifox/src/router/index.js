@@ -184,7 +184,7 @@ const routes = [
     component: EditDevice,
   },
   {
-    path: "/rooms/edit/:id/:icon",
+    path: "/rooms/edit",
     name: "EditRoom",
     component: EditRoom,
   },

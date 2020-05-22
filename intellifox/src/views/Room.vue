@@ -105,7 +105,8 @@ import { RoomApi } from '@/api';
                 router.go(-1);
             },
             editRoom: function() {
-                router.push({ name: 'EditRoom', params: { id: this.room.id, icon: this.room.meta.icon}})
+                var homeid = this.room.home ? this.room.home.id : 'none';
+                router.push({ name: 'EditRoom', query: { id: this.room.id, icon: this.room.meta.icon, home:homeid }})
             }
       }
     };
