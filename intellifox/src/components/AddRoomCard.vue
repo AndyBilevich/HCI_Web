@@ -17,25 +17,25 @@
         <v-dialog v-model="dialog" max-width="600px" >
             <v-card color="background3">
                 <v-container>
-                     <v-row align="center">
+                    <v-row align="center">
                         <v-col v-for="(ico, idx) in rooms_icons" :key="idx" align="center">
-                        <v-card 
-                            :key="idx" 
-                            @click.native="() => {selectedIconID = idx;}"
-                            @click="dialog=false"
-                            class="cards"
-                            height="170px" 
-                            width="170px"
-                        >
-                            <v-icon 
-                                size="130" 
-                                class="background2--text ma-5"
+                            <v-card 
+                                :key="idx" 
+                                @click.native="() => {selectedIconID = idx;}"
+                                @click="dialog=false"
+                                class="cards"
+                                height="170px" 
+                                width="170px"
                             >
-                                {{ico}}
-                            </v-icon>   
-                        </v-card>
-                    </v-col>
-                </v-row>       
+                                <v-icon 
+                                    size="130" 
+                                    class="background2--text ma-5"
+                                >
+                                    {{ico}}
+                                </v-icon>   
+                            </v-card>
+                        </v-col>
+                    </v-row>       
                 </v-container>
             </v-card>
         </v-dialog>
@@ -58,16 +58,32 @@ export default {
             "mdi-silverware-fork-knife"
         ]
     }),
+    mounted: function(){
+      this.selectedIconID = this.getIdFromName(this.givenIconName);
+      console.log(this.selectedIconID);
+      console.log(this.givenIconName);
+    },
+    methods: {
+        getIdFromName: function(name){
+            var i;
+            for (i = 0; i < this.rooms_icons.length; i++) {
+                if(this.rooms_icons[i] == name){
+                    return i;
+                }
+            }
+            return 0;
+        }
+    },
     props: {
         id: String,
         icon: String,
+        givenIconName: String,
     },
     watch: {
         selectedIconID: function(new_val) {
             this.$emit('upd_icon', this.rooms_icons[new_val]);
         }
     }
-
   }
 </script>
 

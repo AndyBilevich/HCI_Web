@@ -34,9 +34,9 @@
               ></v-overflow-btn>
               </v-col>
             </v-row>
+          </v-col>
         </v-col>
-      </v-col>
-    </v-row>
+      </v-row>
 
 
     <v-row>

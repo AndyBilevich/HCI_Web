@@ -174,7 +174,7 @@ const routes = [
     component: AddRoutine,
   },
   {
-    path: "/add_room",
+    path: "/rooms/add",
     name: "AddRoom",
     component: AddRoom,
   },//-------------------------------------------------------------------
@@ -184,7 +184,7 @@ const routes = [
     component: EditDevice,
   },
   {
-    path: "/edit_room/:id",
+    path: "/rooms/edit/:id/:icon",
     name: "EditRoom",
     component: EditRoom,
   },
