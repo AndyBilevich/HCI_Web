@@ -73,7 +73,7 @@
         selectedIcon: '',
         originalHomeID: this.home_id || '',
         selectedHomeID: this.home_id || '',
-        homes: [ {text:"none", value:"-1" } ],
+        homes: [],
       }
     },
     
@@ -84,7 +84,7 @@
         retrieveHomes: async function() {
           try {
             const ans = await HomeApi.getAll();
-            this.homes = []; 
+            this.homes = [ {text:"None", value:"" } ]; 
             ans.result.forEach(h => {
               this.homes.push({
                 text: h.name,
@@ -114,7 +114,7 @@
                 console.log(this.selectedHomeID);
                 if(this.originalHomeID != this.selectedHomeID){
                   await HomeRoomApi.delete(this.room.id,);
-                  if(this.selectedHomeID != "-1"){
+                  if(this.selectedHomeID != ""){
                     await HomeRoomApi.add(this.selectedHomeID, this.room.id,);
                   }
                   router.go(-1);

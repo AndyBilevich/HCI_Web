@@ -69,7 +69,7 @@
         desc:"",
         selectedIcon: 'mdi-rhombus-split',
         selectedHomeID: this.home_id || '',
-        homes: [ {text:"none", value:"-1" } ],
+        homes: [],
       }
     },
     methods:{
@@ -79,7 +79,7 @@
       retrieveHomes: async function() {
         try {
           const ans = await HomeApi.getAll();
-          this.homes = []; 
+          this.homes = [ {text:"None", value:"" } ]; 
           ans.result.forEach(h => {
             this.homes.push({
               text: h.name,
