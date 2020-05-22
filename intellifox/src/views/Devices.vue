@@ -3,7 +3,7 @@
     <h1>Devices</h1>
 
     <v-row dense>
-      <v-col cols="2" v-for="indDevice in deviceList" :key="indDevice.title">
+      <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
           <CategoryCard :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
       </v-col>
     </v-row>
@@ -93,23 +93,20 @@
       retrieveDeviceTypes: async function() {
         try {
           const ans = await DeviceApi.getAll();
-          if (ans) {
-            let deviceTypes = [...ans.result];
-            //console.log(deviceTypes);
-            /*
-            deviceTypes
-              .filter(dt => {
-                return dt.room && dt.room.home && dt.room.home.id === this.home_id
-              })
-              .map(dt => dt.type.id)
-              .reduce((unique, dt) => unique.includes(dt) ? unique: [...unique, dt],[]);
-            */
-            deviceTypes.forEach((dt, index, object) => {
-              if(!(dt.room && dt.room.home && dt.room.home.id === this.home_id))
-                object.splice(dt, 1);
+          //console.log(deviceTypes);
+          this.devicesAvail = ans.result
+            .filter(dt => {
+              return !dt.room || ( dt.room.home && dt.room.home.id === this.home_id )
             })
-            console.log(deviceTypes);
-          } 
+            .map(dt => dt.type.id)
+            .reduce((unique, id) => unique.includes(id) ? unique: [...unique, id],[])
+            .map(id => this.deviceInfo[id]);
+          /*
+          deviceTypes.forEach((dt, index, object) => {
+            if(!(dt.room && dt.room.home && dt.room.home.id === this.home_id))
+              object.splice(dt, 1);
+          })
+          */
         }
         catch(err) {
           console.log(err);
