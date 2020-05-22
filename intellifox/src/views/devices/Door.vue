@@ -41,7 +41,7 @@ export default {
           .filter(d => {
             return !d.room || ( d.room.home && d.room.home.id === this.home_id )
           })
-        console.log(this.doors);
+        console.log(ans.result);
       }
       catch(err) {
         console.log(err);

@@ -67,7 +67,7 @@
       return {
         name: '',
         desc: '',
-        selectedRoomID: '',
+        selectedRoomID: 'none',
         rooms: [],
         selectedDeviceIndex: -1,
         devices: [
@@ -134,7 +134,7 @@
           this.rooms = [];
           this.rooms.push({
             text: 'None',
-            value: '',
+            value: 'none',
           });
           ans.result.forEach(room => {
             this.rooms.push({
@@ -160,7 +160,7 @@
         );
         try {
           const ans = await DeviceApi.add(device);
-          if (ans && this.selectedRoomID !== '')
+          if (ans && this.selectedRoomID != 'none')
             await RoomDeviceApi.add(this.selectedRoomID, ans.result.id);
         } catch (err) {
           console.log(err);
