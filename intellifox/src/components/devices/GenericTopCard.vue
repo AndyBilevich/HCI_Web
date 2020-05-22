@@ -6,7 +6,7 @@
           <v-col cols="3">
             <v-icon size="100">{{icon}}</v-icon>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="5">
             <v-row>
               <v-card-actions>
                 <v-card-title class="headline">
@@ -18,37 +18,44 @@
               </v-card-actions>
             </v-row>
             <v-row>
-              <v-card-subtitle>{{subtitle}}</v-card-subtitle>
+              <v-card-subtitle>{{ switch1 == true ? "on" : "off" }}</v-card-subtitle>
             </v-row>
           </v-col>
-          <v-col cols="3">
-            <v-btn text icon large v-if="fav" @click="fav=false">
-              <v-icon large>mdi-heart</v-icon>
-            </v-btn>
-            <v-btn text icon v-if="!fav" @click="fav=true">
-              <v-icon large>mdi-heart-outline</v-icon>
-            </v-btn>
-            <v-btn text icon>
-              <v-icon large>mdi-power</v-icon>
-            </v-btn>
-            <v-menu close-on-click close-on-content-click absolute>
-              <template v-slot:activator="{ on }">
-                <v-btn v-on="on" text icon>
-                  <v-icon large>mdi-dots-vertical</v-icon>
-                </v-btn>
-              </template>
-              <v-list>
-                <v-list-item-group>
-                  <v-list-item to="/edit_device">
-                    <v-icon>mdi-pencil</v-icon>Edit
-                  </v-list-item>
-                  <v-list-item @click="dialog=true">
-                    <v-icon>mdi-trash-can</v-icon>Delete
-                  </v-list-item>
-                </v-list-item-group>
-              </v-list>
-            </v-menu>
-          </v-col>
+          <!-- <v-col cols="6"> -->
+            <v-col cols="1">
+              <v-btn text icon large v-if="fav" @click="fav=false">
+                <v-icon large>mdi-heart</v-icon>
+              </v-btn>
+              <v-btn text icon v-if="!fav" @click="fav=true">
+                <v-icon large>mdi-heart-outline</v-icon>
+              </v-btn>
+            </v-col>
+            <v-col cols="1">
+              <v-switch
+                v-model="switch1"
+                color = "primary"
+              ></v-switch>
+            </v-col>
+            <v-col cols="1">
+              <v-menu close-on-click close-on-content-click absolute>
+                <template v-slot:activator="{ on }">
+                  <v-btn v-on="on" text icon>
+                    <v-icon large>mdi-dots-vertical</v-icon>
+                  </v-btn>
+                </template>
+                <v-list>
+                  <v-list-item-group>
+                    <v-list-item to="/edit_device">
+                      <v-icon>mdi-pencil</v-icon>Edit
+                    </v-list-item>
+                    <v-list-item @click="dialog=true">
+                      <v-icon>mdi-trash-can</v-icon>Delete
+                    </v-list-item>
+                  </v-list-item-group>
+                </v-list>
+              </v-menu>
+            </v-col>
+          <!-- </v-col> -->
         </v-row>
 
       <v-dialog
@@ -96,11 +103,14 @@ export default {
     hidden: false,
     dialog:false,
     fav:false, 
+    switch1: true,
   }),
   props: {
     icon: String,
     title: String,
     subtitle: String,
+    state1: String,
+    state2: String,
     deleteID: String,
     show: Boolean,
     click: Function,
