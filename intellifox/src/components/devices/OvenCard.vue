@@ -94,10 +94,11 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    temperature:90,
-  }),
-
+  data: function() {
+    return {
+      show:false,
+      temperature:90,
+    }
+  },
 };
 </script>

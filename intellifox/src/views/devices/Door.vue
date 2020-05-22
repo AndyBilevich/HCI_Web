@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="d in doors" :key="d.id" cols="6">
-          <DoorCard @upd_model="updateModel" :model="d" class="card"></DoorCard>
+          <DoorCard @upd_model="updateModel" :model="d"></DoorCard>
         </v-col>
       </v-row>
     </v-container>
@@ -37,10 +37,9 @@ export default {
     retrieveDevices: async function() {
       try {
         const ans = await DeviceApi.getDevicesByType('lsf78ly0eqrjbz91');
-        console.log(ans.result);
-        this.doors = ans
-          .filter(dt => {
-            return !dt.room || ( dt.room.home && dt.room.home.id === this.home_id )
+        this.doors = ans.result
+          .filter(d => {
+            return !d.room || ( d.room.home && d.room.home.id === this.home_id )
           })
         console.log(this.doors);
       }

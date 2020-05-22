@@ -95,11 +95,13 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    dialog:false,
-    dialog2:false,
-    rules: [v => v.length <= 4 || 'Max 4 characters'],
-  }),
+  data: function() {
+    return {
+      show:false,
+      dialog:false,
+      dialog2:false,
+      rules: [v => v.length <= 4 || 'Max 4 characters'],
+    }
+  },
 };
 </script>

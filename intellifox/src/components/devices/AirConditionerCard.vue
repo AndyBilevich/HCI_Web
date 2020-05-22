@@ -135,9 +135,11 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    temperature:18,
-  }),
+  data: function() {
+    return {
+      show:false,
+      temperature:18,
+    }
+  },
 };
 </script>

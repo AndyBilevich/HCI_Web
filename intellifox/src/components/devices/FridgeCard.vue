@@ -83,12 +83,14 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    minr:2,
-    maxr:8,
-    minf:"-20",
-    maxf:"-8",
-  }),
+  data: function() {
+    return {
+      show:false,
+      minr:2,
+      maxr:8,
+      minf:"-20",
+      maxf:"-8",
+    }
+  },
 };
 </script>
