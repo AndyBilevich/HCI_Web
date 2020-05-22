@@ -67,10 +67,12 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    play:false,
-  }),
+   data: function() {
+    return {
+      show:false,
+      play:false,
+    }
+  },
 };
 </script>
 

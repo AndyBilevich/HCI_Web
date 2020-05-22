@@ -61,9 +61,11 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-    open:false,
-  }),
+  data: function() {
+    return {
+      show:false,
+      open:false,
+    }
+  },
 };
 </script>

@@ -1,7 +1,7 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard :click=" () => {show = !show}" :title="name" :subtitle="desc" icon="mdi-door"></TopCard>
+      <TopCard :click=" () => {show = !show}" :title="title" :subtitle="desc" icon="mdi-door"></TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>
@@ -30,24 +30,27 @@ export default {
   components: {
     TopCard,
   },
-  mounted: () => {
+  mounted: function() {
     this.door = this.model;
     this.updateTitle();
     this.updateDesc();
+    console.log(this.door)
   },
-  data: () => ({
-    show:false,
-    locked:false,
-    door: {},
-    title: '',
-    desc: '',
-  }),
+  data: function() {
+    return {
+      show:false,
+      locked:false,
+      door: {},
+      title: '',
+      desc: '',
+    }
+  },
   methods: {
     updateTitle: function() {
       this.title = this.door.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.status.lock == 'blocked')?'Blocked':'Unblocked'}`}`;
+      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.state.lock == 'blocked')?'Blocked':'Unblocked'}`}`;
     }
   }
 };

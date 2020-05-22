@@ -26,8 +26,10 @@ export default {
   components: {
     TopCard,
   },
-  data: () => ({
-    show:false,
-  }),
+  data: function() {
+    return {
+      show:false,
+    }
+  },
 };
 </script>
