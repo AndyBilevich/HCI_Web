@@ -3,20 +3,11 @@
     <h1 align="left">Add device</h1>
 
     <v-row dense> 
-      <v-col cols="4">
+      <v-col cols="6">
           <h3 align="left">Name:</h3>
           <v-text-field
             v-model="name"
             label="Name"
-            solo
-          ></v-text-field>
-      </v-col>
-      <v-col cols="1"></v-col>
-      <v-col cols="4">
-          <h3 align="left">Description (optional):</h3>
-          <v-text-field
-            v-model="desc"
-            label="Description"
             solo
           ></v-text-field>
       </v-col>

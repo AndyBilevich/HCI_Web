@@ -1,7 +1,7 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard :click=" () => {show = !show}" title="title" subtitle="subtitle" icon="mdi-door"></TopCard>
+      <TopCard :click=" () => {show = !show}" :title="name" :subtitle="desc" icon="mdi-door"></TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>
@@ -24,12 +24,31 @@
 <script>
 import TopCard from "@/components/devices/GenericTopCard.vue";
 export default {
+  props: {
+    model: Object,
+  },
   components: {
     TopCard,
+  },
+  mounted: () => {
+    this.door = this.model;
+    this.updateTitle();
+    this.updateDesc();
   },
   data: () => ({
     show:false,
     locked:false,
+    door: {},
+    title: '',
+    desc: '',
   }),
+  methods: {
+    updateTitle: function() {
+      this.title = this.door.name;
+    },
+    updateDesc: function() {
+      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.status.lock == 'blocked')?'Blocked':'Unblocked'}`}`;
+    }
+  }
 };
 </script>
