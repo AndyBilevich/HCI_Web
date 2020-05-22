@@ -32,7 +32,7 @@
             </v-col>
             <v-col cols="1">
               <v-switch
-                v-model="switchState"
+                v-model="switchValue"
                 :disabled="switchLocked"
                 :loading="switchLoads"
                 color = "primary"
@@ -47,7 +47,7 @@
                 </template>
                 <v-list>
                   <v-list-item-group>
-                    <v-list-item to="/edit_device">
+                    <v-list-item @click="editDevice">
                       <v-icon>mdi-pencil</v-icon>Edit
                     </v-list-item>
                     <v-list-item @click="dialog=true">
@@ -99,18 +99,10 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
-  data: function() {
-    return {
-      hidden:false,
-      dialog:false,
-      fav:false, 
-      switch1:this.switchState,
-      switchDisabled:this.switchLocked,
-      switchLoading:this.switchLoads,
-    }
-  },
   props: {
+    model: Object,
     icon: String,
     title: String,
     subtitle: String,
@@ -121,17 +113,36 @@ export default {
     switchLocked: Boolean,
     switchLoads: Boolean,
   },
+  data: function() {
+    return {
+      hidden:false,
+      dialog:false,
+      fav:false, 
+      switch1:this.switchState,
+      switchDisabled:this.switchLocked,
+      switchLoading:this.switchLoads,
+    }
+  },
   methods: {
     switchLock: function() {
       this.switchLoading = 'error';
       this.switchDisabled = true;
+    },
+    editDevice: function(){
+      var roomId = this.model.room ? this.model.room.id : 'none';
+      router.push({ name: 'EditDevice', query: { id: this.model.id, room:roomId }});
     }
   },
-  watch: {
-    switchState: function(new_val) {
-      this.switchLock();
-      this.$emit('switch_changed', new_val);
+  computed: {
+    switchValue: {
+      get: function() {
+        return this.switchState;
+      },
+      set: function(new_val) {
+        this.switchLock();
+        this.$emit('set_switch_state', new_val);
+      }
     }
-  }
+  },
 };
 </script>

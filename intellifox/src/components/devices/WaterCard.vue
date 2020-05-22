@@ -10,15 +10,6 @@
             <v-col>
               <v-row></v-row>
               
-                  <v-btn x-large class="ma-5" color="primary" v-if="open" @click="open=false">
-                      <v-icon>mdi-water-off</v-icon>
-                      Close
-                  </v-btn>
-                  <v-btn x-large class="ma-5" color="primary" v-if="!open" @click="open=true">
-                      <v-icon>mdi-water</v-icon>
-                      Open
-                  </v-btn>
-              
 
               <v-col>
                   <v-row> 
@@ -64,7 +55,6 @@ export default {
   data: function() {
     return {
       show:false,
-      open:false,
     }
   },
 };

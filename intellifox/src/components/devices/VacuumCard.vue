@@ -28,19 +28,6 @@
                 </v-btn-toggle>
                 <v-row></v-row>
 
-                <v-row>             
-                  <v-col cols="1"></v-col>
-                  <v-btn icon x-large class="ma-5" v-if="!play" @click="play=true">
-                    <v-icon x-large>mdi-play</v-icon>
-                    start
-                  </v-btn>
-                  <v-btn icon x-large class="ma-5" v-if="play" @click="play=false">
-                    <v-icon x-large>mdi-pause</v-icon>
-                    stop
-                  </v-btn>
-                </v-row>
-
-
                 <v-row>
                   <v-btn large class="ma-5" color="primary">
                       <v-icon>mdi-power-plug</v-icon>

@@ -45,19 +45,21 @@
 
 <script>
 export default {
-    data: () => ({
-        hidden: false,
-        dialog: false,
-        selectedIconID: 0,
-        rooms_icons: [
-            "mdi-rhombus-split",            
-            "mdi-bed-outline",
-            "mdi-shower",
-            "mdi-flower-tulip-outline",
-            "mdi-table-chair",
-            "mdi-silverware-fork-knife"
-        ]
-    }),
+    data: function() {
+        return {
+            hidden: false,
+            dialog: false,
+            selectedIconID: 0,
+            rooms_icons: [
+                "mdi-rhombus-split",            
+                "mdi-bed-outline",
+                "mdi-shower",
+                "mdi-flower-tulip-outline",
+                "mdi-table-chair",
+                "mdi-silverware-fork-knife"
+            ]
+        }
+    },
     mounted: function(){
       this.selectedIconID = this.getIdFromName(this.givenIconName);
       console.log(this.selectedIconID);

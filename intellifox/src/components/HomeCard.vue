@@ -124,9 +124,11 @@ export default {
     selected: Boolean,
     home: Object,
   },
-  data: () => ({
-    dialog: false,
-  }),
+  data: function() {
+    return {
+      dialog: false,
+    }
+  },
   methods: {
     deleteHome: async function() {
       try {

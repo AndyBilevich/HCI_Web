@@ -26,25 +26,30 @@ export default {
     DoorCard,
   },
   mounted: function() {
+    const query = this.$route.query;
+    if (query)
+      this.home_id = query.home_id
+    console.log(`HOME_ID is ${this.home_id}`)
     this.retrieveDevices();    
   },
   data: function() {
     return {
+      home_id: '',
       doors: [],
     }
   },
   methods: {
     retrieveDevices: async function() {
-      try {
-        const ans = await DeviceApi.getDevicesByType('lsf78ly0eqrjbz91');
-        this.doors = ans.result
+      try {      
+        const ans2 = await DeviceApi.getDevicesByType('lsf78ly0eqrjbz91');
+        ans2.result.forEach(d => {
+          if (d.room && d.room.home)
+            console.log(JSON.stringify(d.room.home.id));
+        });
+        this.doors = ans2.result
           .filter(d => {
             return !d.room || ( d.room.home && d.room.home.id === this.home_id )
-          })
-<<<<<<< HEAD
-=======
-        console.log(ans.result);
->>>>>>> 912ae552e068f5d5fccd21b866f0e10e1b5b56c4
+          });
       }
       catch(err) {
         console.log(err);

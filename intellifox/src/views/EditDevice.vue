@@ -46,7 +46,7 @@
     mounted: function() {
       this.retrieveRooms();
       this.device.id = this.$route.query.id;
-      this.retrieveDevice(this.device.id);
+      this.retrieveDevice();
     },
     data: function() {
       return {
@@ -79,9 +79,13 @@
           console.log(err);
         }
       },
-      retrieveDevice: async function(id){
-          const ans = await DeviceApi.get(id);
-          this.device = ans.result;
+      retrieveDevice: async function(){
+        try {
+          const ans = await DeviceApi.get(this.device.id);
+          this.device = ans.result; 
+        } catch (err) {
+          console.log(err);
+        }
       },
       EditDevice: async function() {
         const device = new Device(
@@ -95,12 +99,13 @@
           }
         );
         try {
+          console.log(device);
           const ans = await DeviceApi.modify(device);
           if (this.originalRoomID != 'none'){
               await RoomDeviceApi.delete(ans.result.id);
           }
           if (ans && this.selectedRoomID != 'none'){
-              await RoomDeviceApi.add(this.selectedRoomID, ans.result.id);
+              await RoomDeviceApi.add(this.selectedRoomID, device.id);
           }
         } catch (err) {
           console.log(err);

@@ -82,10 +82,12 @@
 
 <script>
 export default {
-  data: () => ({
-    hidden: false,
-    dialog:false,
-  }),
+  data: function() {
+    return {
+      hidden: false,
+      dialog:false,
+    }
+  },
   props: {
     name: String,
     desc: String,

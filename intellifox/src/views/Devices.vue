@@ -4,7 +4,7 @@
 
     <v-row dense>
       <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
-          <CategoryCard :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :whereTo="indDevice.link" />
+          <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routeName="indDevice.routeName" />
       </v-col>
     </v-row>
 
@@ -39,52 +39,52 @@
           "li6cbv5sdlatti0j": {
             title: 'Air Conditioners',
             icon: 'mdi-air-conditioner',
-            link: '/devices/air-conditioners'  
+            routeName: 'AirConditioners'  
           }, 
           "mxztsyjzsrq7iaqc": {
             title: 'Alarms',
             icon: 'mdi-alarm-light-outline',
-            link: '/devices/alarms'
+            routeName: 'Alarms'
           },
           "eu0v2xgprrhhg41g": {
             title: 'Blinds',
             icon: 'mdi-blinds',
-            link: '/devices/blinds'
+            routeName: 'Blinds'
           },
           "lsf78ly0eqrjbz91": {
             title: 'Doors',
             icon: 'mdi-door',
-            link: '/devices/doors'
+            routeName: 'Doors'
           },
           "rnizejqr2di0okho": {
             title: 'Fridges',
             icon: 'mdi-fridge-outline',
-            link: '/devices/fridges'
+            routeName: 'Fridges'
           },
           "go46xmbqeomjrsjr": {
             title: 'Lights',
             icon: 'mdi-lightbulb-on-outline',
-            link: '/devices/lights'
+            routeName: 'Lights'
           },
           "im77xxyulpegfmv8": {
             title: 'Ovens',
             icon: 'mdi-toaster-oven',
-            link: '/devices/ovens'
+            routeName: 'Ovens'
           },
           "c89b94e8581855bc": {
             title: 'Speakers',
             icon: 'mdi-speaker',
-            link: '/devices/speakers'
+            routeName: 'Speakers'
           },
           "dbrlsh7o5sn8ur4i": {
             title: 'Taps',
             icon: 'mdi-water-pump',
-            link: '/devices/taps'
+            routeName: 'Taps'
           },
           "ofglvd9gqx8yfl3l": {
             title: 'Vacuums',
             icon: 'mdi-robot-vacuum',
-            link: '/devices/vacuums'
+            routeName: 'Vacuums'
           } 
         }
       }
@@ -93,7 +93,6 @@
       retrieveDeviceTypes: async function() {
         try {
           const ans = await DeviceApi.getAll();
-          //console.log(deviceTypes);
           this.devicesAvail = ans.result
             .filter(dt => {
               return !dt.room || ( dt.room.home && dt.room.home.id === this.home_id )
@@ -101,12 +100,6 @@
             .map(dt => dt.type.id)
             .reduce((unique, id) => unique.includes(id) ? unique: [...unique, id],[])
             .map(id => this.deviceInfo[id]);
-          /*
-          deviceTypes.forEach((dt, index, object) => {
-            if(!(dt.room && dt.room.home && dt.room.home.id === this.home_id))
-              object.splice(dt, 1);
-          })
-          */
         }
         catch(err) {
           console.log(err);

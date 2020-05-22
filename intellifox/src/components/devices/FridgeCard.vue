@@ -68,7 +68,6 @@
                           vacation
                         </v-btn>
                       </v-btn-toggle>
-                      
                   </v-row>
                 </v-row>
           </div>

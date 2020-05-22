@@ -11,15 +11,6 @@
                 
                 <v-col cols="1"></v-col>
                 
-                  <v-btn max-width="60" class="mx-5 mt-5" color="primary" v-if="open" @click="open=false">
-                    Close
-                  </v-btn>
-                  <v-btn max-width="60" class="mx-5 mt-5" color="primary" v-if="!open" @click="open=true">
-                    Open
-                  </v-btn>
-                
-                <v-col cols="1"></v-col>
-                
                 <v-row>
                   <h3 class="mt-5">Regulate</h3>
                   <v-col cols="10">

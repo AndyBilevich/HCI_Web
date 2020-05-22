@@ -81,12 +81,14 @@
 import router from '@/router';
 import { RoomApi } from '@/api';
     export default {
-        data: () => ({
-            dialog: false,
-            room: {
-                meta: {}
+        data: function() {
+            return {
+                dialog: false,
+                room: {
+                    meta: {}
+                }
             }
-        }),
+        },
         mounted: function() {
             this.room.id = this.$route.params.id
             this.retrieveRoom(this.room.id);

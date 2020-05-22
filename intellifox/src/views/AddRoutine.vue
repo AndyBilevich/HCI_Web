@@ -5,7 +5,7 @@
             <v-col cols="6">
                 <v-row>
                     <v-col cols="10">
-                        <h3 align="left">Name</h3>
+                        <h3 align="left">Name:</h3>
                         <v-text-field label="Name" solo/>
                     </v-col>
                 </v-row>    
@@ -23,18 +23,19 @@
                 </v-row>
                 <v-row>
                     <v-col cols="4">
-                        <h2 class="text-left">Chosen Color:</h2>
+                        <h3 class="text-left">Chosen Color:</h3>
                     </v-col>
                     <v-col cols="3">
                          <v-icon large :color="showColor" >mdi-circle</v-icon>
                     </v-col>
                     <v-col cols="3">
-                         <h2 class="text-left">{{ showColor }}</h2>
+                         <h3 class="text-left">{{ showColor }}</h3>
                     </v-col>
                 </v-row>
             </v-col>
          
             <v-col cols="6" >
+                <h3 align="left">Choose color:</h3>
                 <v-row>
                     <v-color-picker v-model="color" hide-inputs></v-color-picker>
                 </v-row>

@@ -12,7 +12,7 @@ class DeviceApi {
   }
 
   static modify(device, controller) {
-    return Api.put(`${DeviceApi.url}/${device.id}`, device, controller);
+    return Api.put(`${DeviceApi.url}/${device.id}`, {name: device.name, meta: device.meta}, controller);
   }
 
   static delete(id, controller) {
