@@ -108,15 +108,18 @@ export default {
   },
   mounted: function() {
     this.vacuum = this.model;
-    this.locationButtonDisabled = this.vacuum.state.status == 'active' ? true : false;
+    this.locationButtonDisabled = this.vacuum.state.status == 'active' ? false : true;
     this.mode = this.vacuum.state.mode === 'vacuum' ? 0 : 1;
     if (this.vacuum.state.status === 'inactive' && this.vacuum.state.batteryLevel > 4)
       this.switchLocked = false;
     if (this.vacuum.state.status === 'docked')
       this.dockButtonDisabled = true;
-    this.updateInfo();
     this.retrieveRooms();
-    this.selectedRoomID = this.vacuum.state.location.id;
+    this.selectedRoomID = this.vacuum.state.location ? this.vacuum.state.location.id : 0;
+
+    this.updateTitle();
+    this.updateDesc();
+    this.updateState();
   },
   data: function() {
     return {
@@ -158,10 +161,12 @@ export default {
       this.title = this.model.name;
     },
     updateDesc: function() {
+      console.log("Updasting desc");
       let activity = this.vacuum.state.status;
       let mode = this.model.state.mode;
       let battery = this.vacuum.state.batteryLevel;
-      let location = this.vacuum.state.location.name;
+      let location = this.vacuum.state.location ? this.vacuum.state.location.name : "unknown";
+      this.selectedRoomID = this.vacuum.state.location ? this.vacuum.state.location.id : 0;
       this.desc = `Status: ${activity} - Mode: ${mode} - At: ${location} -Battery level: ${battery}`;
     },
     updateState: function() {
@@ -248,12 +253,12 @@ export default {
       try{
         const ans = await DeviceApi.getState(this.vacuum.id);
         this.vacuum.state = ans.result;
-        this.updateTitle();
-        this.updateDesc();
-        this.updateState();
       }catch (err){
         console.log(err);
       }
+      this.updateTitle();
+      this.updateDesc();
+      this.updateState();
     },
     retrieveRooms: async function() {
       try {

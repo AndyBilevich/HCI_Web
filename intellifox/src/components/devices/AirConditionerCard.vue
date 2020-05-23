@@ -1,7 +1,17 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard :click=" () => {show = !show}" title="title" subtitle="subtitle" icon="mdi-air-conditioner"></TopCard>
+      <TopCard
+        @set_switch_state="switchOnOff"
+        :model="model"
+        :switchState="switchState"
+        :switchLoads="switchLoading"
+        :switchLocked="switchLocked"
+        :click="() => {show = !show}" 
+        :title="title" 
+        :subtitle="desc" 
+        icon="mdi-air-conditioner">
+      </TopCard>
     </div>
     <div class="device_bottom_card" max-width="10">
         <v-expand-transition >
@@ -12,11 +22,11 @@
                   <v-col cols="2"></v-col>
                   <h3 class="mt-3">Temperature:</h3>
                   <v-col cols="1"></v-col>
-                      <v-btn icon x-large @click="temperature= (temperature == 18 ? temperature : temperature-1)">
+                      <v-btn icon x-large @click="() => { updateTemp(-1); }">
                         <v-icon x-large>mdi-chevron-down</v-icon>
                       </v-btn>
                       <h1>{{temperature}}°</h1>
-                      <v-btn icon x-large @click="temperature= (temperature == 38 ? temperature : temperature+1)">
+                      <v-btn icon x-large @click="() => { updateTemp(+1); }">
                         <v-icon x-large>mdi-chevron-up</v-icon>
                       </v-btn>
                 </v-row>
@@ -27,18 +37,11 @@
                     v-model="mode"
                     mandatory
                     tile
+                    @change="() => { updateMode(); }"
                   >
-                    <v-btn width="160">
-                      <v-icon>mdi-snowflake</v-icon>
-                      Cool
-                    </v-btn>
-                    <v-btn width="160">
-                      <v-icon>mdi-weather-sunny</v-icon>
-                      Heat
-                    </v-btn>
-                    <v-btn width="160">
-                      <v-icon>mdi-fan</v-icon>
-                      Ventilation
+                    <v-btn v-for="m in modes" :key="m.id" width="160">
+                      <v-icon>{{m.icon}}</v-icon>
+                      {{m.text}}
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -49,21 +52,10 @@
                     v-model="vertical"
                     mandatory
                     tile
+                    @change="() => { updateVSwing(); }"
                   >
-                    <v-btn width="70">
-                      Auto
-                    </v-btn>
-                    <v-btn width="70">
-                      22°
-                    </v-btn>
-                    <v-btn width="70">
-                      45°
-                    </v-btn>
-                    <v-btn width="70">
-                      67°
-                    </v-btn>
-                    <v-btn width="70">
-                      90°
+                    <v-btn v-for="vs in vSwing" :key="vs.id" width="70">
+                        {{vs}}
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -74,24 +66,10 @@
                     v-model="horizontal"
                     mandatory
                     tile
+                    @change="() => { updateHSwing(); }"
                   >
-                    <v-btn width="70">
-                      Auto
-                    </v-btn>
-                    <v-btn width="70">
-                      -90°
-                    </v-btn>
-                    <v-btn width="70">
-                      -45°
-                    </v-btn>
-                    <v-btn width="70">
-                      0°
-                    </v-btn>
-                    <v-btn width="70">
-                      45°
-                    </v-btn>
-                    <v-btn width="70">
-                      90°
+                    <v-btn v-for="hs in hSwing" :key="hs.id" width="70">
+                      {{hs}}
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -99,24 +77,13 @@
                 <v-col> 
                   <h3 align="left" class="mt-5">Fan speed:</h3>
                   <v-btn-toggle
-                    v-model="fan"
+                    v-model="speed"
                     mandatory
                     tile
+                    @change="() => { updateSpeed(); }"
                   >
-                    <v-btn width="70">
-                      Auto
-                    </v-btn>
-                    <v-btn width="70">
-                      25%
-                    </v-btn>
-                    <v-btn width="70">
-                      50%
-                    </v-btn>
-                    <v-btn width="70">
-                      75%
-                    </v-btn>
-                    <v-btn width="70">
-                      100%
+                    <v-btn v-for="fs in fanSpeeds" :key="fs.id" width="70">
+                      {{fs}}
                     </v-btn>
                   </v-btn-toggle>
                 </v-col>
@@ -130,16 +97,193 @@
 </template>
 
 <script>
+import { DeviceApi } from '@/api';
 import TopCard from "@/components/devices/GenericTopCard.vue";
 export default {
   components: {
     TopCard,
   },
+  props: {
+    model: Object,
+  },
+  mounted: function() {
+    this.ac = this.model;
+    this.temperature = this.ac.state.temperature;
+    this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
+    this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
+    this.horizontal = this.hSwing.findIndex(e => e == this.ac.state.horizontalSwing);
+    this.speed = this.fanSpeeds.findIndex(e => e == this.ac.state.fanSpeed);
+    this.updateTitle();
+    this.updateDesc();
+    this.updateState();
+
+  },
   data: function() {
     return {
       show:false,
+      switchState:false,
+      switchLoading:false,
+      switchLocked:false,
+      fanSpeeds: [ "auto", "25%", "50%", "75%", "100%" ],
+      hSwing: [ "auto", "-90°", "-45°", "0°", "45°", "90°"],
+      vSwing: [ "auto", "22°", "45°", "67°", "90°"],
+      modesAux: [ "Cool", "Heat", "Ventilation" ],
+      modes: [
+        {
+          text: "Cool",
+          icon: "mdi-snowflake",
+        }, {
+          text: "Heat",
+          icon: "mdi-weather-sunny",
+        }, {
+          text: "Ventilation",
+          icon: "mdi-fan",
+        }
+      ],
+      title: '',
+      desc: '',
+      ac: {},
+
       temperature:18,
+      mode: 0,
+      vertical: 0,
+      horizontal: 0,
+      speed: 0,
+
     }
+  },
+  methods: {
+    updateTitle: function() {
+      this.title = this.model.name;
+    },
+    updateDesc: function() {
+      let status = this.ac.state.status;
+      let temperature = this.ac.state.temperature;
+      let mode = this.model.state.mode;
+      let vert = this.ac.state.verticalSwing;
+      let hor = this.ac.state.horizontalSwing;
+      let speed = this.ac.state.fanSpeed;
+      this.desc = `Status: ${status} - Temp: ${temperature} - Mode: ${mode} - vSwing: ${vert} - hSwing: ${hor} - Speed: ${speed}`;
+      this.temperature = this.ac.state.temperature;
+    },
+    updateState: function() {
+      this.switchState = (this.ac.state.status === 'on')?true:false;
+    },
+    switchOnOff: async function(new_switch_state) {
+      this.switchState = new_switch_state;
+      this.switchLoading = true;
+      this.switchLocked = true;
+      try{
+        await this.switchActions();
+      }catch(err){
+        console.log(err);
+      }
+      this.switchLocked = false;
+      this.switchLoading = false;
+    },
+    switchActions: async function() {
+      let ans;
+      if (this.switchState){
+        try{
+          ans = await DeviceApi.setAction(this.ac.id, 'turnOn');
+        }catch(err){
+          console.log(err);
+        }
+        this.dockButtonState = false;
+        this.dockButtonDisabled = false;
+        this.locationButtonDisabled = false;
+      }else{
+        try{
+          ans = await DeviceApi.setAction(this.ac.id, 'turnOff');
+          this.locationButtonDisabled = true;
+        }catch(err){
+          console.log(err);
+        }
+      }
+      if (ans.result) {
+        this.updateInfo();
+      }
+    },
+    dockButton: async function(){
+      this.dockButtonState = true;
+      this.dockButtonLoading = true;
+      this.dockButtonDisabled = true;
+      try{
+        await this.dockButtonActions();
+      }catch(err){
+        console.log(err);
+      }
+      this.dockButtonLoading = false;
+    },
+    dockButtonActions: async function(){
+      try{
+        let ans = await DeviceApi.setAction(this.ac.id, 'dock');
+        this.locationButtonDisabled = true;
+        if (ans.result) {
+            this.updateInfo();
+        }
+      }catch(err){
+        console.log(err);
+      }
+    },
+    updateTemp: async function(i){
+
+      if( (i > 0 && this.temperature == 38) || ( i < 0 && this.temperature == 18 ) ){
+        return;
+      }
+
+      let temp = this.ac.state.temperature;
+      try{
+        await DeviceApi.setAction(this.ac.id, 'setTemperature', [ temp + i ]);
+      }catch(err){
+        console.log(err);
+      }
+      this.updateInfo();
+      
+    },
+    updateMode: async function(){
+      try{
+        await DeviceApi.setAction(this.ac.id, 'setMode', [ this.modes[this.mode].text ]);
+      }catch(err){
+        console.log(err);
+      }
+      this.updateInfo();
+    },
+    updateVSwing: async function(){
+      try{
+        await DeviceApi.setAction(this.ac.id, 'setVerticalSwing', [ this.vSwing[this.vertical] ]);
+      }catch(err){
+        console.log(err);
+      }
+      this.updateInfo();
+    },
+    updateHSwing: async function(){
+      try{
+        await DeviceApi.setAction(this.ac.id, 'setHorizontalSwing', [ this.hSwing[this.horizontal] ]);
+      }catch(err){
+        console.log(err);
+      }
+      this.updateInfo();
+    },
+    updateSpeed: async function(){
+      try{
+        await DeviceApi.setAction(this.ac.id, 'setFanSpeed', [  this.fanSpeeds[this.speed] ] );
+      }catch(err){
+        console.log(err);
+      }
+      this.updateInfo();
+    },
+    updateInfo: async function(){
+      try{
+        const ans = await DeviceApi.getState(this.ac.id);
+        this.ac.state = ans.result;
+      }catch (err){
+        console.log(err);
+      }
+      this.updateTitle();
+      this.updateDesc();
+      this.updateState();
+    },
   },
 };
 </script>
