@@ -4,7 +4,7 @@
       <v-card color="background1">
         <v-row align="center">
           <v-col cols="3">
-            <v-icon size="100">{{icon}}</v-icon>
+            <v-icon :color="color" size="100">{{icon}}</v-icon>
           </v-col>
           <v-col cols="5">
             <v-row>
@@ -104,6 +104,7 @@ export default {
   props: {
     model: Object,
     icon: String,
+    iconColor: String,
     title: String,
     subtitle: String,
     deleteID: String,
@@ -134,6 +135,14 @@ export default {
     }
   },
   computed: {
+    color: {
+      get: function() {
+        if (!this.switchValue)
+          return '#555555';
+        else
+          return this.iconColor || '#FFFFFF';
+      }
+    },
     switchValue: {
       get: function() {
         return this.switchState;

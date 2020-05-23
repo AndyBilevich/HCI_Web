@@ -10,29 +10,8 @@
     </v-row>
     <v-container>
       <v-row dense>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
-        </v-col>
-        <v-col cols="6">
-          <SpeakerCard class="card"></SpeakerCard>
+        <v-col v-for="s in speakers" :key="s.id" cols="6">
+          <SpeakerCard @upd_model="updateModel" :model="s"/>
         </v-col>
       </v-row>
     </v-container>
@@ -40,16 +19,44 @@
 </template>
 
 <script>
+import { DeviceApi } from '@/api';
 import SpeakerCard from "@/components/devices/SpeakerCard.vue";
 export default {
   components: {
-    SpeakerCard
-  }
+    SpeakerCard,
+  },
+  mounted: function() {
+    const query = this.$route.query;
+    if (query)
+      this.home_id = query.home_id
+    this.retrieveDevices();
+  },
+  data: function() {
+    return {
+      home_id: '',
+      speakers: [],
+    }
+  },
+  methods: {
+    retrieveDevices: async function() {
+      try {      
+        const ans2 = await DeviceApi.getDevicesByType('c89b94e8581855bc');
+        ans2.result.forEach(d => {
+          if (d.room && d.room.home)
+            console.log(JSON.stringify(d.room.home.id));
+        });
+        this.doors = ans2.result
+          .filter(d => {
+            return !d.room || d.room.home || d.room.home.id === this.home_id
+          });
+      }
+      catch(err) {
+        console.log(err);
+      }
+    },
+    updateModel: function(newModel) {
+      this.doors[this.doors.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;  
+    }
+  },  
 };
 </script>
-
-<style>
-.card {
-  margin: 20;
-}
-</style>
