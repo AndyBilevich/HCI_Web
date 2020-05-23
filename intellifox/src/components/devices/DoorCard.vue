@@ -10,7 +10,8 @@
         :click="() => {show = !show}" 
         :title="title" 
         :subtitle="desc" 
-        icon="mdi-door"></TopCard>
+        icon="mdi-door">
+      </TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>
