@@ -138,17 +138,27 @@ export default {
           this.updateDevice(data);
     },
     subscribeToEvents: function() {
-      console.log("Subscribing");
-      if (!EventSource) {
-        alert('Sorry, your browser does not support server-sent events.');
-        return;
+      if (!this.source) {
+        if (!EventSource) {
+          alert('Sorry, your browser does not support server-sent events.');
+          return;
+        }
+        this.source = new EventSource(`${DeviceApi.url}/${this.speaker.id}/events`);
+        this.source.addEventListener('message', this.subscribeCallback, false);
       }
-      this.source = new EventSource(`${DeviceApi.url}/${this.tap.id}/events`);
-      this.source.addEventListener('message', this.subscribeCallback, false);
     },
     unsubscribeToEvents: function() {
-      console.log("Unsubscribing");
-      this.source.removeEventListener('message', this.subscribeCallback);
+      if (this.source) {
+        this.source.removeEventListener('message', this.subscribeCallback);
+        this.source.close();
+        this.source = undefined;
+      }
+    },
+    startUpdating: function() {
+      this.subscribeToEvents();
+    },
+    stopUpdating: function() {
+      this.unsubscribeToEvents();
     },
     updateDevice: function(data) {
       this.tap.state.status = data.args.newStatus;
