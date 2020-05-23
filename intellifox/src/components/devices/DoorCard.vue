@@ -50,7 +50,7 @@ export default {
     TopCard,
   },
   mounted: function() {
-    this.locked = this.door.state.lock === 'locked';
+    this.locked = !(this.door.state.lock === 'locked');
     this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
     this.updateTitle();
     this.updateDesc();
