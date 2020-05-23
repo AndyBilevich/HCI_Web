@@ -143,7 +143,7 @@ export default {
           alert('Sorry, your browser does not support server-sent events.');
           return;
         }
-        this.source = new EventSource(`${DeviceApi.url}/${this.speaker.id}/events`);
+        this.source = new EventSource(`${DeviceApi.url}/${this.tap.id}/events`);
         this.source.addEventListener('message', this.subscribeCallback, false);
       }
     },
