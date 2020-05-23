@@ -19,8 +19,8 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-row class="mt-2">  
-              <v-col cols="1"/>
+            <v-row class="mt-2"> 
+              <v-col cols="1"></v-col>
               <v-col cols="6">
                 <v-row>
                   <v-col class="justify-center">
@@ -42,13 +42,13 @@
 
                 <v-row>
                     <v-col>
-                      <v-btn :disabled="actionsLocked" icon x-large class="my-5">
+                      <v-btn :disabled="actionsLocked" icon x-large @click="() => changeSong('previousSong')">
                         <v-icon x-large>mdi-skip-previous</v-icon>
                       </v-btn>
-                      <v-btn :disabled="actionsLocked" icon x-large class="ma-5" @click="switchPlay">
+                      <v-btn :disabled="actionsLocked" icon x-large @click="switchPlay">
                         <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
                       </v-btn>
-                      <v-btn :disabled="actionsLocked" icon x-large class="my-5">
+                      <v-btn :disabled="actionsLocked" icon x-large @click="() => changeSong('nextSong')">
                         <v-icon x-large>mdi-skip-next</v-icon>
                       </v-btn>
                     </v-col>                     
@@ -62,16 +62,21 @@
                     <v-icon>mdi-chevron-down</v-icon>
                   </v-btn>
                   <p class="mt-1">Volume</p>
-                  <v-btn icon>
+                  <v-btn :disabled="actionsLocked" icon>
                     <v-icon>mdi-chevron-up</v-icon>
                   </v-btn>
                 </v-row>
                 <v-slider
                   :disabled="actionsLocked"
-                  v-model="media"
+                  v-model="volume"
+                  v-on:mousedown="editingVolume = true"
+                  v-on:mouseup="() => {
+                    changeVolume(volume);
+                    editingVolume = false;
+                    }"
+                  min="0"
+                  max="10"
                   vertical
-                  value="100"
-                  class="mr-3"
                 />
               </v-col>
                 
@@ -107,6 +112,8 @@ export default {
       show:false,
       media:undefined,
       play:undefined,
+      editingVolume:false,
+      volume:undefined,
 
       switchState:false,
       switchLoading:false,
@@ -284,6 +291,8 @@ export default {
     updateState: function() {
       this.switchState = this.speaker.state.status !== 'stopped';
       this.play = this.speaker.state.status === 'playing';
+      if (!this.editingVolume)
+        this.volume = parseInt(this.speaker.state.volume);
     },
     switchOnOff: async function(new_switch_state) {
       this.stopUpdating();
@@ -305,7 +314,6 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.speaker.id);
           this.speaker.state = ans2.result;
-          this.updateTitle();
           this.updateDesc();
           this.updateState();
         } 
@@ -331,13 +339,51 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.speaker.id);
           this.speaker.state = ans2.result;
-          this.updateTitle();
           this.updateDesc();
           this.updateState();
         } 
       } catch (err) {
         console.log(err);
       }
+    },
+    songQuery: async function(data) {
+      const {action, value} = data;
+      this.stopUpdating();
+      this.actionsLocked = true;
+      if (action.name === 'setSong')
+        await this.setSongHandler(action.type);
+      else if (action.name === 'setVol')
+        await this.setVolumeHandler(value);
+      this.actionsLocked = false;
+      this.startUpdating();
+    },
+    setSongHandler: async function(toSong) {
+      if (toSong === 'previousSong' || toSong === 'nextSong') {
+        try {
+          const ans = await DeviceApi.setAction(this.speaker.id, toSong);
+          if (ans.result) {
+            const ans2 = await DeviceApi.getState(this.speaker.id);
+            this.speaker.state = ans2.result;
+            this.updateDesc();
+            this.updateState();
+          }
+        } catch (err) {
+          console.log(err);
+        }
+      }
+    },
+    setVolumeHandler: async function(newVolume) {
+        try {
+          const ans = await DeviceApi.setAction(this.speaker.id, 'setVolume', [newVolume]);
+          if (ans.result) {
+            const ans2 = await DeviceApi.getState(this.speaker.id);
+            this.speaker.state = ans2.result;
+            this.updateDesc();
+            this.updateState();
+          }
+        } catch (err) {
+          console.log(err);
+        }
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
@@ -348,27 +394,3 @@ export default {
   }
 };
 </script>
-
-<!-- <v-sheet class="top_card"> 
-        <span class="device_icon_frame">
-          <v-icon>mdi-speaker</v-icon>
-        </span>
-        <span class="device_info_frame">
-          <div class="info_top_frame">
-            <span>
-              {{speaker-name}}
-            </span>
-            <span>
-              <v-icon>flechita</v-icon>
-            </span>
-          </div>
-          <div class="info_bottom_frame">
-            {{playing}}
-          </div>
-        </span>
-        <span class="device_interaction_frame">
-          <span class="heart_icon"><v-icon>heart</v-icon></span>
-          <span class="play_icon"><v-icon>play</v-icon></span>
-          <span class="overflow_icon"><v-icon>july3puntitos</v-icon></span>
-        </span>
-</v-sheet> -->
