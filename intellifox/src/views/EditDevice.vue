@@ -99,7 +99,6 @@
           }
         );
         try {
-          console.log(device);
           const ans = await DeviceApi.modify(device);
           if (this.originalRoomID != 'none'){
               await RoomDeviceApi.delete(ans.result.id);

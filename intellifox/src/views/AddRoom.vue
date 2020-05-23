@@ -95,7 +95,6 @@
         this.selectedIcon = ico;
       },
       addRoom: async function(){
-        console.log(this.selectedHomeID);
         
         const room = new Room(
           null,
@@ -117,10 +116,5 @@
         this.back();
       }
     },
-    watch: {
-      selectedHomeID(newVal) {
-        console.log(`Home ID: ${newVal}`);
-      }
-    }
   }
 </script>

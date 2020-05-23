@@ -41,11 +41,7 @@ export default {
     retrieveDevices: async function() {
       try {      
         const ans2 = await DeviceApi.getDevicesByType('c89b94e8581855bc');
-        ans2.result.forEach(d => {
-          if (d.room && d.room.home)
-            console.log(JSON.stringify(d.room.home.id));
-        });
-        this.doors = ans2.result
+        this.speakers = ans2.result
           .filter(d => {
             return !d.room || d.room.home || d.room.home.id === this.home_id
           });
@@ -55,7 +51,7 @@ export default {
       }
     },
     updateModel: function(newModel) {
-      this.doors[this.doors.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;  
+      this.speakers[this.speakers.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;  
     }
   },  
 };

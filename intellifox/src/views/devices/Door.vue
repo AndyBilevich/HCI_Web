@@ -41,10 +41,6 @@ export default {
     retrieveDevices: async function() {
       try {      
         const ans2 = await DeviceApi.getDevicesByType('lsf78ly0eqrjbz91');
-        ans2.result.forEach(d => {
-          if (d.room && d.room.home)
-            console.log(JSON.stringify(d.room.home.id));
-        });
         this.doors = ans2.result
           .filter(d => {
             return !d.room || !d.room.home || d.room.home.id === this.home_id

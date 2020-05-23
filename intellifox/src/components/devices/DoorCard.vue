@@ -8,9 +8,9 @@
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
         :click="() => {show = !show}"
-        :show="show"  
-        :title="title" 
-        :subtitle="desc" 
+        :show="show"
+        :title="title"
+        :subtitle="desc"
         icon="mdi-door">
       </TopCard>
     </div>
@@ -18,13 +18,13 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-btn 
-              x-large 
-              class="my-5" 
-              color="primary" 
+            <v-btn
+              x-large
+              class="my-5"
+              color="primary"
               @click="() => {
                 locked=!locked;
-                buttonActions();  
+                buttonActions();
               }"
               :disabled="buttonDisabled"
               :buttonState="buttonState"
@@ -95,12 +95,10 @@ export default {
   },
   methods: {
     subscribeCallback: async function(event) {
-          console.log("Received event");
-          const data = await JSON.parse(event.data);
-          this.updateDevice(data);
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
     },
     subscribeToEvents: function() {
-      console.log("Subscribing");
       if (!EventSource) {
         alert('Sorry, your browser does not support server-sent events.');
         return;
@@ -109,7 +107,6 @@ export default {
       this.source.addEventListener('message', this.subscribeCallback, false);
     },
     unsubscribeToEvents: function() {
-      console.log("Unsubscribing");
       this.source.removeEventListener('message', this.subscribeCallback);
     },
     updateDevice: function(data) {
@@ -123,17 +120,16 @@ export default {
         default:
           return;
       }
-      console.log(this.door)
       this.locked = this.door.state.lock === 'locked';
       this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
       this.updateDesc();
       this.updateState();
     },
     updateTitle: function() {
-      this.title = this.model.name;
+      this.title = this.door.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.model.state.status === 'opened')? 'Opened':`Closed - ${(this.model.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
+      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
     },
     updateState: function() {
       this.switchState = this.door.state.status === 'opened';
@@ -159,7 +155,7 @@ export default {
           this.updateTitle();
           this.updateDesc();
           this.updateState();
-        } 
+        }
       } catch (err) {
         console.log(err);
       }
@@ -179,14 +175,14 @@ export default {
           ans = await DeviceApi.setAction(this.door.id, 'lock');
         else
           ans = await DeviceApi.setAction(this.door.id, 'unlock');
-        this.buttonLockSwitch();  
+        this.buttonLockSwitch();
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.door.id);
           this.door.state = ans2.result;
           this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
           this.updateDesc();
           this.updateState();
-        } 
+        }
       } catch (err) {
         console.log(err);
       }
