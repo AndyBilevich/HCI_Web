@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="a in acs" :key="a.id" cols="6">
-          <AirConditionerCard @upd_model="updateModel" :model="a"></AirConditionerCard>
+          <AirConditionerCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="a"></AirConditionerCard>
         </v-col>
       </v-row>
     </v-container>

@@ -3,11 +3,13 @@
     <div class="device_top_card">
         <TopCard 
           @set_switch_state="switchOnOff"
-          :model="model"
+          @upd_devs="emitUpdDevs"
+          :model="tap"
           :switchState="switchState"
           :switchLoads="switchLoading"
           :switchLocked="switchLocked"
           :click="() => {show = !show}" 
+          :show="show"
           :title="title" 
           :subtitle="desc" 
           icon="mdi-water-pump">
@@ -89,14 +91,23 @@ export default {
   components: {
     TopCard,
   },
+  computed: {
+    tap: {
+      get: function() {
+        return this.model;
+      },
+      set: function(newModel) {
+        this.$emit('upd_model', newModel);
+      }
+    }
+  },
   mounted: function() {
-    this.tap = this.model;
-    this.buttonDisabled = (this.tap.state.status === "closed");
+    this.buttonDisabled = (this.tap.state.status != "closed");
     this.updateTitle();
     this.updateDesc();
     this.updateState();
     this.dialog=false;
-
+    this.subscribeToEvents();
   },
   data: function() {
     return {
@@ -111,7 +122,6 @@ export default {
       switchLocked:false,
       title: '',
       desc: '',
-      tap: {},
 
       units: [ "ml", "cl", "dl", "l", "dal", "hl", "kl" ],
 
@@ -122,15 +132,38 @@ export default {
   },
   
   methods: {
-
+    subscribeCallback: async function(event) {
+          console.log("Received event");
+          const data = await JSON.parse(event.data);
+          this.updateDevice(data);
+    },
+    subscribeToEvents: function() {
+      console.log("Subscribing");
+      if (!EventSource) {
+        alert('Sorry, your browser does not support server-sent events.');
+        return;
+      }
+      this.source = new EventSource(`${DeviceApi.url}/${this.tap.id}/events`);
+      this.source.addEventListener('message', this.subscribeCallback, false);
+    },
+    unsubscribeToEvents: function() {
+      console.log("Unsubscribing");
+      this.source.removeEventListener('message', this.subscribeCallback);
+    },
+    updateDevice: function(data) {
+      this.tap.state.status = data.args.newStatus;
+      this.updateDesc();
+      this.updateState();
+    },
     updateTitle: function() {
-      this.title = this.model.name;
+      this.title = this.tap.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.model.state.status === 'closed')? 'Closed':`Open`}`;
+      this.desc = `${(this.tap.state.status === 'closed')? 'Closed':`Open`}`;
     },
     updateState: function() {
       this.switchState = (this.tap.state.status === 'opened')?true:false;
+      this.buttonDisabled = this.switchState;
     },
     switchOnOff: async function(new_switch_state) {
       this.switchState = new_switch_state;
@@ -144,11 +177,11 @@ export default {
       let ans;
       if (this.switchState){
         ans = await DeviceApi.setAction(this.tap.id, 'open');
-        this.buttonDisabled = false;
+        this.buttonDisabled = true;
       }
       else{
         ans = await DeviceApi.setAction(this.tap.id, 'close');
-        this.buttonDisabled = true;
+        this.buttonDisabled = false;
       }
       if (ans.result) {
         const ans2 = await DeviceApi.getState(this.tap.id);
@@ -188,6 +221,9 @@ export default {
         console.log(err);
       }
     },
+    emitUpdDevs: async function(){
+      this.$emit('upd_devs');
+    }
   },
 };
 </script>

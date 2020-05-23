@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="l in lights" :key="l.id" cols="6">
-          <LightCard @upd_model="updateModel" :model="l"></LightCard>
+          <LightCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="l"></LightCard>
         </v-col>
       </v-row>
     </v-container>
