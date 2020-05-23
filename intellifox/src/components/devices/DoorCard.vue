@@ -3,7 +3,7 @@
     <div class="device_top_card">
       <TopCard
         @set_switch_state="switchOnOff"
-        :model="model"
+        :model="door"
         :switchState="switchState"
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
@@ -48,7 +48,6 @@ export default {
     TopCard,
   },
   mounted: function() {
-    this.door = this.model;
     this.locked = this.door.state.lock === 'locked';
     if ((this.door.state.status === 'closed' && this.door.state.lock === 'unlocked') || this.door.state.status === 'opened')
       this.switchLocked = false;
@@ -63,7 +62,6 @@ export default {
       switchLoading:false,
       switchLocked:false,
       locked:true,
-      door: {},
       title: '',
       desc: '',
 
@@ -80,6 +78,16 @@ export default {
           icon: "mdi-lock"
         },
       },
+    }
+  },
+  computed: {
+    door: {
+      get: function() {
+        return this.model;
+      },
+      set: function(newModel) {
+        this.$emit('upd_model', newModel);
+      }
     }
   },
   methods: {
@@ -101,17 +109,21 @@ export default {
       this.switchLoading = false;
     },
     switchActions: async function() {
-      let ans;
-      if (this.switchState)
-        ans = await DeviceApi.setAction(this.door.id, 'open');
-      else
-        ans = await DeviceApi.setAction(this.door.id, 'close');
-      if (ans.result) {
-        const ans2 = await DeviceApi.getState(this.door.id);
-        this.door.state = ans2.result;
-        this.updateTitle();
-        this.updateDesc();
-        this.updateState();
+      try {
+        let ans;
+        if (this.switchState)
+          ans = await DeviceApi.setAction(this.door.id, 'open');
+        else
+          ans = await DeviceApi.setAction(this.door.id, 'close');
+        if (ans.result) {
+          const ans2 = await DeviceApi.getState(this.door.id);
+          this.door.state = ans2.result;
+          this.updateTitle();
+          this.updateDesc();
+          this.updateState();
+        } 
+      } catch (err) {
+        console.log(err);
       }
     },
     buttonLockSwitch: function() {
@@ -122,22 +134,26 @@ export default {
       }
     },
     buttonActions: async function() {
-      let ans;
-      this.buttonLockSwitch();
-      if (!this.locked)
-        ans = await DeviceApi.setAction(this.door.id, 'lock');
-      else
-        ans = await DeviceApi.setAction(this.door.id, 'unlock');
-      this.buttonLockSwitch();  
-      if (ans.result) {
-        const ans2 = await DeviceApi.getState(this.door.id);
-        this.door.state = ans2.result;
-        if ((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened')
-          this.switchLocked = false;
+      try {
+        let ans;
+        this.buttonLockSwitch();
+        if (!this.locked)
+          ans = await DeviceApi.setAction(this.door.id, 'lock');
         else
-          this.switchLocked = true;
-        this.updateDesc();
-        this.updateState();
+          ans = await DeviceApi.setAction(this.door.id, 'unlock');
+        this.buttonLockSwitch();  
+        if (ans.result) {
+          const ans2 = await DeviceApi.getState(this.door.id);
+          this.door.state = ans2.result;
+          if ((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened')
+            this.switchLocked = false;
+          else
+            this.switchLocked = true;
+          this.updateDesc();
+          this.updateState();
+        } 
+      } catch (err) {
+        console.log(err);
       }
     },
   },
