@@ -8,7 +8,7 @@
       </v-col>
     </v-row>
 
-    <router-link class="routerLink" to="/add_device">
+    <router-link class="routerLink" to="/devices/add">
       <v-btn class="add_btn" color="primary" fab big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>

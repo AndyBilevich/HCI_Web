@@ -45,7 +45,7 @@
     },
     mounted: function() {
       this.retrieveRooms();
-      this.device.id = this.$route.query.id;
+      this.device.id = this.$route.params.id;
       this.retrieveDevice();
     },
     data: function() {
