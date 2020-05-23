@@ -21,11 +21,11 @@ export default {
     home_id: String,
     categoryName: String,
     categoryIcon: String,
-    routeName: String
+    routePath: String
   },
   methods: {
     goTo: async function() {
-      router.push({name: this.routeName, query: {home_id: this.home_id}})
+      router.push({path: this.routePath, query: {home_id: this.home_id}})
     }
   }
 };

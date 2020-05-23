@@ -4,7 +4,7 @@
 
     <v-row dense>
       <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
-          <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routeName="indDevice.routeName" />
+          <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
       </v-col>
     </v-row>
 
@@ -39,52 +39,52 @@
           "li6cbv5sdlatti0j": {
             title: 'Air Conditioners',
             icon: 'mdi-air-conditioner',
-            routeName: 'AirConditioners'  
+            routePath: '/devices/air-conditioners'  
           }, 
           "mxztsyjzsrq7iaqc": {
             title: 'Alarms',
             icon: 'mdi-alarm-light-outline',
-            routeName: 'Alarms'
+            routePath: '/devices/alarms'
           },
           "eu0v2xgprrhhg41g": {
             title: 'Blinds',
             icon: 'mdi-blinds',
-            routeName: 'Blinds'
+            routePath: '/devices/blinds'
           },
           "lsf78ly0eqrjbz91": {
             title: 'Doors',
             icon: 'mdi-door',
-            routeName: 'Doors'
+            routePath: '/devices/doors'
           },
           "rnizejqr2di0okho": {
             title: 'Fridges',
             icon: 'mdi-fridge-outline',
-            routeName: 'Fridges'
+            routePath: '/devices/fridges'
           },
           "go46xmbqeomjrsjr": {
             title: 'Lights',
             icon: 'mdi-lightbulb-on-outline',
-            routeName: 'Lights'
+            routePath: '/devices/lights'
           },
           "im77xxyulpegfmv8": {
             title: 'Ovens',
             icon: 'mdi-toaster-oven',
-            routeName: 'Ovens'
+            routePath: '/devices/ovens'
           },
           "c89b94e8581855bc": {
             title: 'Speakers',
             icon: 'mdi-speaker',
-            routeName: 'Speakers'
+            routePath: '/devices/speakers'
           },
           "dbrlsh7o5sn8ur4i": {
             title: 'Taps',
             icon: 'mdi-water-pump',
-            routeName: 'Taps'
+            routePath: '/devices/taps'
           },
           "ofglvd9gqx8yfl3l": {
             title: 'Vacuums',
             icon: 'mdi-robot-vacuum',
-            routeName: 'Vacuums'
+            routePath: '/devices/vacuums'
           } 
         }
       }

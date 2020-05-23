@@ -3,7 +3,7 @@
     <h1>Rooms</h1>
     <v-row dense>
       <v-col cols="2" v-for="r in rooms" :key="r.id">
-          <CategoryCard :categoryName="r.name" :categoryIcon="r.meta.icon" :whereTo="`/rooms/${r.id}`" />
+          <CategoryCard :categoryName="r.name" :categoryIcon="r.meta.icon" :routePath="`/rooms/${r.id}`" />
       </v-col>
     </v-row>
 
