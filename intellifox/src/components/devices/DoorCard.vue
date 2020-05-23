@@ -10,7 +10,8 @@
         :click="() => {show = !show}" 
         :title="title" 
         :subtitle="desc" 
-        icon="mdi-door"></TopCard>
+        icon="mdi-door">
+      </TopCard>
     </div>
     <div class="device_bottom_card">
         <v-expand-transition>
@@ -48,11 +49,11 @@ export default {
   },
   mounted: function() {
     this.locked = this.door.state.lock === 'locked';
-    if ((this.door.state.status === 'closed' && this.door.state.lock === 'unlocked') || this.door.state.status === 'opened')
-      this.switchLocked = false;
+    this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
     this.updateTitle();
     this.updateDesc();
     this.updateState();
+    this.subscribeToEvents();
   },
   data: function() {
     return {
@@ -90,6 +91,34 @@ export default {
     }
   },
   methods: {
+    subscribeToEvents: function() {
+      if (!EventSource) {
+        alert('Sorry, your browser does not support server-sent events.');
+        return;
+      }
+      const source = new EventSource(`${DeviceApi.url}/${this.door.id}/events`);
+      source.addEventListener('message', async (event) => {
+        const data = await JSON.parse(event.data);
+        this.updateDevice(data);
+      }, false);
+    },
+    updateDevice: function(data) {
+      switch(data.event) {
+        case 'statusChanged':
+          this.door.state.status = data.args.newStatus;
+          break;
+        case 'lockChanged':
+          this.door.state.lock = data.args.newLock;
+          break;
+        default:
+          return;
+      }
+      console.log(this.door)
+      this.locked = this.door.state.lock === 'locked';
+      this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
+      this.updateDesc();
+      this.updateState();
+    },
     updateTitle: function() {
       this.title = this.model.name;
     },
@@ -97,7 +126,7 @@ export default {
       this.desc = `${(this.model.state.status === 'opened')? 'Opened':`Closed - ${(this.model.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
     },
     updateState: function() {
-      this.switchState = (this.door.state.status === 'opened')?true:false;
+      this.switchState = this.door.state.status === 'opened';
     },
     switchOnOff: async function(new_switch_state) {
       this.switchState = new_switch_state;
@@ -144,10 +173,7 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.door.id);
           this.door.state = ans2.result;
-          if ((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened')
-            this.switchLocked = false;
-          else
-            this.switchLocked = true;
+          this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
           this.updateDesc();
           this.updateState();
         } 
