@@ -30,7 +30,7 @@ export default {
     if (query)
       this.home_id = query.home_id
     console.log(`HOME_ID is ${this.home_id}`)
-    this.retrieveDevices();    
+    this.retrieveDevices();
   },
   data: function() {
     return {
@@ -40,11 +40,11 @@ export default {
   },
   methods: {
     retrieveDevices: async function() {
-      try {      
+      try {
         const ans2 = await DeviceApi.getDevicesByType('ofglvd9gqx8yfl3l');
         this.vacuums = ans2.result
           .filter(d => {
-            return !d.room || d.room.home || d.room.home.id === this.home_id
+            return !d.room || !d.room.home || d.room.home.id === this.home_id
           });
       }
       catch(err) {
@@ -52,8 +52,8 @@ export default {
       }
     },
     updateModel: function(newModel) {
-      return newModel;
+      this.vacuums[this.vacuums.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel; 
     }
-  },  
+  },
 };
 </script>
