@@ -37,7 +37,7 @@
 
 <script>
   import router from '@/router';
-  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi } from '@/api';
+  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   export default {
     name: 'Devices',
     props: {
@@ -67,13 +67,26 @@
       retrieveRooms: async function() {
         try {
           const ans = await HomeRoomApi.get(this.home_id);
-          this.rooms = [ {text: 'None' , value: 'none'} ];
+          const ans2 = await RoomApi.getAll();
+          this.rooms = [];
+          this.rooms.push({
+            text: 'None',
+            value: 'none',
+          });
           ans.result.forEach(room => {
             this.rooms.push({
               text: room.name,
               value: room.id,
-            })
-          }) 
+            });
+          });
+          ans2.result.forEach(room => {
+            if(!room.home){
+              this.rooms.push({
+                text: room.name,
+                value: room.id,
+              });
+            }
+          });
         }
         catch(err) {
           console.log(err);
@@ -88,23 +101,27 @@
         }
       },
       EditDevice: async function() {
+        console.log(this.originalRoomID);
+        console.log(this.selectedRoomID);
+        
         const device = new Device(
           this.device.id,
           {
             id: this.device.type.id,
           },
           this.device.name,
-          {
-            desc: this.device.meta.desc,
-          }
+          { }
         );
         try {
           const ans = await DeviceApi.modify(device);
-          if (this.originalRoomID != 'none'){
-              await RoomDeviceApi.delete(ans.result.id);
+          console.log(ans);
+          if (this.originalRoomID != 'none' && this.originalRoomID != this.selectedRoomID){
+              await RoomDeviceApi.delete(this.device.id);
+              console.log("deleting from room db");
           }
           if (ans && this.selectedRoomID != 'none'){
-              await RoomDeviceApi.add(this.selectedRoomID, device.id);
+              await RoomDeviceApi.add(this.selectedRoomID, this.device.id);
+              console.log("adding to room db");
           }
         } catch (err) {
           console.log(err);
