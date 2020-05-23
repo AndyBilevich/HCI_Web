@@ -7,7 +7,8 @@
         :switchState="switchState"
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
-        :click="() => {show = !show}" 
+        :click="() => {show = !show}"
+        :show="show"  
         :title="title" 
         :subtitle="desc" 
         icon="mdi-door">
