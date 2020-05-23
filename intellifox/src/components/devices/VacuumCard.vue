@@ -28,6 +28,7 @@
                     tile
                     class="py-5"
                     :loading="modeButtonLoading"
+                    
                   >
                     <v-btn
                       @click="() => {  
@@ -79,6 +80,7 @@
                   v-model="selectedRoomID"
                   solo
                   :items="rooms"
+                  :disabled="locationButtonDisabled"
                   label="None"
                   color="background1"
                   @change="() => {  
@@ -106,6 +108,7 @@ export default {
   },
   mounted: function() {
     this.vacuum = this.model;
+    this.locationButtonDisabled = this.vacuum.state.status == 'active' ? true : false;
     this.mode = this.vacuum.state.mode === 'vacuum' ? 0 : 1;
     if (this.vacuum.state.status === 'inactive' && this.vacuum.state.batteryLevel > 4)
       this.switchLocked = false;
@@ -135,6 +138,7 @@ export default {
       dockButtonDisabled: false,
 
       modeButtonLoading: false,
+      locationButtonDisabled: false,
 
       buttonText: {
         "true": {
@@ -185,9 +189,11 @@ export default {
         }
         this.dockButtonState = false;
         this.dockButtonDisabled = false;
+        this.locationButtonDisabled = false;
       }else{
         try{
           ans = await DeviceApi.setAction(this.vacuum.id, 'pause');
+          this.locationButtonDisabled = true;
         }catch(err){
           console.log(err);
         }
@@ -210,6 +216,7 @@ export default {
     dockButtonActions: async function(){
       try{
         let ans = await DeviceApi.setAction(this.vacuum.id, 'dock');
+        this.locationButtonDisabled = true;
         if (ans.result) {
             this.updateInfo();
         }
