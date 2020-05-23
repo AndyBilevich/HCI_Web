@@ -50,7 +50,7 @@
 
 <script>
   import router from '@/router';
-  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi } from '@/api';
+  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   import AddDeviceButton from '@/components/AddDeviceButton.vue';
   export default {
     name: 'Devices',
@@ -131,6 +131,7 @@
       retrieveRooms: async function() {
         try {
           const ans = await HomeRoomApi.get(this.home_id);
+          const ans2 = await RoomApi.getAll();
           this.rooms = [];
           this.rooms.push({
             text: 'None',
@@ -140,8 +141,16 @@
             this.rooms.push({
               text: room.name,
               value: room.id,
-            })
-          }) 
+            });
+          });
+          ans2.result.forEach(room => {
+            if(!room.home){
+              this.rooms.push({
+                text: room.name,
+                value: room.id,
+              });
+            }
+          });
         }
         catch(err) {
           console.log(err);
