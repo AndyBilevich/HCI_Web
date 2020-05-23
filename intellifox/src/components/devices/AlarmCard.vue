@@ -62,7 +62,6 @@
                     <h3>Old code:</h3>
                     <v-col cols="8">
                       <v-text-field
-                        :rules="rules"
                         counter="4"
                         type="number"
                       ></v-text-field>
@@ -71,7 +70,6 @@
                     <h3>New code:</h3>
                     <v-col cols="8">
                       <v-text-field
-                        :rules="rules"
                         counter="4"
                         type="number"
                       ></v-text-field>
@@ -100,7 +98,6 @@ export default {
       show:false,
       dialog:false,
       dialog2:false,
-      rules: [v => v.length <= 4 || 'Max 4 characters'],
     }
   },
 };
