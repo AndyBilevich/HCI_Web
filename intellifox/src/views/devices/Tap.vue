@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="t in taps" :key="t.id" cols="6">
-          <WaterCard @upd_model="updateModel" :model="t"></WaterCard>
+          <WaterCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="t"></WaterCard>
         </v-col>
       </v-row>
     </v-container>

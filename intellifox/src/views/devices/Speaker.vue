@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="s in speakers" :key="s.id" cols="6">
-          <SpeakerCard @upd_model="updateModel" :model="s"/>
+          <SpeakerCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="s"/>
         </v-col>
       </v-row>
     </v-container>

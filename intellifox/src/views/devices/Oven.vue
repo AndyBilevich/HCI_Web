@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="a in ovens" :key="a.id" cols="6">
-          <OvenCard @upd_model="updateModel" :model="a"></OvenCard>
+          <OvenCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="a"></OvenCard>
         </v-col>
       </v-row>
     </v-container>
