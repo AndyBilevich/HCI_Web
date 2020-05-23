@@ -192,6 +192,20 @@ export default {
       switch(data.event) {
         case 'statusChanged':
           this.vacuum.state.status = data.args.newStatus;
+          if(this.vacuum.state.status == "docked"){
+            this.dockButtonState = true;
+            this.dockButtonDisabled = true;
+            this.locationButtonDisabled = true;
+          }else{
+            this.dockButtonState = false;
+            this.dockButtonDisabled = false;
+          }
+          if(this.vacuum.state.status == "active"){
+            this.locationButtonDisabled = false;
+          }
+          if(this.vacuum.state.status == "inactive"){
+            this.locationButtonDisabled = true;
+          }
           break;
         case 'modeChanged':
           this.vacuum.state.mode = data.args.newMode;
@@ -202,6 +216,7 @@ export default {
         default:
           return;
       }
+
       this.updateDesc();
       this.updateState();
     },
@@ -334,5 +349,8 @@ export default {
       }
     }
   },
+  beforeDestroy: function() {
+    this.unsubscribeToEvents();
+  }
 };
 </script>

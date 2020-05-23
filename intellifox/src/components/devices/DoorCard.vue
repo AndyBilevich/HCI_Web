@@ -8,9 +8,9 @@
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
         :click="() => {show = !show}"
-        :show="show" 
-        :title="title" 
-        :subtitle="desc" 
+        :show="show"
+        :title="title"
+        :subtitle="desc"
         icon="mdi-door">
       </TopCard>
     </div>
@@ -18,13 +18,13 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-btn 
-              x-large 
-              class="my-5" 
-              color="primary" 
+            <v-btn
+              x-large
+              class="my-5"
+              color="primary"
               @click="() => {
                 locked=!locked;
-                buttonActions();  
+                buttonActions();
               }"
               :disabled="buttonDisabled"
               :buttonState="buttonState"
@@ -155,7 +155,7 @@ export default {
           this.updateTitle();
           this.updateDesc();
           this.updateState();
-        } 
+        }
       } catch (err) {
         console.log(err);
       }
@@ -175,14 +175,14 @@ export default {
           ans = await DeviceApi.setAction(this.door.id, 'lock');
         else
           ans = await DeviceApi.setAction(this.door.id, 'unlock');
-        this.buttonLockSwitch();  
+        this.buttonLockSwitch();
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.door.id);
           this.door.state = ans2.result;
           this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
           this.updateDesc();
           this.updateState();
-        } 
+        }
       } catch (err) {
         console.log(err);
       }
