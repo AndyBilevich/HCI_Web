@@ -20,8 +20,8 @@
           <div v-show="show">
             <v-divider></v-divider>
             <v-row>  
-              
-              <v-col cols="7">
+              <v-col cols="1"></v-col>
+              <v-col cols="6">
                 <v-row class="align-self-center">
                   <v-slider
                     min="0"
@@ -50,6 +50,7 @@
                       <v-icon x-large>mdi-skip-next</v-icon>
                     </v-btn>
                 </v-row>
+
               </v-col>
 
               <v-col cols="5">

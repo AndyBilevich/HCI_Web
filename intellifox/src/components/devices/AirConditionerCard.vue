@@ -218,10 +218,6 @@ export default {
       let speed = this.ac.state.fanSpeed;
       this.desc = `Status: ${status} - Temp: ${temperature} - Mode: ${mode} - vSwing: ${vert} - hSwing: ${hor} - Speed: ${speed}`;
       this.temperature = this.ac.state.temperature;
-      this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
-      this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
-      this.horizontal = this.hSwing.findIndex(e => e == this.ac.state.horizontalSwing);
-      this.speed = this.fanSpeeds.findIndex(e => e == this.ac.state.fanSpeed);
     },
     updateState: function() {
       this.switchState = (this.ac.state.status === 'on')?true:false;
@@ -246,13 +242,12 @@ export default {
         }catch(err){
           console.log(err);
         }
-        this.dockButtonState = false;
-        this.dockButtonDisabled = false;
-        this.locationButtonDisabled = false;
+
+       
       }else{
         try{
           ans = await DeviceApi.setAction(this.ac.id, 'turnOff');
-          this.locationButtonDisabled = true;
+       
         }catch(err){
           console.log(err);
         }
@@ -261,6 +256,7 @@ export default {
         this.updateInfo();
       }
     },
+
     updateTemp: async function(i){
 
       if( (i > 0 && this.temperature == 38) || ( i < 0 && this.temperature == 18 ) ){
