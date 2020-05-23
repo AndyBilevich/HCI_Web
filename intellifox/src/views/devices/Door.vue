@@ -29,7 +29,6 @@ export default {
     const query = this.$route.query;
     if (query)
       this.home_id = query.home_id
-    console.log(`HOME_ID is ${this.home_id}`)
     this.retrieveDevices();
   },
   data: function() {
@@ -48,7 +47,7 @@ export default {
         });
         this.doors = ans2.result
           .filter(d => {
-            return !d.room || ( d.room.home && d.room.home.id === this.home_id )
+            return !d.room || !d.room.home || d.room.home.id === this.home_id
           });
       }
       catch(err) {

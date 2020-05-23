@@ -44,7 +44,7 @@ export default {
         const ans2 = await DeviceApi.getDevicesByType('ofglvd9gqx8yfl3l');
         this.vacuums = ans2.result
           .filter(d => {
-            return !d.room || ( d.room.home && d.room.home.id === this.home_id )
+            return !d.room || d.room.home || d.room.home.id === this.home_id
           });
       }
       catch(err) {

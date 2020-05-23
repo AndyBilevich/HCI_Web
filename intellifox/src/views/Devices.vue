@@ -95,7 +95,7 @@
           const ans = await DeviceApi.getAll();
           this.devicesAvail = ans.result
             .filter(dt => {
-              return !dt.room || ( dt.room.home && dt.room.home.id === this.home_id )
+              return !dt.room || !dt.room.home || dt.room.home.id === this.home_id
             })
             .map(dt => dt.type.id)
             .reduce((unique, id) => unique.includes(id) ? unique: [...unique, id],[])
