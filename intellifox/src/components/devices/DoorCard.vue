@@ -57,6 +57,8 @@ export default {
   },
   data: function() {
     return {
+      source:undefined,
+
       show:false,
       switchState:false,
       switchLoading:false,
@@ -91,16 +93,23 @@ export default {
     }
   },
   methods: {
+    subscribeCallback: async function(event) {
+          console.log("Received event");
+          const data = await JSON.parse(event.data);
+          this.updateDevice(data);
+    },
     subscribeToEvents: function() {
+      console.log("Subscribing");
       if (!EventSource) {
         alert('Sorry, your browser does not support server-sent events.');
         return;
       }
-      const source = new EventSource(`${DeviceApi.url}/${this.door.id}/events`);
-      source.addEventListener('message', async (event) => {
-        const data = await JSON.parse(event.data);
-        this.updateDevice(data);
-      }, false);
+      this.source = new EventSource(`${DeviceApi.url}/${this.door.id}/events`);
+      this.source.addEventListener('message', this.subscribeCallback, false);
+    },
+    unsubscribeToEvents: function() {
+      console.log("Unsubscribing");
+      this.source.removeEventListener('message', this.subscribeCallback);
     },
     updateDevice: function(data) {
       switch(data.event) {
@@ -182,11 +191,13 @@ export default {
       }
     },
   },
-
   watch: {
     switchState: function(newValue) {
       this.buttonDisabled = newValue?true:false; // if opened, then disable button
     },
   },
+  beforeDestroy: function() {
+    this.unsubscribeToEvents();
+  }
 };
 </script>
