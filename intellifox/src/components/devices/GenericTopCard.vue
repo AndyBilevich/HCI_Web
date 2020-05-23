@@ -130,7 +130,7 @@ export default {
     },
     editDevice: function(){
       var roomId = this.model.room ? this.model.room.id : 'none';
-      router.push({ name: 'EditDevice', query: { id: this.model.id, room:roomId }});
+      router.push({ name: 'EditDevice', query: { room:roomId }, params:{id: this.model.id} });
     },
     deleteDevice: async function() {
       try {

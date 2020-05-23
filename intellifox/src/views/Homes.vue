@@ -15,7 +15,7 @@
       </v-row>
     </v-container>
         
-    <router-link class="routerLink" to="/add_home">
+    <router-link class="routerLink" to="/homes/add">
       <v-btn class="add_btn" color="primary" fab big bottom right>
         <v-icon>mdi-plus</v-icon>
       </v-btn>

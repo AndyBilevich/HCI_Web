@@ -63,7 +63,7 @@
     },
     created: async function(){
       this.retrieveHomes();
-      this.room.id = this.$route.query.id;
+      this.room.id = this.$route.params.id;
       await this.retrieveRoom(this.room.id);
     },
     data: function() {
