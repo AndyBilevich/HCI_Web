@@ -62,8 +62,6 @@ export default {
     },
     mounted: function(){
       this.selectedIconID = this.getIdFromName(this.givenIconName);
-      console.log(this.selectedIconID);
-      console.log(this.givenIconName);
     },
     methods: {
         getIdFromName: function(name){

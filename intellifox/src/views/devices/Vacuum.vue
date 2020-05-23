@@ -29,7 +29,6 @@ export default {
     const query = this.$route.query;
     if (query)
       this.home_id = query.home_id
-    console.log(`HOME_ID is ${this.home_id}`)
     this.retrieveDevices();    
   },
   data: function() {

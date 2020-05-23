@@ -271,7 +271,6 @@ export default {
       }
     },
     changeLocation: async function(){
-      console.log(this.selectedRoomID);
       try{
         this.modeButtonLoading = true;
         await DeviceApi.setAction(this.vacuum.id, 'setLocation', [this.selectedRoomID]);

@@ -47,8 +47,8 @@ class DeviceApi {
     return Api.get(`${DeviceApi.url}/${id}/state`, controller);
   }
 
-  static setAction(id, actionName, body, controller) {
-    return Api.put(`${DeviceApi.url}/${id}/${actionName}`, body, controller);
+  static setAction(id, actionName, args, controller) {
+    return Api.put(`${DeviceApi.url}/${id}/${actionName}`, args, controller);
   }
 
   static getDevicesByType(typeId, controller) {

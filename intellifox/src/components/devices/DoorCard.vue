@@ -7,7 +7,8 @@
         :switchState="switchState"
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
-        :click="() => {show = !show}" 
+        :click="() => {show = !show}"
+        :show="show" 
         :title="title" 
         :subtitle="desc" 
         icon="mdi-door">
@@ -94,12 +95,10 @@ export default {
   },
   methods: {
     subscribeCallback: async function(event) {
-          console.log("Received event");
-          const data = await JSON.parse(event.data);
-          this.updateDevice(data);
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
     },
     subscribeToEvents: function() {
-      console.log("Subscribing");
       if (!EventSource) {
         alert('Sorry, your browser does not support server-sent events.');
         return;
@@ -108,7 +107,6 @@ export default {
       this.source.addEventListener('message', this.subscribeCallback, false);
     },
     unsubscribeToEvents: function() {
-      console.log("Unsubscribing");
       this.source.removeEventListener('message', this.subscribeCallback);
     },
     updateDevice: function(data) {
@@ -122,17 +120,16 @@ export default {
         default:
           return;
       }
-      console.log(this.door)
       this.locked = this.door.state.lock === 'locked';
       this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
       this.updateDesc();
       this.updateState();
     },
     updateTitle: function() {
-      this.title = this.model.name;
+      this.title = this.door.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.model.state.status === 'opened')? 'Opened':`Closed - ${(this.model.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
+      this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
     },
     updateState: function() {
       this.switchState = this.door.state.status === 'opened';
