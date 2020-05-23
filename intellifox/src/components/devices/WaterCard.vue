@@ -3,6 +3,7 @@
     <div class="device_top_card">
         <TopCard 
           @set_switch_state="switchOnOff"
+          @upd_devs="emitUpdDevs"
           :model="tap"
           :switchState="switchState"
           :switchLoads="switchLoading"
@@ -220,6 +221,9 @@ export default {
         console.log(err);
       }
     },
+    emitUpdDevs: async function(){
+      this.$emit('upd_devs');
+    }
   },
 };
 </script>

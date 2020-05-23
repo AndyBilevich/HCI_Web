@@ -11,7 +11,7 @@
     <v-container>
       <v-row dense>
         <v-col v-for="v in vacuums" :key="v.id" cols="6">
-          <VacuumCard @upd_model="updateModel" :model="v"></VacuumCard>
+          <VacuumCard @upd_model="updateModel" @upd_devs="retrieveDevices" :model="v"></VacuumCard>
         </v-col>
       </v-row>
     </v-container>
@@ -39,8 +39,10 @@ export default {
   },
   methods: {
     retrieveDevices: async function() {
+      console.log("borrando");
       try {
         const ans2 = await DeviceApi.getDevicesByType('ofglvd9gqx8yfl3l');
+        this.vacuums = [];
         this.vacuums = ans2.result
           .filter(d => {
             return !d.room || !d.room.home || d.room.home.id === this.home_id

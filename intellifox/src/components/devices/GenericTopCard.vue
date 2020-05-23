@@ -75,15 +75,13 @@
             <v-spacer></v-spacer>
             <v-btn
               color="window"
-              flat="flat"
               @click="dialog = false"
             >
               Cancel
             </v-btn>
             <v-btn
               color="error"
-              flat="flat"
-              @click="dialog = false"
+              @click="deleteDevice"
             >
               Delete
             </v-btn>
@@ -99,6 +97,7 @@
 </template>
 
 <script>
+import { DeviceApi } from '@/api';
 import router from '@/router';
 export default {
   props: {
@@ -132,6 +131,18 @@ export default {
     editDevice: function(){
       var roomId = this.model.room ? this.model.room.id : 'none';
       router.push({ name: 'EditDevice', query: { id: this.model.id, room:roomId }});
+    },
+    deleteDevice: async function() {
+      try {
+          await DeviceApi.delete(this.model.id);
+      } catch (err) {
+          console.log(err);
+      }
+      this.$emit('upd_devs');
+      this.dialog = false;
+    },
+    emitUpdDevs: async function(){
+      this.$emit('upd_devs');
     }
   },
   computed: {
