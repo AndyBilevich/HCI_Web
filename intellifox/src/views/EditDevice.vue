@@ -101,9 +101,6 @@
         }
       },
       EditDevice: async function() {
-        console.log(this.originalRoomID);
-        console.log(this.selectedRoomID);
-        
         const device = new Device(
           this.device.id,
           {
@@ -114,14 +111,11 @@
         );
         try {
           const ans = await DeviceApi.modify(device);
-          console.log(ans);
           if (this.originalRoomID != 'none' && this.originalRoomID != this.selectedRoomID){
               await RoomDeviceApi.delete(this.device.id);
-              console.log("deleting from room db");
           }
           if (ans && this.selectedRoomID != 'none'){
               await RoomDeviceApi.add(this.selectedRoomID, this.device.id);
-              console.log("adding to room db");
           }
         } catch (err) {
           console.log(err);
