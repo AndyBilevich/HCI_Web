@@ -18,42 +18,45 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-row>  
-              
-              <v-col cols="7">
-                <v-row class="align-self-center">
-                  <v-slider
-                    min="0"
-                    :max="songDuration"
-                    :value="playTime"
-                    readonly
-                  >
-                    <template v-slot:prepend>
-                      {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.progress:"0:00"}}
-                    </template>
-                    <template v-slot:append>
-                      {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.duration:"0:00"}}
-                    </template>
-                  </v-slider>
+            <v-row class="mt-2">  
+              <v-col cols="1"/>
+              <v-col cols="6">
+                <v-row>
+                  <v-col class="justify-center">
+                    <v-slider
+                      min="0"
+                      :max="songDuration"
+                      :value="playTime"
+                      readonly
+                    >
+                      <template v-slot:prepend>
+                        {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.progress:"0:00"}}
+                      </template>
+                      <template v-slot:append>
+                        {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.duration:"0:00"}}
+                      </template>
+                    </v-slider>
+                  </v-col>
                 </v-row>
 
-                <v-row class="align-center">            
-                    <v-col cols="1"></v-col>
-                    <v-btn :disabled="actionsLocked" icon x-large class="my-5">
-                      <v-icon x-large>mdi-skip-previous</v-icon>
-                    </v-btn>
-                    <v-btn :disabled="actionsLocked" icon x-large class="ma-5" @click="switchPlay">
-                      <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
-                    </v-btn>
-                    <v-btn :disabled="actionsLocked" icon x-large class="my-5">
-                      <v-icon x-large>mdi-skip-next</v-icon>
-                    </v-btn>
+                <v-row>
+                    <v-col>
+                      <v-btn :disabled="actionsLocked" icon x-large class="my-5">
+                        <v-icon x-large>mdi-skip-previous</v-icon>
+                      </v-btn>
+                      <v-btn :disabled="actionsLocked" icon x-large class="ma-5" @click="switchPlay">
+                        <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
+                      </v-btn>
+                      <v-btn :disabled="actionsLocked" icon x-large class="my-5">
+                        <v-icon x-large>mdi-skip-next</v-icon>
+                      </v-btn>
+                    </v-col>                     
                 </v-row>
+
               </v-col>
 
-              <v-col cols="5">
-                <v-row class="ml-5 align-center">         
-                  <v-col :disabled="actionsLocked" cols="1"></v-col>
+              <v-col class="justify-center" cols="5">
+                <v-row class="d-flex justify-center">
                   <v-btn :disabled="actionsLocked" icon>
                     <v-icon>mdi-chevron-down</v-icon>
                   </v-btn>
@@ -62,13 +65,13 @@
                     <v-icon>mdi-chevron-up</v-icon>
                   </v-btn>
                 </v-row>
-                  <v-slider
-                    :disabled="actionsLocked"
-                    v-model="media"
-                    vertical
-                    value="100"
-                    class="mr-3"
-                  ></v-slider>
+                <v-slider
+                  :disabled="actionsLocked"
+                  v-model="media"
+                  vertical
+                  value="100"
+                  class="mr-3"
+                />
               </v-col>
                 
             </v-row>
@@ -93,15 +96,16 @@ export default {
     this.updateTitle();
     this.updateDesc();
     this.updateState();
-    this.setPooling();
+    this.startUpdating();
   },
   data: function() {
     return {
+      source:undefined,
       pool:undefined,
 
       show:false,
       media:undefined,
-      play:false,
+      play:undefined,
 
       switchState:false,
       switchLoading:false,
@@ -162,18 +166,62 @@ export default {
     }
   },
   methods: {
+    subscribeCallback: async function(event) {
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
+    },
+    subscribeToEvents: function() {
+      if (!this.source) {
+        if (!EventSource) {
+          alert('Sorry, your browser does not support server-sent events.');
+          return;
+        }
+        this.source = new EventSource(`${DeviceApi.url}/${this.speaker.id}/events`);
+        this.source.addEventListener('message', this.subscribeCallback, false);
+      }
+    },
+    unsubscribeToEvents: function() {
+      if (this.source) {
+        this.source.removeEventListener('message', this.subscribeCallback);
+        this.source.close();
+        this.source = undefined;
+      }
+    },
+    updateDevice: function(data) {
+      this.stopUpdating();
+      switch(data.event) {
+        case 'statusChanged':
+          this.speaker.state.status = data.args.newStatus;
+          break;
+        case 'lockChanged':
+          //this.speaker.state.lock = data.args.newLock;
+          break;
+        default:
+          return;
+      }
+      this.updateDesc();
+      this.updateState();
+      this.startUpdating();
+    },
     setPooling: function() {
-      this.pool = setInterval(this.updateDeviceState, 1000);
+      if (!this.pool) {
+        this.pool = setInterval(this.updateDeviceState, 1000);
+      }
     },
     stopPooling: function() {
-      clearInterval(this.pool);
+      if (this.pool) {
+        clearInterval(this.pool);
+        this.pool = undefined;
+      }
     },
     updateDeviceState: async function() {
+      this.stopUpdating();
       const ans = await DeviceApi.getState(this.speaker.id);
       this.speaker.state = ans.result;
 
       this.updateDesc();
       this.updateState();
+      this.startUpdating();
     },
     updateTitle: function() {
       this.title = this.speaker.name;
@@ -225,14 +273,30 @@ export default {
       this.play = this.speaker.state.status === 'playing';
     },
     switchOnOff: async function(new_switch_state) {
-      this.stopPooling();
+      this.stopUpdating();
       this.switchState = new_switch_state;
       this.switchLoading = true;
       this.switchLocked = true;
       await this.switchActions();
       this.switchLocked = false;
       this.switchLoading = false;
-      this.setPooling();
+      this.startUpdating();
+    },
+    startUpdating: function() {
+      console.log("Starting updating");
+      if (this.play) {
+        console.log("Setting pool");
+        this.setPooling();
+      }
+      else {
+        console.log("Subscribing to events");
+        this.subscribeToEvents();
+      }
+    },
+    stopUpdating: function() {
+      console.log("Stopping updating");
+      this.unsubscribeToEvents();
+      this.stopPooling();
     },
     switchActions: async function() {
       try {
@@ -253,12 +317,12 @@ export default {
       }
     },
     switchPlay: async function() {
-      this.stopPooling();
+      this.stopUpdating();
       this.play = !this.play;
       this.actionsLocked = true;
       await this.switchPlayHandler();
       this.actionsLocked = false;
-      this.setPooling();
+      this.startUpdating();
     },
     switchPlayHandler: async function() {
       try {
@@ -280,7 +344,7 @@ export default {
     }
   },
   beforeDestroy: function() {
-    this.stopPooling();
+    this.stopUpdating();
   }
 };
 </script>
