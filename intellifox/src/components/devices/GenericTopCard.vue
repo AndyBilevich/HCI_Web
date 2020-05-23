@@ -97,7 +97,7 @@
 </template>
 
 <script>
-import { DeviceApi } from '@/api';
+import { HomeApi, DeviceApi } from '@/api';
 import router from '@/router';
 export default {
   props: {
@@ -121,6 +121,8 @@ export default {
       switch1:this.switchState,
       switchDisabled:this.switchLocked,
       switchLoading:this.switchLoads,
+      rooms: [],
+      auxHome: {},
     }
   },
   methods: {
@@ -135,6 +137,14 @@ export default {
     deleteDevice: async function() {
       try {
           await DeviceApi.delete(this.model.id);
+          
+          if(this.model.room.id !== 'none'){
+            const ans2 = await HomeApi.get(this.model.home.id);
+            this.auxHome = ans2.result;
+            this.auxHome.meta.rooms = this.auxHome.meta.rooms - 1;
+            await HomeApi.modify(this.auxHome);
+          }  
+          
       } catch (err) {
           console.log(err);
       }

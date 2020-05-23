@@ -70,6 +70,7 @@
         selectedIcon: 'mdi-rhombus-split',
         selectedHomeID: this.home_id || 'none',
         homes: [],
+        auxHome: { },
       }
     },
     methods:{
@@ -108,6 +109,17 @@
           const ans = await RoomApi.add(room);
           if(this.selectedHomeID != "none"){
             await HomeRoomApi.add(this.selectedHomeID, ans.result.id);
+            
+            const ans2 = await HomeApi.get(this.selectedHomeID);
+            this.auxHome = ans2.result;
+            
+            this.auxHome.meta.rooms = this.auxHome.meta.rooms + 1;
+            await HomeApi.modify(this.auxHome);
+
+            // const ans3 = await HomeApi.get(this.selectedHomeID);
+            // this.auxHome = ans3.result;
+            
+            // console.log(JSON.stringify(this.auxHome));
           }
         } catch (err) {
           console.log(err);
