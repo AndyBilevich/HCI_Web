@@ -169,7 +169,7 @@ export default {
         this.buttonLoading = true;
         this.switchLocked=true;
         console.log(this.quantity + " " + this.units[this.unitVar]);
-        let ans = await DeviceApi.setAction(this.tap.id, 'dispense', [this.quantity, this.units[this.unitVar]]);
+        await DeviceApi.setAction(this.tap.id, 'dispense', [this.quantity, this.units[this.unitVar]]);
         this.switchLocked=false;
         this.buttonLoading = false;
         this.updateInfo();
