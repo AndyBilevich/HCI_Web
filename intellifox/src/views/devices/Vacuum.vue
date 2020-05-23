@@ -52,7 +52,7 @@ export default {
       }
     },
     updateModel: function(newModel) {
-      return newModel;
+      this.vacuums[this.vacuums.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel; 
     }
   },
 };

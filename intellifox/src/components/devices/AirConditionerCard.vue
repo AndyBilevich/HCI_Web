@@ -3,11 +3,12 @@
     <div class="device_top_card">
       <TopCard
         @set_switch_state="switchOnOff"
-        :model="model"
+        :model="ac"
         :switchState="switchState"
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
         :click="() => {show = !show}" 
+        :show="show" 
         :title="title" 
         :subtitle="desc" 
         icon="mdi-air-conditioner">
@@ -106,8 +107,17 @@ export default {
   props: {
     model: Object,
   },
+  computed: {
+    ac: {
+      get: function() {
+        return this.model;
+      },
+      set: function(newModel) {
+        this.$emit('upd_model', newModel);
+      }
+    }
+  },
   mounted: function() {
-    this.ac = this.model;
     this.temperature = this.ac.state.temperature;
     this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
     this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
@@ -116,10 +126,12 @@ export default {
     this.updateTitle();
     this.updateDesc();
     this.updateState();
-
+    this.subscribeToEvents();
   },
   data: function() {
     return {
+      source:undefined,
+
       show:false,
       switchState:false,
       switchLoading:false,
@@ -142,7 +154,6 @@ export default {
       ],
       title: '',
       desc: '',
-      ac: {},
 
       temperature:18,
       mode: 0,
@@ -153,13 +164,54 @@ export default {
     }
   },
   methods: {
+    subscribeCallback: async function(event) {
+          const data = await JSON.parse(event.data);
+          this.updateDevice(data);
+    },
+    subscribeToEvents: function() {
+      if (!EventSource) {
+        alert('Sorry, your browser does not support server-sent events.');
+        return;
+      }
+      this.source = new EventSource(`${DeviceApi.url}/${this.ac.id}/events`);
+      this.source.addEventListener('message', this.subscribeCallback, false);
+    },
+    unsubscribeToEvents: function() {
+      this.source.removeEventListener('message', this.subscribeCallback);
+    },
+    updateDevice: function(data) {
+      switch(data.event) {
+        case 'statusChanged':
+          this.ac.state.status = data.args.newStatus;
+          break;
+        case 'temperatureChanged':
+          this.ac.state.temperature = data.args.newTemperature;
+          break;
+        case 'modeChanged':
+          this.ac.state.mode = data.args.newMode;
+          break;
+        case 'verticalSwingChanged':
+          this.ac.state.verticalSwing = data.args.newSwing;
+          break;
+        case 'horizontalSwingChanged':
+          this.ac.state.horizontalSwing = data.args.newSwing;
+          break;
+        case 'fanSpeedChanged':
+          this.ac.state.fanSpeed = data.args.newSpeed;
+          break;
+        default:
+          return;
+      }
+      this.updateDesc();
+      this.updateState();
+    },
     updateTitle: function() {
-      this.title = this.model.name;
+      this.title = this.ac.name;
     },
     updateDesc: function() {
       let status = this.ac.state.status;
       let temperature = this.ac.state.temperature;
-      let mode = this.model.state.mode;
+      let mode = this.ac.state.mode;
       let vert = this.ac.state.verticalSwing;
       let hor = this.ac.state.horizontalSwing;
       let speed = this.ac.state.fanSpeed;
@@ -285,5 +337,8 @@ export default {
       this.updateState();
     },
   },
+  beforeDestroy: function() {
+    this.unsubscribeToEvents();
+  }
 };
 </script>

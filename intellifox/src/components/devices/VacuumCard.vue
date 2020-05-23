@@ -3,11 +3,12 @@
     <div class="device_top_card">
       <TopCard
         @set_switch_state="switchOnOff"
-        :model="model"
+        :model="vacuum"
         :switchState="switchState"
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
         :click="() => {show = !show}" 
+        :show="show" 
         :title="title" 
         :subtitle="desc" 
         icon="mdi-robot-vacuum">
@@ -107,7 +108,6 @@ export default {
     model: Object,
   },
   mounted: function() {
-    this.vacuum = this.model;
     this.locationButtonDisabled = this.vacuum.state.status == 'active' ? false : true;
     this.mode = this.vacuum.state.mode === 'vacuum' ? 0 : 1;
     if (this.vacuum.state.status === 'inactive' && this.vacuum.state.batteryLevel > 4)
@@ -120,16 +120,18 @@ export default {
     this.updateTitle();
     this.updateDesc();
     this.updateState();
+    this.subscribeToEvents();
   },
   data: function() {
     return {
+      source:undefined,
+
       show:false,
       play:false,
       switchState:false,
       switchLoading:false,
       switchLocked:false,
       locked:true,
-      vacuum: {},
       title: '',
       desc: '', 
       mode: 0,
@@ -156,14 +158,60 @@ export default {
 
     }
   },
+  computed: {
+    vacuum: {
+      get: function() {
+        return this.model;
+      },
+      set: function(newModel) {
+        this.$emit('upd_model', newModel);
+      }
+    }
+  },
+
   methods: {
+    subscribeCallback: async function(event) {
+          console.log("Received event");
+          const data = await JSON.parse(event.data);
+          this.updateDevice(data);
+    },
+    subscribeToEvents: function() {
+      console.log("Subscribing");
+      if (!EventSource) {
+        alert('Sorry, your browser does not support server-sent events.');
+        return;
+      }
+      this.source = new EventSource(`${DeviceApi.url}/${this.vacuum.id}/events`);
+      this.source.addEventListener('message', this.subscribeCallback, false);
+    },
+    unsubscribeToEvents: function() {
+      console.log("Unsubscribing");
+      this.source.removeEventListener('message', this.subscribeCallback);
+    },
+    updateDevice: function(data) {
+      switch(data.event) {
+        case 'statusChanged':
+          this.vacuum.state.status = data.args.newStatus;
+          break;
+        case 'modeChanged':
+          this.vacuum.state.mode = data.args.newMode;
+          break;
+        case 'locationChanged':
+          this.vacuum.state.location = data.args.newLocation;
+          break;
+        default:
+          return;
+      }
+      this.updateDesc();
+      this.updateState();
+    },
     updateTitle: function() {
-      this.title = this.model.name;
+      this.title = this.vacuum.name;
     },
     updateDesc: function() {
       console.log("Updasting desc");
       let activity = this.vacuum.state.status;
-      let mode = this.model.state.mode;
+      let mode = this.vacuum.state.mode;
       let battery = this.vacuum.state.batteryLevel;
       let location = this.vacuum.state.location ? this.vacuum.state.location.name : "unknown";
       this.selectedRoomID = this.vacuum.state.location ? this.vacuum.state.location.id : 0;
