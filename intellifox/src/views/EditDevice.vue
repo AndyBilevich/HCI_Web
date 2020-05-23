@@ -37,7 +37,7 @@
 
 <script>
   import router from '@/router';
-  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi } from '@/api';
+  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   export default {
     name: 'Devices',
     props: {
@@ -45,7 +45,7 @@
     },
     mounted: function() {
       this.retrieveRooms();
-      this.device.id = this.$route.query.id;
+      this.device.id = this.$route.params.id;
       this.retrieveDevice();
     },
     data: function() {
@@ -67,13 +67,26 @@
       retrieveRooms: async function() {
         try {
           const ans = await HomeRoomApi.get(this.home_id);
-          this.rooms = [ {text: 'None' , value: 'none'} ];
+          const ans2 = await RoomApi.getAll();
+          this.rooms = [];
+          this.rooms.push({
+            text: 'None',
+            value: 'none',
+          });
           ans.result.forEach(room => {
             this.rooms.push({
               text: room.name,
               value: room.id,
-            })
-          }) 
+            });
+          });
+          ans2.result.forEach(room => {
+            if(!room.home){
+              this.rooms.push({
+                text: room.name,
+                value: room.id,
+              });
+            }
+          });
         }
         catch(err) {
           console.log(err);
@@ -94,17 +107,15 @@
             id: this.device.type.id,
           },
           this.device.name,
-          {
-            desc: this.device.meta.desc,
-          }
+          { }
         );
         try {
           const ans = await DeviceApi.modify(device);
-          if (this.originalRoomID != 'none'){
-              await RoomDeviceApi.delete(ans.result.id);
+          if (this.originalRoomID != 'none' && this.originalRoomID != this.selectedRoomID){
+              await RoomDeviceApi.delete(this.device.id);
           }
           if (ans && this.selectedRoomID != 'none'){
-              await RoomDeviceApi.add(this.selectedRoomID, device.id);
+              await RoomDeviceApi.add(this.selectedRoomID, this.device.id);
           }
         } catch (err) {
           console.log(err);

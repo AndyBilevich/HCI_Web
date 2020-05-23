@@ -159,17 +159,17 @@ const routes = [
     component: Vacuums,
   },//----------------------------ADD-------------------------------------
   {
-    path: "/add_device",
+    path: "/devices/add",
     name: "AddDevice",
     component: AddDevice,
   },
   {
-    path: "/add_home",
+    path: "/homes/add",
     name: "AddHome",
     component: AddHome,
   },
   {
-    path: "/add_routine",
+    path: "/routines/add",
     name: "AddRoutine",
     component: AddRoutine,
   },
@@ -179,22 +179,22 @@ const routes = [
     component: AddRoom,
   },//-------------------------------------------------------------------
   {
-    path: "/devices/edit",
+    path: "/devices/:id/edit",
     name: "EditDevice",
     component: EditDevice,
   },
   {
-    path: "/rooms/edit",
+    path: "/rooms/:id/edit",
     name: "EditRoom",
     component: EditRoom,
   },
   {
-    path: "/edit_home/:id",
+    path: "/homes/:id/edit",
     name: "EditHome",
     component: EditHome,
   },
   {
-    path: "/edit_routine",
+    path: "/routines/:id/edit",
     name: "EditRoutine",
     component: EditRoutine,
   },//--------------------------------------------------------------

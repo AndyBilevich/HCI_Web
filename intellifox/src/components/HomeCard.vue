@@ -139,7 +139,7 @@ export default {
       }
     },
     editHome: function() {
-      router.push({ name: 'EditHome', params: { id: this.home.id }})
+      router.push({ name:"EditHome" , params: { id: this.home.id} })
     }
   },
 };
