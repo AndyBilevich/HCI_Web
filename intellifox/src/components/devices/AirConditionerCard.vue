@@ -241,13 +241,12 @@ export default {
         }catch(err){
           console.log(err);
         }
-        this.dockButtonState = false;
-        this.dockButtonDisabled = false;
-        this.locationButtonDisabled = false;
+
+       
       }else{
         try{
           ans = await DeviceApi.setAction(this.ac.id, 'turnOff');
-          this.locationButtonDisabled = true;
+       
         }catch(err){
           console.log(err);
         }
@@ -256,28 +255,7 @@ export default {
         this.updateInfo();
       }
     },
-    dockButton: async function(){
-      this.dockButtonState = true;
-      this.dockButtonLoading = true;
-      this.dockButtonDisabled = true;
-      try{
-        await this.dockButtonActions();
-      }catch(err){
-        console.log(err);
-      }
-      this.dockButtonLoading = false;
-    },
-    dockButtonActions: async function(){
-      try{
-        let ans = await DeviceApi.setAction(this.ac.id, 'dock');
-        this.locationButtonDisabled = true;
-        if (ans.result) {
-            this.updateInfo();
-        }
-      }catch(err){
-        console.log(err);
-      }
-    },
+
     updateTemp: async function(i){
 
       if( (i > 0 && this.temperature == 38) || ( i < 0 && this.temperature == 18 ) ){
