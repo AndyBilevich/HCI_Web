@@ -18,34 +18,39 @@
           <div v-show="show">
             <v-divider></v-divider>
             <v-row>
-                <v-row></v-row>
-                <v-btn-toggle
-                  v-model="mode"
-                  mandatory
-                  tile
-                  class="py-5"
-                  :loading="modeButtonLoading"
-                >
-                  <v-btn
-                    @click="() => {  
-                      setToVacuum(); 
-                    }"
+                <v-col cols ="1">
+                  <v-spacer></v-spacer>
+                </v-col>
+                <v-col cols ="4">
+                  <v-btn-toggle
+                    v-model="mode"
+                    mandatory
+                    tile
+                    class="py-5"
+                    :loading="modeButtonLoading"
                   >
-                    <v-icon>mdi-fan</v-icon>
-                    vacuum
-                  </v-btn>
-                  <v-btn
-                    @click="() => {  
-                      setToMop(); 
-                    }"
-                  >
-                    <v-icon>mdi-broom</v-icon>
-                    mop
-                  </v-btn>
-                </v-btn-toggle>
-                <v-row></v-row>
-
-                <v-row>
+                    <v-btn
+                      @click="() => {  
+                        setToVacuum(); 
+                      }"
+                    >
+                      <v-icon>mdi-fan</v-icon>
+                      vacuum
+                    </v-btn>
+                    <v-btn
+                      @click="() => {  
+                        setToMop(); 
+                      }"
+                    >
+                      <v-icon>mdi-broom</v-icon>
+                      mop
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-col>
+                <v-col cols ="2">
+                  <v-spacer></v-spacer>
+                </v-col>
+                <v-col cols="3">
                   <v-btn 
                     large 
                     class="ma-5" 
@@ -60,7 +65,27 @@
                     <v-icon class="ma-1">{{buttonText[`${!dockButtonDisabled}`].icon}}</v-icon>
                     {{buttonText[`${!dockButtonDisabled}`].text}}
                   </v-btn>
-                </v-row>
+                </v-col>
+            </v-row>
+            <v-row>
+              <v-col cols ="1">
+                <v-spacer></v-spacer>
+              </v-col>
+              <v-col cols ="3">
+                  <h3 class="pt-5">Location:</h3>
+              </v-col>
+              <v-col cols="5">
+              <v-overflow-btn
+                  v-model="selectedRoomID"
+                  solo
+                  :items="rooms"
+                  label="None"
+                  color="background1"
+                  @change="() => {  
+                    changeLocation(); 
+                  }"
+              ></v-overflow-btn>
+              </v-col>
             </v-row>
 
           </div>
@@ -70,7 +95,7 @@
 </template>
 
 <script>
-import { DeviceApi } from '@/api';
+import { DeviceApi, RoomApi} from '@/api';
 import TopCard from "@/components/devices/GenericTopCard.vue";
 export default {
   components: {
@@ -81,14 +106,14 @@ export default {
   },
   mounted: function() {
     this.vacuum = this.model;
-    this.mode = this.vacuum.state.mode === 'vacuum';
+    this.mode = this.vacuum.state.mode === 'vacuum' ? 0 : 1;
     if (this.vacuum.state.status === 'inactive' && this.vacuum.state.batteryLevel > 4)
       this.switchLocked = false;
     if (this.vacuum.state.status === 'docked')
       this.dockButtonDisabled = true;
-    this.updateTitle();
-    this.updateDesc();
-    this.updateState();
+    this.updateInfo();
+    this.retrieveRooms();
+    this.selectedRoomID = this.vacuum.state.location.id;
   },
   data: function() {
     return {
@@ -101,10 +126,14 @@ export default {
       vacuum: {},
       title: '',
       desc: '', 
+      mode: 0,
+      selectedRoomID: 0,
+      rooms: [],
 
       dockButtonState:false,
       dockButtonLoading: false,
       dockButtonDisabled: false,
+
       modeButtonLoading: false,
 
       buttonText: {
@@ -133,7 +162,7 @@ export default {
     },
     updateState: function() {
       this.switchState = (this.vacuum.state.status === 'active')?true:false;
-    }, 
+    },
     switchOnOff: async function(new_switch_state) {
       this.switchState = new_switch_state;
       this.switchLoading = true;
@@ -190,7 +219,9 @@ export default {
     },
     setToVacuum: async function(){
       try{
-        await DeviceApi.setAction(this.vacuum.id, 'setMode', 'vacuum');
+        this.modeButtonLoading = true;
+        await DeviceApi.setAction(this.vacuum.id, 'setMode', ["vacuum"]);
+        this.modeButtonLoading = false;
         this.updateInfo();
       }catch(err){
         console.log(err);
@@ -198,7 +229,9 @@ export default {
     },
     setToMop: async function(){
       try{
-        await DeviceApi.setAction(this.vacuum.id, 'setMode', 'mop');
+        this.modeButtonLoading = true;
+        await DeviceApi.setAction(this.vacuum.id, 'setMode', ["mop"]);
+        this.modeButtonLoading = false;
         this.updateInfo();
       }catch(err){
         console.log(err);
@@ -206,7 +239,7 @@ export default {
     },
     updateInfo: async function(){
       try{
-        const ans = await DeviceApi.getState(this.vacuum.ids);
+        const ans = await DeviceApi.getState(this.vacuum.id);
         this.vacuum.state = ans.result;
         this.updateTitle();
         this.updateDesc();
@@ -214,14 +247,33 @@ export default {
       }catch (err){
         console.log(err);
       }
-      
     },
-  },
-
-  watch: {
-    switchState: function() {
-      //this.buttonDisabled = newValue?true:false;
+    retrieveRooms: async function() {
+      try {
+        const ans = await RoomApi.getAll();
+        this.rooms = [];
+        ans.result.forEach(room => {
+          this.rooms.push({
+            text: room.name,
+            value: room.id,
+          })
+        }) 
+      }
+      catch(err) {
+        console.log(err);
+      }
     },
+    changeLocation: async function(){
+      console.log(this.selectedRoomID);
+      try{
+        this.modeButtonLoading = true;
+        await DeviceApi.setAction(this.vacuum.id, 'setLocation', [this.selectedRoomID]);
+        this.modeButtonLoading = false;
+        this.updateInfo();
+      }catch(err){
+        console.log(err);
+      }
+    }
   },
 };
 </script>
