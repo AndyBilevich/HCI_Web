@@ -167,6 +167,18 @@ export default {
     }
   },
   methods: {
+    startUpdating: function() {
+      if (this.play) {
+        this.setPooling();
+      }
+      else {
+        this.subscribeToEvents();
+      }
+    },
+    stopUpdating: function() {
+      this.unsubscribeToEvents();
+      this.stopPooling();
+    },
     subscribeCallback: async function(event) {
       const data = await JSON.parse(event.data);
       this.updateDevice(data);
@@ -282,22 +294,6 @@ export default {
       this.switchLocked = false;
       this.switchLoading = false;
       this.startUpdating();
-    },
-    startUpdating: function() {
-      console.log("Starting updating");
-      if (this.play) {
-        console.log("Setting pool");
-        this.setPooling();
-      }
-      else {
-        console.log("Subscribing to events");
-        this.subscribeToEvents();
-      }
-    },
-    stopUpdating: function() {
-      console.log("Stopping updating");
-      this.unsubscribeToEvents();
-      this.stopPooling();
     },
     switchActions: async function() {
       try {

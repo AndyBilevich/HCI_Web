@@ -50,7 +50,7 @@ export default {
     TopCard,
   },
   mounted: function() {
-    this.locked = this.door.state.lock === 'locked';
+    this.locked = !(this.door.state.lock === 'locked');
     this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
     this.updateTitle();
     this.updateDesc();
@@ -105,7 +105,7 @@ export default {
           alert('Sorry, your browser does not support server-sent events.');
           return;
         }
-        this.source = new EventSource(`${DeviceApi.url}/${this.speaker.id}/events`);
+        this.source = new EventSource(`${DeviceApi.url}/${this.door.id}/events`);
         this.source.addEventListener('message', this.subscribeCallback, false);
       }
     },
