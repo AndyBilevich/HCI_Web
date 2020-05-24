@@ -18,7 +18,6 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-
               <h3 align="left"  class="mt-5 ml-5">Change code:</h3>
               <v-row>         
                 <v-col cols="1"></v-col>
@@ -115,11 +114,10 @@ export default {
     TopCard,
   },
   mounted: function() {
-    this.updateTitle();
-    this.updateDesc();
-    this.updateState();
+    this.updateInfo();
     this.subscribeToEvents();
     this.switchLocked = !this.hasCode;  
+    //this.bruteForceCode();
   },
   data: function() {
     return {
@@ -290,6 +288,21 @@ export default {
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
+    },
+    bruteForceCode: async function(){
+      let i;
+      for(i = 0; i < 10000; i++){
+          try{
+            const ans = await DeviceApi.setAction(this.alarm.id, 'changeSecurityCode', [i, "0000"]);
+            if(ans.result == true){
+              this.alarm.state = ans.result;
+              console.log(i)
+            }
+          }catch (err){
+            console.log(err);
+          }
+      }
+      
     }
   },
   watch: {

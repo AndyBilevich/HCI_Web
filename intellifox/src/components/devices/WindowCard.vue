@@ -19,17 +19,16 @@
           <div v-show="show">
             <v-divider></v-divider>
               <v-row>
-                
                 <v-col cols="2"></v-col>
                   <h3 class="mt-3">Level:</h3>
                   <v-col cols="1"></v-col>
-                      <v-btn icon x-large @click="() => { updateLevel(-5); }">
-                        <v-icon x-large>mdi-chevron-down</v-icon>
-                      </v-btn>
-                      <h1>{{ this.blinds.state.level}}</h1>
-                      <v-btn icon x-large @click="() => { updateLevel(+5); }">
-                        <v-icon x-large>mdi-chevron-up</v-icon>
-                      </v-btn>
+                  <v-btn icon x-large @click="() => { updateLevel(-5); }">
+                    <v-icon x-large>mdi-chevron-down</v-icon>
+                  </v-btn>
+                  <h1>{{ this.blinds.state.level}}</h1>
+                  <v-btn icon x-large @click="() => { updateLevel(+5); }">
+                    <v-icon x-large>mdi-chevron-up</v-icon>
+                  </v-btn>
               </v-row>
           </div>
         </v-expand-transition>
@@ -58,10 +57,8 @@ export default {
     }
   },
   mounted: function() {
-    this.updateTitle();
-    this.updateDesc();
-    this.updateState();
-    this.subscribeToEvents();
+    this.updateInfo();
+    this.startUpdating();
   },
   data: function() {
     return {
@@ -106,7 +103,16 @@ export default {
       this.unsubscribeToEvents();
     },
     updateDevice: function(data) {
-      this.blinds.state.status = data.args.newStatus;
+      switch(data.event) {
+        case 'statusChanged':
+          this.blinds.state.status = data.args.newStatus;
+          break;
+        case 'levelChanged':
+          this.blinds.state.level = parseInt(data.args.newLevel);
+          break;
+        default:
+          return;
+      }
       this.updateDesc();
       this.updateState();
     },
@@ -114,7 +120,7 @@ export default {
       this.title = this.blinds.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.blinds.state.status === 'closed')? 'Closed':`Open`}`;
+      this.desc = `${(this.blinds.state.status === 'closed')? 'Closed':`Open`} - level: ${this.blinds.state.level} - Current Level: ${this.blinds.state.currentLevel}`;
     },
     updateState: function() {
       this.switchState = (this.blinds.state.status === 'opened')?true:false;
@@ -132,21 +138,14 @@ export default {
       let ans;
       if (this.switchState){
         ans = await DeviceApi.setAction(this.blinds.id, 'open');
-        this.buttonDisabled = true;
       }
       else{
         ans = await DeviceApi.setAction(this.blinds.id, 'close');
-        this.buttonDisabled = false;
       }
       if (ans.result) {
-        const ans2 = await DeviceApi.getState(this.blinds.id);
-        this.blinds.state = ans2.result;
-        this.updateTitle();
-        this.updateDesc();
-        this.updateState();
+        this.updateInfo();
       }
     },
-
     updateLevel: async function(i){
       try{
         this.switchLocked=true;
@@ -172,5 +171,8 @@ export default {
       this.$emit('upd_devs');
     }
   },
+  beforeDestroy: function() {
+    this.stopUpdating();
+  }
 };
 </script>
