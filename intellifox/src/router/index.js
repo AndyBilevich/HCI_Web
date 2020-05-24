@@ -13,19 +13,7 @@ import Settings from "@/views/Settings.vue";
 import HelpFeed from "@/views/HelpFeed.vue";
 import ErrorLog from "@/views/ErrorLog.vue";
 
-import AirConditioners from "@/views/devices/AirConditioner.vue";
-import Alarms from "@/views/devices/Alarm.vue";
-import Awnings from "@/views/devices/Awning.vue";
-import Blinds from "@/views/devices/Blind.vue";
-import Curtains from "@/views/devices/Curtain.vue";
-import Doors from "@/views/devices/Door.vue";
-import Fridges from "@/views/devices/Fridge.vue";
-import Lights from "@/views/devices/Lights.vue";
-import Ovens from "@/views/devices/Oven.vue";
-import Speakers from "@/views/devices/Speaker.vue";
-import Sprinklers from "@/views/devices/Sprinkler.vue";
-import Taps from "@/views/devices/Tap.vue";
-import Vacuums from "@/views/devices/Vacuum.vue";
+import Device from "@/views/devices/Device.vue";
 
 import AddDevice from "@/views/AddDevice.vue";
 import AddHome from "@/views/AddHome.vue";
@@ -92,72 +80,8 @@ const routes = [
     path: "/errorlog",
     name: "ErrorLog",
     component: ErrorLog,
-  },//--------------------------------------------------------------------------
-  {
-    path: "/devices/air-conditioners",
-    name: "AirConditioners",
-    component: AirConditioners,
   },
-  {
-    path: "/devices/alarms",
-    name: "Alarms",
-    component: Alarms,
-  },
-  {
-    path: "/devices/awnings",
-    name: "Awnings",
-    component: Awnings,
-  },
-  {
-    path: "/devices/blinds",
-    name: "Blinds",
-    component: Blinds,
-  },
-  {
-    path: "/devices/curtains",
-    name: "Curtains",
-    component: Curtains,
-  },
-  {
-    path: "/devices/doors",
-    name: "Doors",
-    component: Doors,
-  },
-  {
-    path: "/devices/fridges",
-    name: "Fridges",
-    component: Fridges,
-  },
-  {
-    path: "/devices/lights",
-    name: "Lights",
-    component: Lights,
-  },
-  {
-    path: "/devices/ovens",
-    name: "Ovens",
-    component: Ovens,
-  },
-  {
-    path: "/devices/speakers",
-    name: "Speakers",
-    component: Speakers,
-  },
-  {
-    path: "/devices/sprinklers",
-    name: "Sprinklers",
-    component: Sprinklers,
-  },
-  {
-    path: "/devices/taps",
-    name: "Taps",
-    component: Taps,
-  },
-  {
-    path: "/devices/vacuums",
-    name: "Vacuums",
-    component: Vacuums,
-  },//----------------------------ADD-------------------------------------
+  //----------------------------ADD-------------------------------------
   {
     path: "/devices/add",
     name: "AddDevice",
@@ -197,7 +121,14 @@ const routes = [
     path: "/routines/:id/edit",
     name: "EditRoutine",
     component: EditRoutine,
-  },//--------------------------------------------------------------
+  },
+  //--------------------------------------------------------------------------
+  {
+    path: "/devices/:typeName",
+    name: "Device",
+    component: Device
+  },
+  //--------------------------------------------------------------
   {
     path: "/rooms/:id",
     name: "Room",

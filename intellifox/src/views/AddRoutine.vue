@@ -291,7 +291,6 @@
         addDevCard: async function(id){
             let canAdd = true;
             this.allDevActions.forEach(devAction => {
-                console.log(devAction.device.id);
                 if(devAction.device.id == id){
                     this.dialog4=true;
                     canAdd=false;
@@ -373,12 +372,14 @@
                         params: action.params,
                         meta: { },
                     })
+                    /*
                     console.log("id: " +  devAction.device.id);
                     console.log("actionName: " +  action.action.name);
                     console.log("params: " +  action.params);
+                    */
                 });
             }) 
-            console.log(arr);
+            //console.log(arr);
             return arr;
         },
         updateParamVal: function(val, index){

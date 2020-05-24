@@ -197,7 +197,6 @@
             const resp1 = await RoomApi.get(this.selectedRoomID) 
             const resp2 = await HomeApi.get(resp1.result.home.id);
             var auxHome = resp2.result;
-            console.log(auxHome);
             auxHome.meta.devs = auxHome.meta.devs + 1;
             await HomeApi.modify(auxHome);
           }

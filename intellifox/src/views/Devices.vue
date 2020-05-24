@@ -1,23 +1,17 @@
 <template>
   <div class="devices">
     <h1>Devices</h1>
-    <div v-if="devicesAvail.length === 0">
-        <h3 class="noItemsMessage mt-5">{{noItemsText}}</h3>
-    </div>
-    <div v-else>
-      <v-row dense>
-        <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
-            <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
-        </v-col>
-      </v-row>
-    </div>
 
 
-    <router-link class="routerLink" to="/devices/add">
-      <v-btn class="add_btn" color="primary" fab big bottom right>
-        <v-icon>mdi-plus</v-icon>
-      </v-btn>
-    </router-link>
+    <v-row dense>
+      <v-col cols="2" v-for="d in devicesAvail" :key="d.title">
+          <CategoryCard :categoryName="`${d.title + 's'}`" :categoryIcon="d.icon" routeName="Device" :devName="d.name" />
+      </v-col>
+    </v-row>
+
+    <v-btn @click="addDevice" class="add_btn" color="primary" fab big bottom right>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
 
   </div>
 </template>
@@ -25,6 +19,7 @@
 
 <script>
   import storage from '@/storage';
+  import router from '@/router';
   import { DeviceApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
@@ -34,70 +29,23 @@
     created: async function() {
       const home = await storage.getActualHome();
       this.home_id = home?home.id:'';
-      this.retrieveDeviceTypes();
-
+      const devTypes = await storage.getAllTypes();
+      this.deviceInfo = devTypes;
+      //console.log(devTypes);
+      await this.retrieveDeviceTypes();
     },
     data: function() {
       return {
         hidden: false,
-        noItemsText: "",
         devicesAvail: [],
-        deviceInfo: {
-          "li6cbv5sdlatti0j": {
-            title: 'Air Conditioners',
-            icon: 'mdi-air-conditioner',
-            routePath: '/devices/air-conditioners'
-          },
-          "mxztsyjzsrq7iaqc": {
-            title: 'Alarms',
-            icon: 'mdi-alarm-light-outline',
-            routePath: '/devices/alarms'
-          },
-          "eu0v2xgprrhhg41g": {
-            title: 'Blinds',
-            icon: 'mdi-blinds',
-            routePath: '/devices/blinds'
-          },
-          "lsf78ly0eqrjbz91": {
-            title: 'Doors',
-            icon: 'mdi-door',
-            routePath: '/devices/doors'
-          },
-          "rnizejqr2di0okho": {
-            title: 'Fridges',
-            icon: 'mdi-fridge-outline',
-            routePath: '/devices/fridges'
-          },
-          "go46xmbqeomjrsjr": {
-            title: 'Lights',
-            icon: 'mdi-lightbulb-on-outline',
-            routePath: '/devices/lights'
-          },
-          "im77xxyulpegfmv8": {
-            title: 'Ovens',
-            icon: 'mdi-toaster-oven',
-            routePath: '/devices/ovens'
-          },
-          "c89b94e8581855bc": {
-            title: 'Speakers',
-            icon: 'mdi-speaker',
-            routePath: '/devices/speakers'
-          },
-          "dbrlsh7o5sn8ur4i": {
-            title: 'Taps',
-            icon: 'mdi-water-pump',
-            routePath: '/devices/taps'
-          },
-          "ofglvd9gqx8yfl3l": {
-            title: 'Vacuums',
-            icon: 'mdi-robot-vacuum',
-            routePath: '/devices/vacuums'
-          }
-        },
+        deviceInfo: {},
         home_id: '',
       }
     },
     methods: {
+      addDevice: async function() {
+        router.push({name: "AddDevice"});
+      },
       retrieveDeviceTypes: async function() {
         try {
           const ans = await DeviceApi.getAll();
@@ -105,14 +53,14 @@
             .filter(dt => {
               return !dt.room || !dt.room.home || dt.room.home.id === this.home_id
             })
-            .map(dt => dt.type.id)
-            .reduce((unique, id) => unique.includes(id) ? unique: [...unique, id],[])
-            .map(id => this.deviceInfo[id]);
+            .map(dt => dt.type.name)
+            .reduce((unique, name) => unique.includes(name) ? unique: [...unique, name],[])
+            .map(name => this.deviceInfo[name]);
+          //console.log(this.devicesAvail);
         }
         catch(err) {
           console.log(err);
         }
-        this.noItemsText = "You don't have devices yet. Add one with the bottom right button."
       }
     }
   };
