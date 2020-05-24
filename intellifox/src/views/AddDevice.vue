@@ -49,21 +49,20 @@
 </template>
 
 <script>
+  import storage from '@/storage';
   import router from '@/router';
   import { HomeApi, HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   import AddDeviceButton from '@/components/AddDeviceButton.vue';
   export default {
     name: 'Devices',
-    props: {
-      home_id: String,
-    },
     components: {
       AddDeviceButton
     },
     mounted: async function() {
-
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
+      this.selectedHomeID = this.home_id;
       this.retrieveDevice();
-      
 
       await this.retrieveRooms();
       this.retrieveRoom();
@@ -72,7 +71,7 @@
       return {
         name: '',
         desc: '',
-        selectedRoomID: 'none',
+        selectedRoomID: '',
         rooms: [],
         selectedDeviceIndex: -1,
         devices: [
@@ -126,7 +125,8 @@
             name: "Tap",
             icon: "mdi-water-pump"
           },
-        ]
+        ],
+        home_id: {},
       }
     },
     methods: {
@@ -142,7 +142,7 @@
         }
       },
       retrieveDevice: function() {
-        const {deviceTypeId} = this.$route.query;
+        const { deviceTypeId } = this.$route.query;
         for(var i = 0 ; i < this.devices.length ; i++){
           if(this.devices[i].id === deviceTypeId){
             this.selectedDeviceIndex = i;
@@ -151,31 +151,32 @@
       },
 
       retrieveRooms: async function() {
-        try {
-          const ans = await HomeRoomApi.get(this.home_id);
-          const ans2 = await RoomApi.getAll();
-          this.rooms = [];
-          this.rooms.push({
-            text: 'None',
-            value: 'none',
-          });
-          ans.result.forEach(room => {
-            this.rooms.push({
-              text: room.name,
-              value: room.id,
-            });
-          });
-          ans2.result.forEach(room => {
-            if(!room.home){
+        if (this.home_id) {
+          try {
+            const ans = await HomeRoomApi.get(this.home_id);
+            const ans2 = await RoomApi.getAll();
+            this.rooms = [{
+              text: 'None',
+              value: '',
+            }];
+            ans.result.forEach(room => {
               this.rooms.push({
                 text: room.name,
                 value: room.id,
               });
-            }
-          });
-        }
-        catch(err) {
-          console.log(err);
+            });
+            ans2.result.forEach(room => {
+              if(!room.home){
+                this.rooms.push({
+                  text: room.name,
+                  value: room.id,
+                });
+              }
+            });
+          }
+          catch(err) {
+            console.log(err);
+          }
         }
       },
       addDevice: async function() {

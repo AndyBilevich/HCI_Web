@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import storage from '@/storage';
 import router from '@/router';
 import { DeviceApi } from '@/api';
 import LightCard from "@/components/devices/LightCard.vue";
@@ -29,11 +30,9 @@ export default {
   components: {
     LightCard,
   },
-  mounted: function() {
-    const query = this.$route.query;
-    if (query)
-      this.home_id = query.home_id
-    console.log(`HOME_ID is ${this.home_id}`)
+  created: async function() {
+    const home = await storage.getActualHome();
+    this.home_id = home?home.id:'';
     this.retrieveDevices();    
   },
   data: function() {
