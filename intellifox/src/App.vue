@@ -39,7 +39,7 @@
           </v-row>
         </v-col>
         <v-col cols="2">
-          <div v-if="!home">No home selected</div>
+          <div v-if="!home.id">No home selected</div>
           <div v-else>at {{home.name}}</div>
         </v-col>
         <v-col align="center">
