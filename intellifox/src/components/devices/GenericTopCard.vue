@@ -123,7 +123,7 @@ export default {
       switchDisabled:this.switchLocked,
       switchLoading:this.switchLoads,
       rooms: [],
-      auxHome: {},
+
     }
   },
   methods: {
@@ -140,10 +140,11 @@ export default {
           await DeviceApi.delete(this.model.id);
           
           if(this.model.room.id !== 'none'){
-            const ans2 = await HomeApi.get(this.model.home.id);
-            this.auxHome = ans2.result;
-            this.auxHome.meta.rooms = this.auxHome.meta.rooms - 1;
-            await HomeApi.modify(this.auxHome);
+            const ans2 = await HomeApi.get(this.model.room.home.id);
+            var auxHome = ans2.result;
+            auxHome.meta.devs = auxHome.meta.devs - 1;
+            await HomeApi.modify(auxHome);
+           
           }  
           
       } catch (err) {

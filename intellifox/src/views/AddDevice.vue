@@ -74,7 +74,6 @@
         desc: '',
         selectedRoomID: 'none',
         rooms: [],
-        auxHome: {},
         selectedDeviceIndex: -1,
         devices: [
           {
@@ -190,14 +189,17 @@
         );
         try {
           const ans = await DeviceApi.add(device);
-          if (ans && this.selectedRoomID != 'none')
+          
+          if (ans && this.selectedRoomID != 'none'){
             await RoomDeviceApi.add(this.selectedRoomID, ans.result.id);
-            
-            const ans2 = await HomeApi.get(this.selectedHomeID);
-            this.auxHome = ans2.result;
-            
-            this.auxHome.meta.rooms = this.auxHome.meta.devs + 1;
-            await HomeApi.modify(this.auxHome);
+          
+            const resp1 = await RoomApi.get(this.selectedRoomID) 
+            const resp2 = await HomeApi.get(resp1.result.home.id);
+            var auxHome = resp2.result;
+            console.log(auxHome);
+            auxHome.meta.devs = auxHome.meta.devs + 1;
+            await HomeApi.modify(auxHome);
+          }
 
         } catch (err) {
           console.log(err);

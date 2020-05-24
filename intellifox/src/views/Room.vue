@@ -153,13 +153,14 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
             deleteRoom: async function() {
                 try {
                     await RoomApi.delete(this.room.id);
-                    var auxHomeId = this.room.home ? this.room.home.id : 'none';
+                    var auxHomeId = (this.room.home.id !== 'none') ? this.room.home.id : 'none';
                     if(auxHomeId !== 'none'){ 
                         const ans2 = await HomeApi.get(auxHomeId);
                         const auxHome = ans2.result;
+                        console.log(auxHome.meta.rooms);
                         
                         auxHome.meta.rooms = auxHome.meta.rooms - 1;
-                        await HomeApi.modify(this.auxHome);
+                        await HomeApi.modify(auxHome);
 
                         // const ans3 = await HomeApi.get(auxHomeId);
                         // this.auxHome = ans3.result;
