@@ -17,8 +17,8 @@
           <v-icon>mdi-plus</v-icon>
         </v-btn>
       </router-link>
-    
-    
+
+
   </div>
 </template>
 
@@ -50,7 +50,7 @@
         if (this.home_id) {
           try {
             const ans = await HomeRoomApi.get(this.home_id);
-            this.rooms = ans.result; 
+            this.rooms = ans.result;
             const ans2 = await RoomApi.getAll();
             var i;
             for (i = 0; i < ans2.result.length; i++) {
@@ -79,6 +79,6 @@
 .noItemsMessage{
   position: absolute;
   bottom: 50%,
-  
+
 }
 </style>

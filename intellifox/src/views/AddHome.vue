@@ -2,21 +2,20 @@
   <div>
     <h1 class="text-left">Add House</h1>
    
-      <v-row>
-        <v-col cols="1"></v-col>
+      <v-row dense>
 
-        <v-col cols="4">
+       <v-col cols="5">
           <h3 align="left">Name:</h3>
           <v-text-field
             v-model="name"
-            label="Name:"
+            label="Name"
             solo
           ></v-text-field>
-        </v-col>
 
+      </v-col>
         <v-col cols="1"></v-col>
 
-        <v-col cols="4">
+        <v-col cols="5">
           <h3 align="left">Description (optional):</h3>
           <v-text-field
             v-model="desc"
@@ -27,8 +26,8 @@
       </v-row>
 
       <v-row>
-        <v-col cols="1"></v-col>        
-        <v-col cols="4">
+
+        <v-col cols="5">
         <h3 align="left">Pin (optional):</h3>
           <v-text-field
             v-model="pin"

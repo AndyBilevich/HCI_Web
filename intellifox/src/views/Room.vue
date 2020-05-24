@@ -184,12 +184,8 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                             this.devices.push(d);
                     })
                 }
-<<<<<<< HEAD
-                console.log("Here is devices");
-                console.log(this.devices);
+
                  this.noItemsText = "You don't have devices in this room yet. Add one with the bottom right button."
-=======
->>>>>>> cce2355a9bb5d6e6fa23744e11f4b209cd7f19f5
             },
             updateModel: function(newModel) {
                 this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;

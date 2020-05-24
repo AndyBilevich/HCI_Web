@@ -1,7 +1,7 @@
 <template> 
   <v-card class="device_card">
     <div class="device_top_card">
-      <TopCard 
+      <TopCard
         @set_switch_state="switchOnOff"
         @upd_devs="emitUpdDevs"
         :model="alarm"
@@ -9,9 +9,9 @@
         :switchLoads="switchLoading"
         :switchLocked="switchLocked"
         :click="() => {show = !show}"
-        :show="show" 
-        :title="title" 
-        :subtitle="desc" 
+        :show="show"
+        :title="title"
+        :subtitle="desc"
         icon="mdi-alarm-light-outline"></TopCard>
     </div>
     <div class="device_bottom_card">
@@ -19,7 +19,7 @@
           <div v-show="show">
             <v-divider></v-divider>
               <h3 align="left"  class="mt-5 ml-5">Change code:</h3>
-              <v-row>         
+              <v-row>
                 <v-col cols="1"></v-col>
                 <v-col cols="3">
                   <v-text-field
@@ -37,12 +37,12 @@
                   ></v-text-field>
                 </v-col>
                 <v-col cols="1"></v-col>
-                <v-btn 
-                  large 
-                  class="primary" 
+                <v-btn
+                  large
+                  class="primary"
                   @click="() => {
-                    setNewCode();  
-                  }">Change code</v-btn> 
+                    setNewCode();
+                  }">Change code</v-btn>
               </v-row>
 
               <v-row class="my-5"></v-row>
@@ -79,7 +79,7 @@
                   <v-row>
                     <v-col cols="1"></v-col>
                     <v-btn class="ma-2" outlined medium color="error" @click="dialog=false">ok</v-btn>
-                  </v-row> 
+                  </v-row>
                 </v-card>
               </v-dialog>
 
@@ -94,7 +94,7 @@
                   <v-row>
                     <v-col cols="1"></v-col>
                     <v-btn class="ma-2" outlined medium color="error" @click="dialog2=false">ok</v-btn>
-                  </v-row> 
+                  </v-row>
                 </v-card>
               </v-dialog>
           </div>
@@ -116,7 +116,7 @@ export default {
   mounted: function() {
     this.updateInfo();
     this.subscribeToEvents();
-    this.switchLocked = !this.hasCode;  
+    this.switchLocked = !this.hasCode;
     //this.bruteForceCode();
   },
   data: function() {
@@ -133,8 +133,8 @@ export default {
       houseMode:true,
 
       hasCode:false,
-      code:'0000',
-      oldCode:'0000',
+      code:'1234',
+      oldCode:'1234',
       newCode:'',
       insertedCode:'',
 
@@ -246,7 +246,7 @@ export default {
     },
     setNewCode: async function(){
       if(!this.hasCode)
-        this.hasCode=true;  
+        this.hasCode=true;
       else{
         if(!this.checkCode(this.oldCode) || this.oldCode != this.code){
           this.oldCode='';
@@ -259,7 +259,7 @@ export default {
         this.dialog=true;
         return;
       }
-      try{  
+      try{
         this.switchLocked=true;
         console.log(" oldCode " + this.oldCode + " code " + this.code + " new code " + this.newCode);
         await DeviceApi.setAction(this.alarm.id, 'changeSecurityCode', [this.oldCode, this.newCode]);
@@ -302,7 +302,7 @@ export default {
             console.log(err);
           }
       }
-      
+
     }
   },
   watch: {

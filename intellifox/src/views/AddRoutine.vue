@@ -24,20 +24,17 @@
                     </v-col>
                 </v-row>
                 <v-row class="pl-2">
-                    <h3 class="pt-5">Require PIN code:</h3>
+                    <h3 class="pt-5 mr-2">Require PIN code:</h3>
                     <v-checkbox
                         v-model="checkbox"
                     ></v-checkbox>
                 </v-row>
                 <v-row>
-                    <v-col cols="4">
-                        <h3 class="text-left">Chosen Color:</h3>
-                    </v-col>
+                    <h3 align="left" class="mt-3 ml-2">Chosen Color:</h3>
+                    <v-col cols="1"/>
+                        <v-icon large :color="showColor" >mdi-circle</v-icon>
                     <v-col cols="3">
-                         <v-icon large :color="showColor" >mdi-circle</v-icon>
-                    </v-col>
-                    <v-col cols="3">
-                         <h3 class="text-left">{{ showColor }}</h3>
+                        <h3 class="text-left">{{ showColor }}</h3>
                     </v-col>
                 </v-row>
             </v-col>
