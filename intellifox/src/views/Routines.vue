@@ -12,7 +12,6 @@
         <v-icon>mdi-plus</v-icon>
       </v-btn>
     </router-link>
-     
   </div>
 </template>
 

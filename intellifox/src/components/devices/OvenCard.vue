@@ -266,7 +266,6 @@ export default {
         console.log(err);
       }
       this.updateInfo();
-      
     },
     updateHeatSrc: async function(){
       try{
