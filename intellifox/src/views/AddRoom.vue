@@ -49,18 +49,19 @@
 </template>
 
 <script>
+  import storage from '@/storage';
   import router from '@/router';
   import { HomeApi, RoomApi, Room, HomeRoomApi } from '@/api';
   import AddRoomCard from '@/components/AddRoomCard.vue';
   export default {
     name: 'AddRoom',
-    props: {
-      home_id: String,
-    },
     components: {
       AddRoomCard
     },
-    created() {
+    created: async function() {
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
+      this.selectedHomeID = this.home_id
       this.retrieveHomes();
     },
     data: function() {
@@ -68,8 +69,9 @@
         name:"",
         desc:"",
         selectedIcon: 'mdi-rhombus-split',
-        selectedHomeID: this.home_id || 'none',
+        selectedHomeID: '',
         homes: [],
+        home_id: '',
       }
     },
     methods:{
@@ -79,7 +81,7 @@
       retrieveHomes: async function() {
         try {
           const ans = await HomeApi.getAll();
-          this.homes = [ {text:"None", value:"none" } ]; 
+          this.homes = [ {text:"None", value:'' } ]; 
           ans.result.forEach(h => {
             this.homes.push({
               text: h.name,
@@ -106,7 +108,7 @@
         );
         try {
           const ans = await RoomApi.add(room);
-          if(this.selectedHomeID != "none"){
+          if(this.selectedHomeID != ''){
             await HomeRoomApi.add(this.selectedHomeID, ans.result.id);
             
             const ans2 = await HomeApi.get(this.selectedHomeID);
@@ -115,10 +117,6 @@
             auxHome.meta.rooms = auxHome.meta.rooms + 1;
             await HomeApi.modify(auxHome);
 
-            // const ans3 = await HomeApi.get(this.selectedHomeID);
-            // this.auxHome = ans3.result;
-            
-            // console.log(JSON.stringify(this.auxHome));
           }
         } catch (err) {
           console.log(err);

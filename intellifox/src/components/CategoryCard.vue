@@ -18,14 +18,13 @@ export default {
     }
   },
   props: {
-    home_id: String,
     categoryName: String,
     categoryIcon: String,
     routePath: String
   },
   methods: {
     goTo: async function() {
-      router.push({path: this.routePath, query: {home_id: this.home_id}})
+      router.push({path: this.routePath})
     }
   }
 };

@@ -1,4 +1,6 @@
+/*
 import { DeviceTypeApi } from '@/api';
+
 
 import {
     SpeakerCard, 
@@ -15,78 +17,65 @@ import {
 
 const types = {
     'speaker': {
-        component: SpeakerCard, 
+        component: 'SpeakerCard', 
         title: 'Speaker',
         roomTitle: 'Speakers'
     },
     'faucet': {
-        component: WaterCard,
+        component: 'WaterCard',
         title: 'Tap',
         roomTitle: 'Taps'
     },
     'ac': {
-        component: AirConditionerCard,
+        component: 'AirConditionerCard',
         title: 'Air Conditioner',
         roomTitle: 'Air Conditioners'
     },
     'lamp': {
-        component: LightCard, 
+        component: 'LightCard', 
         title: 'Light',
         roomTitle: 'Lights'
     },
     'vacuum': {
-        component: VacuumCard, 
+        component: 'VacuumCard', 
         title: 'Vacuum',
         roomTitle: 'Vacuums'
     },
     'alarm': {
-        component: AlarmCard, 
+        component: 'AlarmCard', 
         title: 'Alarm',
         roomTitle: 'Alarms'
     },
     'oven': {
-        component: OvenCard, 
+        component: 'OvenCard', 
         title: 'Oven',
         roomTitle: 'Ovens'
     },
     'door': {
-        component: DoorCard, 
+        component: 'DoorCard', 
         title: 'Door',
         roomTitle: 'Doors'
     },
     'refrigerator': {
-        component: FridgeCard, 
+        component: 'FridgeCard', 
         title: 'Fridge',
         roomTitle: 'Fridges'
-    },
-    'blinds': {
-        component: WindowCard, 
+    },    'blinds': {
+        component: 'WindowCard', 
         title: 'Blind',
         roomTitle: 'Blinds'
     },
 }
+*/
 
 export default {
     state: undefined,
     initializeState: async function() {
         this.state = {darkMode: true, types: {}};
-        const ans = await DeviceTypeApi.getAll();
-        if (ans.result) {
-            ans.result.forEach(dt => {
-                this.state.types[dt.name] = {
-                    id: dt.id,
-                    name: dt.name,
-                    component: types[dt.name].component,
-                    title: types[dt.name].title,
-                    roomTitle: types[dt.name].roomTitle
-                }
-            });
-            console.log(this.state.types);
-        }
     },
     fetchState: async function() {
         console.log("Fetching state");
-        await localStorage.removeItem('intellifox_state');
+        //await localStorage.removeItem('intellifox_state');
         let aux = await JSON.parse(localStorage.getItem('intellifox_state'));
         if (!aux) {
           await this.initializeState();
@@ -98,40 +87,33 @@ export default {
     saveState: async function() {
         await localStorage.setItem('intellifox_state', JSON.stringify(this.state));
         let ans = await JSON.parse(localStorage.getItem('intellifox_state'));
-        console.log("Saved");
-        console.log(ans);
     },
     setState(newState) {
         this.state = newState;
         this.saveState();
     },
-    getState() {
+    getState: async function() {
+        if (!this.state)
+            await this.fetchState();
         return this.state;
     },
     setDarkMode(newValue) {
         this.state.darkMode = newValue;
         this.saveState();
     },
-    getDarkMode() {
+    getDarkMode: async function() {
+        if (!this.state)
+            await this.fetchState();
         return this.state.darkMode;
     },
     setActualHome(newValue) {
         this.state.actualHome = newValue;
         this.saveState();
     },
-    getActualHome() {
+    getActualHome: async function() {
+        if (!this.state)
+            await this.fetchState();
+        console.log(this.state.actualHome)
         return this.state.actualHome;
-    },
-    getTypeId(name) {
-        return this.state.types[name].id;
-    },
-    getTypeTitle(name) {
-        return this.state.types[name].title;
-    },
-    getTypeRoomTitle(name) {
-        return this.state.types[name].roomTitle;
-    },
-    getTypeComponent(name) {
-        return this.state.types[name].component;
     },
 }

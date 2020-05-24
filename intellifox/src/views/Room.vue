@@ -42,7 +42,7 @@
         </v-row>
         <v-row dense>
             <v-col v-for="d in devices" :key="d.id" cols="6">
-                <component v-bind:is="types[d.type.id]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
+                <component v-bind:is="types[d.type.name]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
             </v-col>
         </v-row>
 
@@ -122,16 +122,16 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                 },
                 devices: [],
                 types: {
-                    'c89b94e8581855bc': SpeakerCard,
-                    'dbrlsh7o5sn8ur4i': WaterCard,
-                    'li6cbv5sdlatti0j': AirConditionerCard,
-                    'go46xmbqeomjrsjr': LightCard,
-                    'ofglvd9gqx8yfl3l': VacuumCard,
-                    'mxztsyjzsrq7iaqc': AlarmCard,
-                    'im77xxyulpegfmv8': OvenCard,
-                    'lsf78ly0eqrjbz91': DoorCard,
-                    'rnizejqr2di0okho': FridgeCard,
-                    'eu0v2xgprrhhg41g': WindowCard,
+                    'speaker': SpeakerCard,
+                    'faucer': WaterCard,
+                    'ac': AirConditionerCard,
+                    'lamp': LightCard,
+                    'vacuum': VacuumCard,
+                    'alarm': AlarmCard,
+                    'oven': OvenCard,
+                    'door': DoorCard,
+                    'refrigerator': FridgeCard,
+                    'blinds': WindowCard,
                 }
             }
         },
@@ -145,10 +145,8 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                 router.push({path:'/devices/add', query:{roomId: this.room.id}});
             },
             retrieveRoom: async function() {
-                console.log(`Room ID: ${this.room.id}`);
                 const ans = await RoomApi.get(this.room.id);
                 this.room = ans.result;
-                console.log(ans.result);
             },
             deleteRoom: async function() {
                 try {
@@ -157,15 +155,9 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                     if(auxHomeId !== 'none'){ 
                         const ans2 = await HomeApi.get(auxHomeId);
                         const auxHome = ans2.result;
-                        console.log(auxHome.meta.rooms);
                         
                         auxHome.meta.rooms = auxHome.meta.rooms - 1;
                         await HomeApi.modify(auxHome);
-
-                        // const ans3 = await HomeApi.get(auxHomeId);
-                        // this.auxHome = ans3.result;
-                        
-                        // console.log(JSON.stringify(this.auxHome));
                     }
                 } catch (err) {
                     console.log(err);
@@ -177,19 +169,14 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                 router.push({ name:"EditRoom", params:{ id: this.room.id}, query:{ icon: this.room.meta.icon, home:homeid }})
             },
             retrieveDevices: async function() {
-                console.log("Retrieving devices");
                 const aux = await DeviceApi.getAll();
-                console.log(aux.result);
                 this.devices = [];
                 if (aux.result) {
                     aux.result.forEach(d => {
                         if(d.room && d.room.id === this.room.id)
                             this.devices.push(d);
-                        console.log(JSON.stringify(this.types[d.type.id]));
                     })
                 }
-                console.log("Here is devices");
-                console.log(this.devices);
             },
             updateModel: function(newModel) {
                 this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel; 

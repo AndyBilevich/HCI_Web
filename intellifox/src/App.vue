@@ -64,7 +64,7 @@
     >
       <v-content align="center">
         <div id="bkg" class="background2">
-          <router-view :home_id="home.id" @update_home="updateHome"/>
+          <router-view @update_home="updateHome"/>
         </div>
       </v-content>
     </v-row>
@@ -221,22 +221,21 @@ export default {
         const ans = await HomeApi.get(new_id);
         if (ans.result) {
           this.home = ans.result;
-          storage.setActualHome(this.home);
-          console.log(storage.getActualHome());
+          await storage.setActualHome(this.home);
         }
       } catch (err) {
         console.log(err);
       }
     },
-    retrieveTheme: function() {
-      let dark = storage.getDarkMode();
+    retrieveTheme: async function() {
+      let dark = await storage.getDarkMode();
       this.$vuetify.theme.dark = dark;
     },
-    retrieveHome: function() {
-      let home = storage.getActualHome();
+    retrieveHome: async function() {
+      let home = await storage.getActualHome();
       if (home)
         this.updateHome(home.id);
     },
-  }
+  },
 };
 </script>

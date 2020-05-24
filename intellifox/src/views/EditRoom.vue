@@ -51,6 +51,7 @@
 </template>
 
 <script>
+  import storage from '@/storage';
   import router from '@/router';
   import {  RoomApi, Room ,HomeApi,  HomeRoomApi} from '@/api';
   import AddRoomCard from '@/components/AddRoomCard.vue';
@@ -58,10 +59,9 @@
     components: {
       AddRoomCard
     },
-    props: {
-      home_id: String,
-    },
     created: async function(){
+      const home = await storage.getActualHome();
+      this.originalHomeID = home?home.id:'';
       this.retrieveHomes();
       this.room.id = this.$route.params.id;
       await this.retrieveRoom(this.room.id);
@@ -70,7 +70,7 @@
       return {
         room:{ meta: {} },
         selectedIcon: '',
-        originalHomeID: this.$route.query.home,
+        originalHomeID: '',
         selectedHomeID: this.$route.query.home,
         homes: [],
       }
@@ -83,7 +83,7 @@
         retrieveHomes: async function() {
           try {
             const ans = await HomeApi.getAll();
-            this.homes = [ {text:"None", value:"none" } ]; 
+            this.homes = [ {text:"None", value:'' } ]; 
             ans.result.forEach(h => {
               this.homes.push({
                 text: h.name,
@@ -110,10 +110,10 @@
             try {
                 await RoomApi.modify(room);
                 if(this.originalHomeID != this.selectedHomeID){
-                  if(this.originalHomeID != 'none'){
+                  if(this.originalHomeID != ''){
                     await HomeRoomApi.delete(this.room.id,);
                   }
-                  if(this.selectedHomeID != "none"){
+                  if(this.selectedHomeID != ''){
                     await HomeRoomApi.add(this.selectedHomeID, this.room.id,);
                   }
                   router.go(-1);

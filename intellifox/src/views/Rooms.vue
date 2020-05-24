@@ -16,40 +16,43 @@
 </template>
 
 <script>
+  import storage from '@/storage';
   import { HomeRoomApi, RoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
     name: 'Rooms',
-    props: {
-      home_id: String,
-    },
     components: {
       CategoryCard
     },
-    mounted: function() {
+    mounted: async function() {
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
       this.retrieveRooms();
     },
     data: function() {
       return {
         hidden: false,
         rooms: [],
+        home_id: {}
       }
     },
     methods: {
       retrieveRooms: async function() {
-        try {
-          const ans = await HomeRoomApi.get(this.home_id);
-          this.rooms = ans.result; 
-          const ans2 = await RoomApi.getAll();
-          var i;
-          for (i = 0; i < ans2.result.length; i++) {
-              if(!ans2.result[i].home){
-                  this.rooms.push( ans2.result[i] );
-              }
+        if (this.home_id) {
+          try {
+            const ans = await HomeRoomApi.get(this.home_id);
+            this.rooms = ans.result; 
+            const ans2 = await RoomApi.getAll();
+            var i;
+            for (i = 0; i < ans2.result.length; i++) {
+                if(!ans2.result[i].home){
+                    this.rooms.push( ans2.result[i] );
+                }
+            }
           }
-        }
-        catch(err) {
-          console.log(err);
+          catch(err) {
+            console.log(err);
+          }
         }
       }
     }

@@ -4,7 +4,7 @@
 
     <v-row dense>
       <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
-          <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
+          <CategoryCard :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
       </v-col>
     </v-row>
 
@@ -19,16 +19,16 @@
 
 
 <script>
+  import storage from '@/storage';
   import { DeviceApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
-    props: {
-      home_id: String,
-    },
     components: {
       CategoryCard
     },
-    mounted: function() {
+    created: async function() {
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
       this.retrieveDeviceTypes();
     },
     data: function() {
@@ -86,7 +86,8 @@
             icon: 'mdi-robot-vacuum',
             routePath: '/devices/vacuums'
           } 
-        }
+        },
+        home_id: '',
       }
     },
     methods: {
