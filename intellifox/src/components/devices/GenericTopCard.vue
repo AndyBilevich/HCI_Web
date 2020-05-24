@@ -122,7 +122,6 @@ export default {
       switchDisabled:this.switchLocked,
       switchLoading:this.switchLoads,
       rooms: [],
-
     }
   },
   methods: {

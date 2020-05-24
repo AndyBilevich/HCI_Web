@@ -36,14 +36,14 @@
 </template>
 
 <script>
+  import storage from '@/router';
   import router from '@/router';
   import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   export default {
     name: 'Devices',
-    props: {
-      home_id: String,
-    },
-    mounted: function() {
+    created: async function() {
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
       this.retrieveRooms();
       this.device.id = this.$route.params.id;
       this.retrieveDevice();
@@ -57,7 +57,8 @@
         rooms: [],
         device: {
           meta: {}
-        }
+        },
+        home_id: '',
       }
     },
     methods: {
@@ -111,10 +112,10 @@
         );
         try {
           const ans = await DeviceApi.modify(device);
-          if (this.originalRoomID != 'none' && this.originalRoomID != this.selectedRoomID){
+          if (this.originalRoomID != '' && this.originalRoomID != this.selectedRoomID){
               await RoomDeviceApi.delete(this.device.id);
           }
-          if (ans && this.selectedRoomID != 'none'){
+          if (ans && this.selectedRoomID != ''){
               await RoomDeviceApi.add(this.selectedRoomID, this.device.id);
           }
         } catch (err) {

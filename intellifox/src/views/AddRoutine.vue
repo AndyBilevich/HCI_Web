@@ -53,10 +53,16 @@
             <v-card class="ml-5 mt-5" v-for="deviceActions in allDevActions" :key="deviceActions.id">
                 <v-card-title class="headline">
                     {{deviceActions.device.name}}
+                    <v-btn @click="removeDev(deviceActions.device.id)" color="primary" x-small fab text >
+                        <v-icon>mdi-trash-can</v-icon>
+                    </v-btn>
                 </v-card-title>
                 <v-card-text>
                     <div v-for="actions in deviceActions.actions" :key="actions.id">
-                        {{actions.action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}} {{actions.action.params.length > 0 ? actions.params : '' }}
+                        <v-btn @click="removeActionFromDev(deviceActions.device.id, actions.action.name)" color="primary" x-small fab text >
+                            <v-icon>mdi-window-close</v-icon>
+                        </v-btn>
+                        {{actions.action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}: {{actions.action.params.length > 0 ? printParams(actions.params) : '' }}
                     </div>
                 </v-card-text>
                 <v-card-text>
@@ -190,6 +196,16 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <v-dialog v-model="dialog4" scrollable max-width="600px" >
+                    <v-card color="background3">
+                        <v-card-title> Oops! </v-card-title>
+                        <v-card-text> This device is allready in the routine! Try adding a diferent one. </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-2" outlined large color="primary" @click="dialog4=false;dialog1=true">Ok!</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-col>
         </v-row>
 
@@ -220,6 +236,7 @@
             dialog1: false,
             dialog2: false,
             dialog3: false,
+            dialog4: false,
 
             checkbox: false,
 
@@ -275,17 +292,28 @@
             }
         },
         addDevCard: async function(id){
-            try {
-                const ans = await DeviceApi.get(id); 
-                this.currDev = ans.result;
-                this.allDevActions.push({
-                    device: ans.result,
-                    actions: [],
-                })
-                this.dialog1 = false;
-            } catch (err) {
-                console.log(err);
+            let canAdd = true;
+            this.allDevActions.forEach(devAction => {
+                console.log(devAction.device.id);
+                if(devAction.device.id == id){
+                    this.dialog4=true;
+                    canAdd=false;
+                }
+            });
+            if(canAdd){
+                try {
+                    const ans = await DeviceApi.get(id); 
+                    this.currDev = ans.result;
+                    this.allDevActions.push({
+                        device: ans.result,
+                        actions: [],
+                    })
+                    this.dialog1 = false;
+                } catch (err) {
+                    console.log(err);
+                }
             }
+            
         },
         addActionCard: async function(device){
             this.currDev = device;
@@ -328,7 +356,6 @@
             router.go(-1);
         },
         saveRoutine: async function(){
-            //this.buildFormatedActionArray();
             const routine = new Routine(null, this.name, this.buildFormatedActionArray(), {desc: this.desc, color: this.color });
             try {
                 await RoutineApi.add(routine);
@@ -358,9 +385,33 @@
             return arr;
         },
         updateParamVal: function(val, index){
-            console.log(val + ' / ' + index)
             this.params[index] = val;
-        }
+        },
+        printParams: function(params){
+            let resp = '';
+            params.forEach( p => {
+                resp += p + ' ';
+            })
+            return resp;
+        },
+        removeActionFromDev: function(deviceId, actionName){
+            this.allDevActions.forEach( devAction => {
+                if(devAction.device.id == deviceId){
+                    for( var i = 0; i < devAction.actions.length; i++){ 
+                        if ( devAction.actions[i].action.name == actionName) {
+                            devAction.actions.splice(i, 1);
+                        }
+                    }
+                }
+            });
+        },
+        removeDev: function(deviceId){
+            for( var i = 0; i < this.allDevActions.length; i++){ 
+                if(this.allDevActions[i].device.id == deviceId){
+                    this.allDevActions.splice(i, 1);
+                }
+            }
+        },
     },
     computed: {
       color: {
@@ -383,7 +434,6 @@
   }
 </script>
 
-
 <style scoped>
 .box{
     height: 300px; 
@@ -391,32 +441,3 @@
     overflow-x: hidden;
 }
 </style>
-
-<!-- 
-
-{
-  "name": "good night",
-  "actions": [
-    {
-      "device": {
-        "id": "c39181d52abe5555"
-      },
-      "actionName": "turnOff",
-      "params": [],
-      "meta": {}
-    },
-    {
-      "device": {
-        "id": "f597c13717008fb1"
-      },
-      "actionName": "armStay",
-      "params": [
-        "1234"
-      ],
-      "meta": {}
-    }
-  ],
-  "meta": {}
-}
-
--->

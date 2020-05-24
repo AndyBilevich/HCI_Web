@@ -4,7 +4,13 @@
       <v-icon size="130" class="background2--text">{{categoryIcon}}</v-icon>
     </div>
     <div class="card_bottom background1">
-      <v-card-text class="text--primary">{{categoryName}}</v-card-text>
+      <div v-if= "categoryName.length <= 15">
+        <v-card-text class="text--primary"> {{categoryName }}</v-card-text>
+      </div>
+      <div v-else>
+        <v-card-text class="text--primary"> {{categoryName.substr(0,12) + "..."}}</v-card-text>
+      </div>
+        
     </div>
   </v-card>
 </template>
@@ -18,14 +24,13 @@ export default {
     }
   },
   props: {
-    home_id: String,
     categoryName: String,
     categoryIcon: String,
     routePath: String
   },
   methods: {
     goTo: async function() {
-      router.push({path: this.routePath, query: {home_id: this.home_id}})
+      router.push({path: this.routePath})
     }
   }
 };

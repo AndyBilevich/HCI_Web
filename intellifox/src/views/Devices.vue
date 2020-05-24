@@ -1,12 +1,17 @@
 <template>
   <div class="devices">
     <h1>Devices</h1>
+    <div v-if="devicesAvail.length === 0">
+        <h3 class="noItemsMessage" justify="center">{{noItemsText}}</h3>
+    </div>
+    <div v-else>
+      <v-row dense>
+        <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
+            <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
+        </v-col>
+      </v-row>
+    </div>
 
-    <v-row dense>
-      <v-col cols="2" v-for="indDevice in devicesAvail" :key="indDevice.title">
-          <CategoryCard :home_id="home_id" :categoryName="indDevice.title" :categoryIcon="indDevice.icon" :routePath="indDevice.routePath" />
-      </v-col>
-    </v-row>
 
     <router-link class="routerLink" to="/devices/add">
       <v-btn class="add_btn" color="primary" fab big bottom right>
@@ -19,28 +24,30 @@
 
 
 <script>
+  import storage from '@/storage';
   import { DeviceApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
-    props: {
-      home_id: String,
-    },
     components: {
       CategoryCard
     },
-    mounted: function() {
+    created: async function() {
+      const home = await storage.getActualHome();
+      this.home_id = home?home.id:'';
       this.retrieveDeviceTypes();
+
     },
     data: function() {
       return {
         hidden: false,
+        noItemsText: "",
         devicesAvail: [],
         deviceInfo: {
           "li6cbv5sdlatti0j": {
             title: 'Air Conditioners',
             icon: 'mdi-air-conditioner',
-            routePath: '/devices/air-conditioners'  
-          }, 
+            routePath: '/devices/air-conditioners'
+          },
           "mxztsyjzsrq7iaqc": {
             title: 'Alarms',
             icon: 'mdi-alarm-light-outline',
@@ -85,8 +92,9 @@
             title: 'Vacuums',
             icon: 'mdi-robot-vacuum',
             routePath: '/devices/vacuums'
-          } 
-        }
+          }
+        },
+        home_id: '',
       }
     },
     methods: {
@@ -104,6 +112,7 @@
         catch(err) {
           console.log(err);
         }
+        this.noItemsText = "You don't have devices yet. Add one with the bottom right button."
       }
     }
   };

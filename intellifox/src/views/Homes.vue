@@ -2,19 +2,24 @@
 <template>
   <div class="homes">
     <h1>Homes</h1>
-    <v-container>
-      <v-row dense>
-        <v-col v-for="h in homes" :key="h.id" cols="6">
-          <HomeCard 
-            class="card" 
-            @update="retrieveHomes" 
-            :selected="selectedHomeID === h.id" 
-            :home="h" 
-            @click.native="() => {selectedHomeID = h.id;}"/>
-        </v-col>
-      </v-row>
-    </v-container>
-        
+    <div v-if="homes.length === 0">
+            <h3 class="noItemsMessage"> {{noItemsText}}</h3>
+    </div>
+    <div v-else>
+      <v-container>
+        <v-row dense>
+          <v-col v-for="h in homes" :key="h.id" cols="6">
+            <HomeCard 
+              class="card" 
+              @update="retrieveHomes" 
+              :selected="selectedHomeID === h.id" 
+              :home="h" 
+              @click.native="() => {selectedHomeID = h.id;}"/>
+          </v-col>
+        </v-row>
+      </v-container>
+    </div>
+            
     <router-link class="routerLink" to="/homes/add">
       <v-btn class="add_btn" color="primary" fab big bottom right>
         <v-icon>mdi-plus</v-icon>
@@ -42,6 +47,7 @@ export default {
   },
   data: function() {
     return {
+      noItemsText: "",
       selectedHomeID: '',
       homes: [],
     }
@@ -55,6 +61,7 @@ export default {
       catch(err) {
         console.log(err);
       }
+      this.noItemsText = "You don't have houses yet. Add one with the bottom right button."
     }
   },
   watch: {

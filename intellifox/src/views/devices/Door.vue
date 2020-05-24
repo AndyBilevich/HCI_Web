@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import storage from '@/storage';
 import router from '@/router';
 import { DeviceApi } from '@/api';
 import DoorCard from "@/components/devices/DoorCard.vue";
@@ -29,10 +30,9 @@ export default {
   components: {
     DoorCard,
   },
-  mounted: function() {
-    const query = this.$route.query;
-    if (query)
-      this.home_id = query.home_id
+  created: async function() {
+    const home = await storage.getActualHome();
+    this.home_id = home?home.id:'';
     this.retrieveDevices();
   },
   data: function() {
