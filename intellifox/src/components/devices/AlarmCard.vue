@@ -133,8 +133,8 @@ export default {
       houseMode:true,
 
       hasCode:false,
-      code:'0000',
-      oldCode:'0000',
+      code:'1234',
+      oldCode:'1234',
       newCode:'',
       insertedCode:'',
 
