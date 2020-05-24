@@ -68,10 +68,7 @@
                     <v-btn
                       class="cards background2--text"
                       :disabled="actionsLocked"
-                      @click=" () => {
-                        fetchPlaylist();
-                        showingPlaylist = true;
-                      }"
+                      @click="clickOnPlaylist"
                     >
                       Playlist
                     </v-btn>
@@ -150,8 +147,8 @@
                   v-model="volume"
                   @mousedown="editingVolume = true"
                   @click="() => {
-                    songQuery({action: {name: 'setVolume'}, value: volume});
                     editingVolume = false;
+                    songQuery({action: {name: 'setVolume'}, value: volume});
                     }"
                   min="0"
                   max="10"
@@ -524,7 +521,10 @@ export default {
       } catch (err) {
         console.log(err);
       }
-      return 0
+    },
+    clickOnPlaylist: async function() {
+      await this.fetchPlaylist();
+      this.showingPlaylist = true;
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
