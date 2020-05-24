@@ -76,6 +76,7 @@
 </template>
 
 <script>
+  import storage from '@/storage';
   export default {
     name: 'Settings',
     data: function() {
@@ -93,7 +94,7 @@
       switchDark: function(new_value) {
         //called whenever switch1 changes
         this.$vuetify.theme.dark = new_value;
-        localStorage.setItem('darkMode', JSON.stringify({dark: new_value}));
+        storage.setDarkMode(new_value);
       },
     }
   }
