@@ -56,11 +56,11 @@
                 </v-card-title>
                 <v-card-text>
                     <div v-for="actions in deviceActions.actions" :key="actions.id">
-                        {{actions.action.name}} {{actions.action.params.length > 0 ? actions.params : '' }}
+                        {{actions.action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}} {{actions.action.params.length > 0 ? actions.params : '' }}
                     </div>
                 </v-card-text>
                 <v-card-text>
-                    <v-btn @click="addActionCard(deviceActions.device)" color="primary" medium v-on="on">
+                    <v-btn @click="addActionCard(deviceActions.device)" color="primary" medium>
                         <v-icon>mdi-plus</v-icon> Add Action
                     </v-btn>
                 </v-card-text>
@@ -136,15 +136,15 @@
                             </v-row>
                             <v-row class="mt-5">
                                 <v-card  class="box" color="background2" width="100%">
-                                    <div  @click="updateAndShowParams(action)" v-for="action in currDevAveilActions" :key="action.id">
+                                    <v-col  @click="action.params.length > 0 ? updateAndShowParams(action) : updateParams(action)" v-for="action in currDevAveilActions" :key="action.id">
                                         <v-row>
                                             <v-col cols="1"/>
                                             <v-col cols="8">
-                                                <h1>{{ action.name }}</h1>
+                                                <h1>{{ action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() ) }}</h1>
                                             </v-col>
                                         </v-row>
                                         <v-divider/>
-                                    </div>
+                                    </v-col>
                                 </v-card>
                             </v-row>
                         </v-container>
@@ -161,13 +161,21 @@
                         </v-card-title>
                         <v-card-text>
                         <v-container>
-                            <v-row class="mt-5" v-for="param in currAction.params" :key="param.id">
-                                
-                                <v-text-field
+                            <v-row class="mt-5" v-for="(param,idx) in currAction.params" :key="param.id">
+                                <v-btn-toggle v-if="param.supportedValues"
+                                    mandatory
+                                    tile
+                                    class="mt-5"
+                                >
+                                    <v-btn @click="updateParamVal(val, idx)" v-for="val in param.supportedValues" :key="val.id">
+                                        {{val}}
+                                    </v-btn>
+                                </v-btn-toggle>
+                                <v-text-field v-else
                                     clearable
-                                    v-model="paramVal"
+                                    v-model="params[idx]"
                                     :label="param.name"
-                                    :hint="param.description"
+                                    :hint="param.description + param.example ? '(example: ' + param.example + ')' : '' "
                                     single-line
                                     persistent-hint
                                     filled
@@ -199,22 +207,27 @@
 
 <script>
   import router from '@/router';
-  import { DeviceApi, RoomApi, DeviceTypeApi } from '@/api';
+  import { DeviceApi, RoomApi, DeviceTypeApi, RoutineApi, Routine  } from '@/api';
   export default {
     data: function() {
         return {
             name: '',
             desc: '',
+
             type: 'hex',
             hex: '#FF00FF',
+
             dialog1: false,
             dialog2: false,
             dialog3: false,
+
             checkbox: false,
+
             devices: [],
             rooms: [],
             types: [],
-            paramVal: '',
+
+            params: [],
 
             allDevActions: [],
 
@@ -223,9 +236,6 @@
             currActionParams: [],
 
             currDevAveilActions: {},
-            currDevChosenAction: {},
-            currDevAveilActionParams: [],
-            
         }
     },
     mounted: function(){
@@ -292,16 +302,22 @@
             this.dialog2 = false;
             this.dialog3 = true;
         },
+        updateParams: function(action){
+            this.currAction = action;
+            this.params = [];
+            this.dialog2 = false;
+            this.saveAction();
+        },
         saveAction: function(){
             this.allDevActions.forEach(devAction => {
                 if(devAction.device.id == this.currDev.id){
                     devAction.actions.push({
                         action: this.currAction,
-                        params: this.paramVal,
+                        params: this.params,
                     });
                 }
             });
-            this.paramVal = '';
+            this.params = [];
             this.dialog3 = false;
         },
         prevDialog: function(){
@@ -311,12 +327,39 @@
         back: function(){
             router.go(-1);
         },
-        saveRoutine: function(){
-            // try {
-
-            // } catch (err) {
-                
-            // }
+        saveRoutine: async function(){
+            //this.buildFormatedActionArray();
+            const routine = new Routine(null, this.name, this.buildFormatedActionArray(), {desc: this.desc, color: this.color });
+            try {
+                await RoutineApi.add(routine);
+            } catch (err) {
+                console.log(err);
+            }
+            router.go(-1);
+        },
+        buildFormatedActionArray: function(){
+            const arr = [];
+            this.allDevActions.forEach(devAction => {
+                devAction.actions.forEach( action => {
+                    arr.push({
+                        device: {
+                            id: devAction.device.id
+                        },
+                        actionName: action.action.name,
+                        params: action.params,
+                        meta: { },
+                    })
+                    console.log("id: " +  devAction.device.id);
+                    console.log("actionName: " +  action.action.name);
+                    console.log("params: " +  action.params);
+                });
+            }) 
+            console.log(arr);
+            return arr;
+        },
+        updateParamVal: function(val, index){
+            console.log(val + ' / ' + index)
+            this.params[index] = val;
         }
     },
     computed: {

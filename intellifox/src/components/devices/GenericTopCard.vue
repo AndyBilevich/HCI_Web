@@ -35,7 +35,6 @@
                 v-model="switchValue"
                 :disabled="switchLocked"
                 :loading="switchLoads"
-                @click="emitOnAction(switchValue)"
                 color = "primary"
               ></v-switch>
             </v-col>

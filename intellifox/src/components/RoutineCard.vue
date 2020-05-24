@@ -4,16 +4,16 @@
       <v-card color="background1">
         <v-row align="center">
           <v-col cols="2">
-            <v-icon size="100" :color="color" >mdi-circle</v-icon>
+            <v-icon size="100" :color="routine.meta.color" >mdi-circle</v-icon>
           </v-col>
           <v-col cols="7">
             <v-row>
               <v-card-title class="headline">
-              {{ name }}
+              {{ routine.name }}
               </v-card-title>
             </v-row>
             <v-row>
-              <v-card-subtitle>{{ desc }}</v-card-subtitle>
+              <v-card-subtitle>{{ routine.meta.desc }}</v-card-subtitle>
             </v-row>
           </v-col>
           <v-col cols="3">
@@ -23,7 +23,7 @@
             <v-btn text icon v-if="!fav" @click="fav=true">
               <v-icon large>mdi-heart-outline</v-icon>
             </v-btn>
-            <v-btn text icon>
+            <v-btn @click="executeRoutine" text icon>
               <v-icon large>mdi-play</v-icon>
             </v-btn>
             <v-menu close-on-click close-on-content-click absolute>
@@ -67,7 +67,7 @@
 
             <v-btn
               color="error"
-              @click="dialog = false"
+              @click="deleteRoutine"
             >
               Delete
             </v-btn>
@@ -81,18 +81,37 @@
 </template>
 
 <script>
+import { RoutineApi } from '@/api';
 export default {
   data: function() {
     return {
       hidden: false,
       dialog:false,
       fav:false,
+      routine: { meta: {} }, 
     }
   },
   props: {
-    name: String,
-    desc: String,
-    color: String,
+    id: String,
+  },
+  mounted: function() {
+    this.retrieveRoutine();
+  },
+  methods: {
+    retrieveRoutine: async function(){
+      const ans = await RoutineApi.get(this.id);
+      this.routine = ans.result; 
+    },
+    executeRoutine: async function(){
+      await RoutineApi.execute(this.id);
+    },
+    deleteRoutine: async function(){
+        await RoutineApi.delete(this.routine.id);
+        this.emitUpdRoutines();
+    },
+    emitUpdRoutines: async function(){
+      this.$emit('upd');
+    }
   }
 };
 </script>

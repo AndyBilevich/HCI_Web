@@ -105,6 +105,7 @@
 </style>
 
 <script>
+import storage from '@/storage';
 import DrawerItem from '@/components/DrawerItem'
 import { HomeApi } from '@/api';
 export default {
@@ -206,66 +207,36 @@ export default {
       home: {},
     })
   },
-  created() {
+  created: async function() {
+    await storage.fetchState();
     this.retrieveTheme();
     this.retrieveHome();
+  },
+  beforeDestroy: async function() {
+    await storage.saveState();
   },
   methods: {
     updateHome: async function(new_id) {
       try {
         const ans = await HomeApi.get(new_id);
-        this.home = ans.result;
-        localStorage.setItem('lastHome', JSON.stringify({id: new_id}));
+        if (ans.result) {
+          this.home = ans.result;
+          storage.setActualHome(this.home);
+          console.log(storage.getActualHome());
+        }
       } catch (err) {
         console.log(err);
       }
     },
     retrieveTheme: function() {
-      try {
-        let aux = JSON.parse(localStorage.getItem('darkMode'));
-        if (!aux)
-          aux = {dark: true};
-        this.$vuetify.theme.dark = aux.dark;
-      } catch (err) {
-        console.log(err);        
-      }
+      let dark = storage.getDarkMode();
+      this.$vuetify.theme.dark = dark;
     },
     retrieveHome: function() {
-      try {
-        let aux = JSON.parse(localStorage.getItem('lastHome'));
-        if (aux) {
-          this.home.id = aux.id;
-          this.updateHome(aux.id);
-        }
-      } catch (err) {
-        console.log(err);            
-      }
+      let home = storage.getActualHome();
+      if (home)
+        this.updateHome(home.id);
     },
   }
 };
 </script>
-
-         <!-- 
-            https://cdn.materialdesignicons.com/5.1.45/
-
-            mdi-lightbulb
-            mdi-lightbulb-on
-
-            mdi-lightbulb-outline
-            mdi-lightbulb-on-outline
-
-            mdi-speaker
-            mdi-speaker-wireless
-
-            mdi-air-conditioner
-
-            mdi-washing-machine
-
-            mdi-alarm-light
-            mdi-alarm-light-outline
-
-            mdi-blinds-open
-            mdi-blinds
-
-
-          -->    

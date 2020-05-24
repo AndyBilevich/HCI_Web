@@ -26,22 +26,23 @@
    
 <script>
 // @ is an alias to /src
+import storage from '@/storage';
 import HomeCard from '@/components/HomeCard.vue';
 import { HomeApi } from '@/api';
 export default {
   name: 'Homes',
-  props: {
-    home_id: String,
-  },
   components: {
     HomeCard
   },
-  mounted: function() {
-    this.retrieveHomes();
+  mounted: async function() {
+    await this.retrieveHomes();
+    const home = await storage.getActualHome();
+    if (home)
+      this.selectedHomeID = home.id;
   },
   data: function() {
     return {
-      selectedHomeID: this.home_id,
+      selectedHomeID: '',
       homes: [],
     }
   },
