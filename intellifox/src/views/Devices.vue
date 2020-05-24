@@ -30,7 +30,7 @@
       this.home_id = home?home.id:'';
       const devTypes = await storage.getAllTypes();
       this.deviceInfo = devTypes;
-      console.log(devTypes);
+      //console.log(devTypes);
       await this.retrieveDeviceTypes();
     },
     data: function() {
@@ -55,7 +55,7 @@
             .map(dt => dt.type.name)
             .reduce((unique, name) => unique.includes(name) ? unique: [...unique, name],[])
             .map(name => this.deviceInfo[name]);
-          console.log(this.devicesAvail);
+          //console.log(this.devicesAvail);
         }
         catch(err) {
           console.log(err);

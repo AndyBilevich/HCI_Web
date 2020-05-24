@@ -75,7 +75,7 @@ export default {
   
   methods: {
     subscribeCallback: async function(event) {
-          console.log("Received event");
+          //console.log("Received event");
           const data = await JSON.parse(event.data);
           this.updateDevice(data);
     },

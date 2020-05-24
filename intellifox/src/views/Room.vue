@@ -149,7 +149,7 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
             this.typesInfo = await storage.getAllTypes();
             await this.retrieveRoom(this.room.id);
             await this.retrieveDevices();
-            console.log(this.typesInfo);
+            //console.log(this.typesInfo);
         },
         methods: {
             addDevice: async function() {

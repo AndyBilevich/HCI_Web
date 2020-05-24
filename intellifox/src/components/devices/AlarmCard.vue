@@ -207,7 +207,7 @@ export default {
     switchActions: async function() {
       try {
         let ans;
-        console.log("code " + this.code + " imput " + this.insertedCode);
+        //console.log("code " + this.code + " imput " + this.insertedCode);
         if(!this.checkCode(this.insertedCode) || this.insertedCode != this.code){
           this.insertedCode='';
           this.dialog2=true;
@@ -261,14 +261,14 @@ export default {
       }
       try{
         this.switchLocked=true;
-        console.log(" oldCode " + this.oldCode + " code " + this.code + " new code " + this.newCode);
+        //console.log(" oldCode " + this.oldCode + " code " + this.code + " new code " + this.newCode);
         await DeviceApi.setAction(this.alarm.id, 'changeSecurityCode', [this.oldCode, this.newCode]);
         this.disabledText=false;
         this.code=this.newCode;
         this.newCode='';
         this.oldCode='';
         this.switchLocked=false;
-        console.log(" oldCode " + this.oldCode + " code " + this.code + " new code " + this.newCode);
+        //console.log(" oldCode " + this.oldCode + " code " + this.code + " new code " + this.newCode);
         this.updateInfo();
       }catch(err){
         console.log(err);

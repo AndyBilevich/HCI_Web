@@ -51,7 +51,6 @@ export default {
         WindowCard,
     },
     created: async function() {
-        console.log("Llegué");
         const home = await storage.getActualHome();
         this.home_id = home?home.id:'';
         this.typeName = this.$route.params.typeName;

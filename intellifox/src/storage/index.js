@@ -63,7 +63,7 @@ export default {
                     }
                 });
             }
-            console.log(this.state.typesByName);
+            //console.log(this.state.typesByName);
         } catch (err) {
             console.log(err);
         }
@@ -120,7 +120,7 @@ export default {
             await this.fetchState();
         if (!this.state.typesByName)
             await this.fetchTypes();
-        console.log("Entre");
+        //console.log("Entre");
         return this.state.typesByName[name].title;
     },
     getAllTypes: async function() {
