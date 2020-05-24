@@ -106,15 +106,8 @@ export default {
       }
     }
   },
-
   mounted: function() {
-    this.temperature = this.oven.state.temperature;
-    this.heat = this.heatSrc.findIndex(e => e == this.oven.state.heat);
-    this.grill = this.grillMode.findIndex(e => e == this.oven.state.grill);
-    this.convection = this.convectionMode.findIndex(e => e == this.oven.state.convection);
-    this.updateTitle();
-    this.updateDesc();
-    this.updateState();
+    this.updateInfo();
     this.subscribeToEvents();
   },
   data: function() {
@@ -128,9 +121,9 @@ export default {
       title: '',
       desc: '',
 
-      heatSrc: [ "above", "below", "conventional"],
-      grillMode: [ "off", "complete", "economic"],
-      convectionMode: [ "off", "conventional", "economic"],
+      heatSrc: [ "conventional", "bottom", "top"],
+      grillMode: [ "large", "eco", "off"],
+      convectionMode: [ "normal", "eco", "off"],
 
       temperature:90,
   
@@ -177,16 +170,14 @@ export default {
           this.oven.state.temperature = data.args.newTemperature;
           break;
         case 'heatChanged':
-          this.oven.state.mode = data.args.newHeat;
+          this.oven.state.heat = data.args.newHeat;
           break;
         case 'grillChanged':
-          this.oven.state.verticalSwing = data.args.newGrill;
+          this.oven.state.grill = data.args.newGrill;
           break;
         case 'convectionChanged':
-          this.oven.state.horizontalSwing = data.args.newConvection;
+          this.oven.state.convection = data.args.newConvection;
           break;
-        default:
-          return;
       }
       this.updateDesc();
       this.updateState();
