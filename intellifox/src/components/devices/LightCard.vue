@@ -21,11 +21,11 @@
           <div v-show="show">
             <v-divider></v-divider>
             
-              <h3 class="ml-5 mt-4" align="left">Choose color and intensity:</h3>
+              <h3 class="ml-5 mt-4" align="left">Choose color and brightness:</h3>
               <v-row>
                 <v-col cols="2"></v-col>
                 <v-col v-on:click="() => { colorAction(); }" cols="8">
-                  <v-color-picker v-model="fullColor" class="ma-5 background1" hide-inputs :mode.sync="mode"></v-color-picker>
+                  <v-color-picker v-model="fullColor" class="ma-5 background1"  :mode.sync="mode"></v-color-picker>
                 </v-col>
                               </v-row>         
           </div>
@@ -53,6 +53,8 @@ export default {
     this.updateTitle();
     this.updateDesc();
     this.updateState();
+    this.updateColor();
+    this.updateBrightness();
     this.subscribeToEvents();
   },
 
@@ -69,19 +71,22 @@ export default {
       title: '',
       desc: '',
       mode: "hexa",
-      color: "#FFFFFF",
-      intensity: "FF",
+      color:  "#FFAAAA",
+      brightness: "FF",
       
     }
   },
   computed: {
     fullColor: {
       get: function() {
-        return this.color + this.intensity;
+        return this.color + this.brightness;
       },
       set: function(newFullColor) {
         this.color = newFullColor.substr(0, 7);
-        this.intensity = newFullColor.substr(7);
+        console.log(this.color);
+                
+        this.brightness = newFullColor.substr(7);
+        console.log(this.brightness);
       }
     },
 
@@ -143,6 +148,7 @@ export default {
       this.updateDesc();
       this.updateState();
       this.updateColor();
+      this.updateBrightness();
     },
     updateTitle: function() {
       this.title = this.light.name;
@@ -155,12 +161,24 @@ export default {
     },
     updateColor: function() {
       this.color = this.light.state.color;
+      
+    },
+    updateBrightness: function(){
+      var resp = this.light.state.brightness.toString(16);
+      if(this.light.state.brightness <= 16)
+        resp = "0" + resp;
+      console.log(resp);
+      this.brightness = resp;
+    
     },
 
     colorAction: async function(){
       await DeviceApi.setAction(this.light.id, 'setColor', [this.fullColor.substr(1,6)]);
-      await DeviceApi.setAction(this.light.id, 'setBrightness', [ parseInt((parseInt( this.fullColor.substr(7,8), 16 ) / 255 * 100),10) ]);
-      console.log(this.fullColor);
+     
+     
+      await DeviceApi.setAction(this.light.id, 'setBrightness', [ parseInt(this.fullColor.substr(7,8),16) ]);
+      
+      //console.log(this.fullColor);
     },
   
     switchOnOff: async function(new_switch_state) {
@@ -185,6 +203,7 @@ export default {
           this.updateTitle();
           this.updateDesc();
           this.updateState();
+        
         } 
       } catch (err) {
         console.log(err);

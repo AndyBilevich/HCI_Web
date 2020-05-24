@@ -60,8 +60,13 @@
     components: {
       AddDeviceButton
     },
-    mounted: function() {
-      this.retrieveRooms();
+    mounted: async function() {
+
+      this.retrieveDevice();
+      
+
+      await this.retrieveRooms();
+      this.retrieveRoom();
     },
     data: function() {
       return {
@@ -129,6 +134,23 @@
       back: function() {
         router.go(-1);
       },
+      retrieveRoom: function(){
+        const {roomId} = this.$route.query;
+        for(var i = 0 ; i < this.rooms.length ; i++){
+          if(this.rooms[i].value === roomId){
+            this.selectedRoomID = roomId;
+          }
+        }
+      },
+      retrieveDevice: function() {
+        const {deviceTypeId} = this.$route.query;
+        for(var i = 0 ; i < this.devices.length ; i++){
+          if(this.devices[i].id === deviceTypeId){
+            this.selectedDeviceIndex = i;
+          } 
+        }
+      },
+
       retrieveRooms: async function() {
         try {
           const ans = await HomeRoomApi.get(this.home_id);
