@@ -191,7 +191,7 @@ export default {
           this.ac.state.status = data.args.newStatus;
           break;
         case 'temperatureChanged':
-          this.ac.state.temperature = data.args.newTemperature;
+          this.ac.state.temperature = parseInt(data.args.newTemperature);
           break;
         case 'modeChanged':
           this.ac.state.mode = data.args.newMode;

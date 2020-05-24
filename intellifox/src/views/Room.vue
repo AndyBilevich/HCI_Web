@@ -1,17 +1,17 @@
 <template>
     <div class="room">
         <v-row>
+            <v-col cols="11">
+                <v-row>
+                    <router-link class="routerLink" to="/rooms">
+                        <v-btn color="primary" fab big bottom text right>
+                            <v-icon x-large >mdi-keyboard-backspace</v-icon>
+                        </v-btn>
+                    </router-link>
+                    <h1>{{room.name}}</h1>
+                </v-row>
+            </v-col>
             <v-col cols="1">
-                <router-link class="routerLink" to="/rooms">
-                    <v-btn color="primary" fab big bottom text right>
-                        <v-icon x-large >mdi-keyboard-backspace</v-icon>
-                    </v-btn>
-                </router-link>
-            </v-col>
-            <v-col cols="10">
-                <h1>{{room.name}}</h1>
-            </v-col>
-            <v-col cols="1">  
                 <v-menu close-on-click close-on-content-click class="menu">
                     <template v-slot:activator="{ on }">
                         <v-btn v-on="on" text icon>
@@ -21,12 +21,12 @@
                     <v-list>
                         <v-list-item @click="editRoom">
                             <v-btn text>
-                                <v-icon>mdi-pencil</v-icon> 
+                                <v-icon>mdi-pencil</v-icon>
                                 Edit
                             </v-btn>
                         </v-list-item>
                         <v-list-item>
-                            <v-btn 
+                            <v-btn
                             text
                             @click="dialog = true"
                             >
@@ -40,12 +40,18 @@
                 </v-menu>
             </v-col>
         </v-row>
-        <v-row dense>
-            <v-col v-for="d in devices" :key="d.id" cols="6">
-                <component v-bind:is="types[d.type.name]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
-            </v-col>
-        </v-row>
 
+
+        <div v-if="devices.length === 0">
+            <h3 class="noItemsMessage">  {{noItemsText}}</h3>
+        </div>
+        <div v-else>
+            <v-row dense>
+                <v-col v-for="d in devices" :key="d.id" cols="6">
+                    <component v-bind:is="types[typesInfo[d.type.name].title]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
+                </v-col>
+            </v-row>
+        </div>
         <v-btn @click="addDevice" class="add_btn" color="primary" fab big bottom right>
             <v-icon>mdi-plus</v-icon>
         </v-btn>
@@ -87,9 +93,10 @@
 </template>
 
 <script>
+import storage from '@/storage';
 import router from '@/router';
 import {
-    SpeakerCard, 
+    SpeakerCard,
     WaterCard,
     AirConditionerCard,
     LightCard,
@@ -104,6 +111,7 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
     export default {
         data: function() {
             return {
+                noItemsText: "",
                 dialog: false,
                 components: {
                     SpeakerCard,
@@ -121,24 +129,27 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                     meta: {}
                 },
                 devices: [],
+                typesInfo: {},
                 types: {
-                    'speaker': SpeakerCard,
-                    'faucer': WaterCard,
-                    'ac': AirConditionerCard,
-                    'lamp': LightCard,
-                    'vacuum': VacuumCard,
-                    'alarm': AlarmCard,
-                    'oven': OvenCard,
-                    'door': DoorCard,
-                    'refrigerator': FridgeCard,
-                    'blinds': WindowCard,
+                    'Speaker': SpeakerCard,
+                    'Tap': WaterCard,
+                    'Air Conditioner': AirConditionerCard,
+                    'Light': LightCard,
+                    'Vacuum': VacuumCard,
+                    'Alarm': AlarmCard,
+                    'Oven': OvenCard,
+                    'Door': DoorCard,
+                    'Fridge': FridgeCard,
+                    'Blind': WindowCard
                 }
             }
         },
-        mounted: function() {
+        mounted: async function() {
             this.room.id = this.$route.params.id;
-            this.retrieveRoom(this.room.id);
-            this.retrieveDevices();
+            this.typesInfo = await storage.getAllTypes();
+            await this.retrieveRoom(this.room.id);
+            await this.retrieveDevices();
+            console.log(this.typesInfo);
         },
         methods: {
             addDevice: async function() {
@@ -151,11 +162,11 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
             deleteRoom: async function() {
                 try {
                     await RoomApi.delete(this.room.id);
-                    var auxHomeId = (this.room.home.id !== 'none') ? this.room.home.id : 'none';
-                    if(auxHomeId !== 'none'){ 
+                    var auxHomeId = (this.room.home.id !== '') ? this.room.home.id : '';
+                    if(auxHomeId !== ''){
                         const ans2 = await HomeApi.get(auxHomeId);
                         const auxHome = ans2.result;
-                        
+
                         auxHome.meta.rooms = auxHome.meta.rooms - 1;
                         await HomeApi.modify(auxHome);
                     }
@@ -165,25 +176,27 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                 router.go(-1);
             },
             editRoom: function() {
-                var homeid = this.room.home ? this.room.home.id : 'none';
+                var homeid = this.room.home ? this.room.home.id : '';
                 router.push({ name:"EditRoom", params:{ id: this.room.id}, query:{ icon: this.room.meta.icon, home:homeid }})
             },
             retrieveDevices: async function() {
-                const aux = await DeviceApi.getAll();
-                this.devices = [];
-                if (aux.result) {
-                    aux.result.forEach(d => {
-                        if(d.room && d.room.id === this.room.id)
-                            this.devices.push(d);
-                    })
+                try {
+                    const aux = await DeviceApi.getAll();
+                    this.devices = [];
+                    if (aux.result) {
+                        aux.result.forEach(d => {
+                            if(d.room && d.room.id === this.room.id)
+                                this.devices.push(d);
+                        })
+                    }
+                } catch (err) {
+                    console.log(err);
                 }
+                this.noItemsText = "You don't have devices in this room yet. Add one with the bottom right button."
             },
             updateModel: function(newModel) {
-                this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel; 
+                this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;
             },
         }
     }
 </script>
-
-
-

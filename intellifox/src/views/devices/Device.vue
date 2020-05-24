@@ -85,16 +85,16 @@ export default {
         router.push({path:'/devices/add', query:{deviceTypeId: this.typeId}});
         },
         retrieveDevices: async function() {
-        try {      
-            const ans2 = await DeviceApi.getDevicesByType(this.typeId);
-            this.devices = ans2.result
-            .filter(d => {
-                return !d.room || !d.room.home || d.room.home.id === this.home_id
-            });
-        }
-        catch(err) {
-            console.log(err);
-        }
+            try {      
+                const ans2 = await DeviceApi.getDevicesByType(this.typeId);
+                this.devices = ans2.result
+                .filter(d => {
+                    return !d.room || !d.room.home || d.room.home.id === this.home_id
+                });
+            }
+            catch(err) {
+                console.log(err);
+            }
         },
         updateModel: function(newModel) {
         this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;  

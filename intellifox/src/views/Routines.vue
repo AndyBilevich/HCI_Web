@@ -1,12 +1,16 @@
 <template>
   <div class="routines">
     <h1>Routines</h1>
-    <v-row dense>
-      <v-col cols="6" v-for="routine in routines" :key="routine.name">
-          <RoutineCard @upd="retrieveRoutines" class="card" :id="routine.id"/>
-      </v-col>
-    </v-row>
-
+    <div v-if="routines.length === 0">
+      <h3 class="noItemsMessage"> {{noItemsText}}</h3>
+    </div>
+    <div v-else>
+      <v-row dense>
+        <v-col cols="6" v-for="routine in routines" :key="routine.name">
+            <RoutineCard @upd="retrieveRoutines" class="card" :id="routine.id"/>
+        </v-col>
+      </v-row>
+    </div>
     <router-link class="routerLink" to="/routines/add">
       <v-btn class="add_btn" color="primary" fab big bottom right>
         <v-icon>mdi-plus</v-icon>
@@ -25,6 +29,7 @@ export default {
   },
   data: function() {
     return {
+      noItemsText: "",
       hidden: false,
       routines: []
     }
@@ -36,6 +41,7 @@ export default {
     retrieveRoutines: async function(){
         const ans = await RoutineApi.getAll();
         this.routines = ans.result;
+        this.noItemsText = "You don't have routines created yet. Add one with the bottom right button."
     },
   },
 };
