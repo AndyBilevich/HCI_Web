@@ -328,7 +328,6 @@
             router.go(-1);
         },
         saveRoutine: async function(){
-            //this.buildFormatedActionArray();
             const routine = new Routine(null, this.name, this.buildFormatedActionArray(), {desc: this.desc, color: this.color });
             try {
                 await RoutineApi.add(routine);
@@ -358,7 +357,6 @@
             return arr;
         },
         updateParamVal: function(val, index){
-            console.log(val + ' / ' + index)
             this.params[index] = val;
         }
     },
@@ -383,7 +381,6 @@
   }
 </script>
 
-
 <style scoped>
 .box{
     height: 300px; 
@@ -391,32 +388,3 @@
     overflow-x: hidden;
 }
 </style>
-
-<!-- 
-
-{
-  "name": "good night",
-  "actions": [
-    {
-      "device": {
-        "id": "c39181d52abe5555"
-      },
-      "actionName": "turnOff",
-      "params": [],
-      "meta": {}
-    },
-    {
-      "device": {
-        "id": "f597c13717008fb1"
-      },
-      "actionName": "armStay",
-      "params": [
-        "1234"
-      ],
-      "meta": {}
-    }
-  ],
-  "meta": {}
-}
-
--->
