@@ -42,36 +42,115 @@
 
                 <v-row>
                     <v-col>
-                      <v-btn :disabled="actionsLocked" icon x-large @click="() => changeSong('previousSong')">
+                      <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'previousSong'}, value: 1})">
                         <v-icon x-large>mdi-skip-previous</v-icon>
                       </v-btn>
                       <v-btn :disabled="actionsLocked" icon x-large @click="switchPlay">
                         <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
                       </v-btn>
-                      <v-btn :disabled="actionsLocked" icon x-large @click="() => changeSong('nextSong')">
+                      <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'nextSong'}, value: 1})">
                         <v-icon x-large>mdi-skip-next</v-icon>
                       </v-btn>
                     </v-col>                     
+                </v-row>
+
+                <v-row class="d-flex justify-center">
+                  <v-col class="justify-center">
+                    <p>Genre</p>
+                    <v-overflow-btn
+                      v-model="genreIndex"
+                      :disabled="actionsLocked"
+                      :items="genres"
+                      background-color="background2"
+                      solo
+                    />
+                    <p>Select Song from Playlist</p>
+                    <v-btn
+                      class="cards background2--text"
+                      :disabled="actionsLocked"
+                      @click=" () => {
+                        fetchPlaylist();
+                        showingPlaylist = true;
+                      }"
+                    >
+                      Playlist
+                    </v-btn>
+                    <v-overlay
+                      v-model="showingPlaylist"
+                      scrollable
+                    >
+                      <v-card>
+                        <v-list
+                          dense
+                        >
+                          <v-row>
+                            <v-col class="mr-auto">
+                              <v-subheader class="ml-5">PLAYLIST</v-subheader>
+                            </v-col>
+                            <v-col cols="auto">
+                              <v-btn
+                                top
+                                right
+                                icon
+                                class="mr-5"
+                                @click="showingPlaylist = false"
+                              >
+                                <v-icon>mdi-window-close</v-icon>
+                              </v-btn>
+                            </v-col>
+                          </v-row>
+                          <v-list-item-group v-model="songIndex" color="primary">
+                            <v-list-item
+                              :disabled="actionsLocked"
+                              v-for="(song, i) in playlist"
+                              :key="i"
+                            >
+                              <v-list-item-icon>
+                                <v-icon>mdi-music</v-icon>
+                              </v-list-item-icon>
+                              <v-list-item-content>
+                                 {{`${song.artist} - ${song.title} (Album: ${song.album}) (${song.duration})`}}
+                              </v-list-item-content>
+                            </v-list-item>
+                          </v-list-item-group>   
+                        </v-list>
+                      </v-card>
+                    </v-overlay>
+                  </v-col>
                 </v-row>
 
               </v-col>
 
               <v-col class="justify-center" cols="5">
                 <v-row class="d-flex justify-center">
-                  <v-btn :disabled="actionsLocked" icon>
+                  <v-btn
+                    :disabled="actionsLocked" 
+                    icon
+                    @click="() => {
+                      if (volume < 10)
+                        songQuery({action: {name: 'setVolume'}, value: volume + 1});
+                    }" 
+                  >
                     <v-icon>mdi-chevron-down</v-icon>
                   </v-btn>
                   <p class="mt-1">Volume</p>
-                  <v-btn :disabled="actionsLocked" icon>
+                  <v-btn 
+                    :disabled="actionsLocked" 
+                    icon
+                    @click="() => {
+                      if (volume > 0)
+                        songQuery({action: {name: 'setVolume'}, value: volume - 1});
+                    }"
+                  >
                     <v-icon>mdi-chevron-up</v-icon>
                   </v-btn>
                 </v-row>
                 <v-slider
                   :disabled="actionsLocked"
                   v-model="volume"
-                  v-on:mousedown="editingVolume = true"
-                  v-on:mouseup="() => {
-                    changeVolume(volume);
+                  @mousedown="editingVolume = true"
+                  @click="() => {
+                    songQuery({action: {name: 'setVolume'}, value: volume});
                     editingVolume = false;
                     }"
                   min="0"
@@ -98,10 +177,10 @@ export default {
   components: {
     TopCard,
   },
-  mounted: function() {
+  mounted: async function() {
     this.updateTitle();
+    await this.updateState();
     this.updateDesc();
-    this.updateState();
     this.startUpdating();
   },
   data: function() {
@@ -114,6 +193,47 @@ export default {
       play:undefined,
       editingVolume:false,
       volume:undefined,
+      showingPlaylist:false,
+      playlist:undefined,
+
+      lastSongIndex:undefined,
+      songIndex:undefined,
+
+      lastGenreIndex:undefined,
+      genreIndex:undefined,
+
+      genres:[
+        {
+          value: 0,
+          id: 'classical',
+          text: 'Classical',
+        },
+        {
+          value: 1,
+          id: 'country',
+          text: 'Country',
+        },
+        {
+          value: 2,
+          id: 'dance',
+          text: 'Dance',
+        },
+        {
+          value: 3,
+          id: 'latina',
+          text: 'Latin',
+        },
+        {
+          value: 4,
+          id: 'pop',
+          text: 'Pop',
+        },
+        {
+          value: 5,
+          id: 'rock',
+          text: 'Rock',
+        }
+      ],
 
       switchState:false,
       switchLoading:false,
@@ -207,7 +327,7 @@ export default {
         this.source = undefined;
       }
     },
-    updateDevice: function(data) {
+    updateDevice: async function(data) {
       this.stopUpdating();
       switch(data.event) {
         case 'statusChanged':
@@ -219,8 +339,8 @@ export default {
         default:
           return;
       }
-      this.updateDesc();
-      this.updateState();
+      await this.updateState();
+      this.updateDesc();      
       this.startUpdating();
     },
     setPooling: function() {
@@ -239,8 +359,8 @@ export default {
       const ans = await DeviceApi.getState(this.speaker.id);
       this.speaker.state = ans.result;
 
+      await this.updateState(); 
       this.updateDesc();
-      this.updateState();
       this.startUpdating();
     },
     updateTitle: function() {
@@ -251,7 +371,7 @@ export default {
       this.desc = this.getStatus(state.status);
       if (state.status !== 'stopped') {
         this.desc += ` - Volume: ${state.volume}`; 
-        this.desc += ` - Genre: ${this.getGenre(state.genre)}`;
+        this.desc += ` - Genre: ${(this.genres && this.genreIndex)?(this.genres[this.genreIndex].text):''}`;
         this.desc += ` - Song: ${this.getSongInfo(state.song)}`;
       }
     },
@@ -267,32 +387,22 @@ export default {
             return '';
         }
     },
-    getGenre: function(genre) {
-        switch(genre) {
-          case 'classical':
-            return 'Classical';
-          case 'country':
-            return 'Country';
-          case 'dance':
-            return 'Dance';
-          case 'latina':
-            return 'Latin';
-          case 'pop':
-            return 'Pop';
-          case 'rock':
-            return 'Rock';
-          default:
-            return '';
-        }
-    },
     getSongInfo: function(song) {
       return `${song.artist} - ${song.title} (Album: ${song.album})`
     },
-    updateState: function() {
+    updateState: async function() {
       this.switchState = this.speaker.state.status !== 'stopped';
       this.play = this.speaker.state.status === 'playing';
       if (!this.editingVolume)
         this.volume = parseInt(this.speaker.state.volume);
+      if (this.play) {
+        if (this.genres)  
+          this.lastGenreIndex = this.genreIndex = this.genres.map((x, i) => [i, x]).filter(x => x[1].id == this.speaker.state.genre)[0][0];
+        if (this.showingPlaylist)
+          await this.fetchPlaylist();
+        if (this.playlist)
+          this.lastSongIndex = this.songIndex = this.playlist.map((x, i) => [i, x]).filter(x => x[1].title == this.speaker.state.song.title)[0][0];      
+      }
     },
     switchOnOff: async function(new_switch_state) {
       this.stopUpdating();
@@ -314,12 +424,12 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.speaker.id);
           this.speaker.state = ans2.result;
-          this.updateDesc();
-          this.updateState();
         } 
       } catch (err) {
         console.log(err);
       }
+      await this.updateState();
+      this.updateDesc();
     },
     switchPlay: async function() {
       this.stopUpdating();
@@ -339,51 +449,82 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.speaker.id);
           this.speaker.state = ans2.result;
-          this.updateDesc();
-          this.updateState();
         } 
       } catch (err) {
         console.log(err);
       }
+      await this.updateState();
+      this.updateDesc();
     },
     songQuery: async function(data) {
       const {action, value} = data;
       this.stopUpdating();
       this.actionsLocked = true;
       if (action.name === 'setSong')
-        await this.setSongHandler(action.type);
-      else if (action.name === 'setVol')
+        await this.setSongHandler(action.type, value);
+      else if (action.name === 'setVolume')
         await this.setVolumeHandler(value);
+      else if (action.name === 'setGenre')
+        await this.setGenreHandler(value);
       this.actionsLocked = false;
       this.startUpdating();
     },
-    setSongHandler: async function(toSong) {
+    setSongHandler: async function(toSong, times) {
       if (toSong === 'previousSong' || toSong === 'nextSong') {
         try {
-          const ans = await DeviceApi.setAction(this.speaker.id, toSong);
+          let ans;
+          let i;
+          for(i = 0; i < times; i++)
+            ans = await DeviceApi.setAction(this.speaker.id, toSong);
+
           if (ans.result) {
             const ans2 = await DeviceApi.getState(this.speaker.id);
             this.speaker.state = ans2.result;
-            this.updateDesc();
-            this.updateState();
           }
         } catch (err) {
           console.log(err);
         }
+        await this.updateState();
+        this.updateDesc();
       }
     },
     setVolumeHandler: async function(newVolume) {
-        try {
-          const ans = await DeviceApi.setAction(this.speaker.id, 'setVolume', [newVolume]);
-          if (ans.result) {
-            const ans2 = await DeviceApi.getState(this.speaker.id);
-            this.speaker.state = ans2.result;
-            this.updateDesc();
-            this.updateState();
-          }
-        } catch (err) {
-          console.log(err);
+      try {
+        const ans = await DeviceApi.setAction(this.speaker.id, 'setVolume', [newVolume.toString()]);
+        if (ans.result) {
+          const ans2 = await DeviceApi.getState(this.speaker.id);
+          this.speaker.state = ans2.result;
         }
+      } catch (err) {
+        console.log(err);
+      }
+      await this.updateState();
+      this.updateDesc();
+    },
+    setGenreHandler: async function(newGenre) {
+      try {
+        const ans = await DeviceApi.setAction(this.speaker.id, 'setGenre', [newGenre]);
+        if (ans.result) {
+          const ans2 = await DeviceApi.getState(this.speaker.id);
+          this.speaker.state = ans2.result;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      await this.updateState();
+      this.updateDesc();
+    },
+    fetchPlaylist: async function() {
+      try {
+        const ans = await DeviceApi.setAction(this.speaker.id,'getPlaylist');
+        if (ans) {
+          this.playlist = [];
+          this.playlist = ans.result;
+        }
+      } catch (err) {
+        console.log(err);
+      }
+      return 0
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
@@ -391,6 +532,19 @@ export default {
   },
   beforeDestroy: function() {
     this.stopUpdating();
+  },
+  watch: {
+    genreIndex: async function() {
+      if (this.genreIndex !== this.lastGenreIndex)
+        this.songQuery({action: {name: 'setGenre'}, value: this.genres[this.genreIndex].id});
+    },
+    songIndex: async function() {
+      const dif = this.songIndex - this.lastSongIndex;
+      if (dif > 0)
+        this.songQuery({action: {name: 'setSong', type: 'nextSong'}, value: dif});
+      else if (dif < 0)
+        this.songQuery({action: {name: 'setSong', type: 'previousSong'}, value: -dif}); 
+    }
   }
 };
 </script>

@@ -41,10 +41,13 @@ export default {
     retrieveDevices: async function() {
       try {      
         const ans2 = await DeviceApi.getDevicesByType('c89b94e8581855bc');
+        console.log(ans2);
         this.speakers = ans2.result
           .filter(d => {
-            return !d.room || d.room.home || d.room.home.id === this.home_id
+            return !d.room || !d.room.home || d.room.home.id === this.home_id
           });
+
+        console.log(this.speakers);
       }
       catch(err) {
         console.log(err);
