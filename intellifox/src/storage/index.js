@@ -70,29 +70,28 @@ const types = {
 
 export default {
     state: undefined,
-    initializeState: async function() {
-        this.state = {darkMode: true, types: {}};
+    initializeState: async function () {
+        this.state = { darkMode: true, types: {} };
     },
-    fetchState: async function() {
+    fetchState: async function () {
         console.log("Fetching state");
         //await localStorage.removeItem('intellifox_state');
         let aux = await JSON.parse(localStorage.getItem('intellifox_state'));
         if (!aux) {
-          await this.initializeState();
-          await this.saveState();
+            await this.initializeState();
+            await this.saveState();
         }
         else
             this.state = aux;
     },
-    saveState: async function() {
+    saveState: async function () {
         await localStorage.setItem('intellifox_state', JSON.stringify(this.state));
-        let ans = await JSON.parse(localStorage.getItem('intellifox_state'));
     },
     setState(newState) {
         this.state = newState;
         this.saveState();
     },
-    getState: async function() {
+    getState: async function () {
         if (!this.state)
             await this.fetchState();
         return this.state;
@@ -101,7 +100,7 @@ export default {
         this.state.darkMode = newValue;
         this.saveState();
     },
-    getDarkMode: async function() {
+    getDarkMode: async function () {
         if (!this.state)
             await this.fetchState();
         return this.state.darkMode;
@@ -110,7 +109,7 @@ export default {
         this.state.actualHome = newValue;
         this.saveState();
     },
-    getActualHome: async function() {
+    getActualHome: async function () {
         if (!this.state)
             await this.fetchState();
         console.log(this.state.actualHome)
