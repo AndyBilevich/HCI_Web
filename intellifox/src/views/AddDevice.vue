@@ -40,7 +40,7 @@
     </v-row>
 
     <v-row>
-      <v-col cols="10"></v-col>
+      <v-col cols="9"></v-col>
       <v-btn @click="back" class="ma-2" outlined large color="primary">Cancel</v-btn>
       <v-btn @click="addDevice" class="my-2" depressed large color="primary">Save</v-btn>
     </v-row>

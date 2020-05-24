@@ -206,8 +206,8 @@
             </v-col>
         </v-row>
 
-        <v-row align="end">
-            <v-col cols="8"></v-col>
+        <v-row>
+            <v-col cols="9"></v-col>
             <v-btn class="ma-2" @click="back" outlined large color="primary">Cancel</v-btn>
             <div class="my-2">
                 <v-btn @click="saveRoutine" depressed large color="primary">Save</v-btn>

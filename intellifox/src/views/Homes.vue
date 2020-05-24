@@ -3,7 +3,7 @@
   <div class="homes">
     <h1>Homes</h1>
     <div v-if="homes.length === 0">
-            <h3 class="noItemsMessage"> {{noItemsText}}</h3>
+            <h3 class="noItemsMessage mt-5"> {{noItemsText}}</h3>
     </div>
     <div v-else>
       <v-container>

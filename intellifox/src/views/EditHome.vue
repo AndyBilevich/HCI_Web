@@ -3,50 +3,42 @@
     <h1 class="text-left">Edit House</h1>
    
       <v-row>
-        <v-col cols="1"></v-col>
 
-        <v-col cols="4">
-            <v-row> <p text-align:left>Name:</p> </v-row>
-            <v-row>
+        <v-col cols="5">
+            <h3 align="left">Name:</h3>
                 <v-text-field
                     v-model="home.name"
                     single-line
                     solo
                 ></v-text-field>
-            </v-row>
         </v-col>
 
         <v-col cols="1"></v-col>
 
-        <v-col cols="4">
-            <v-row> <p text-align:left>Description (optional):</p> </v-row>
-            <v-row>
-                <v-text-field
-                    v-model="home.meta.desc"
-                    single-line
-                    solo
-                ></v-text-field>
-            </v-row>
+        <v-col cols="5">
+          <h3 align="left">Description (optional):</h3> 
+              <v-text-field
+                  v-model="home.meta.desc"
+                  single-line
+                  solo
+              ></v-text-field>
         </v-col>
       </v-row>
 
-      <v-row>
-        <v-col cols="1"></v-col>        
-        <v-col cols="4">
-            <v-row> <p text-align:left>Pin (optional):</p> </v-row>
-            <v-row>
+      <v-row>    
+        <v-col cols="5">
+            <h3 align="left">Pin (optional):</h3> 
                 <v-text-field
                     v-model="home.meta.pin"
                     single-line
                     solo
                 ></v-text-field>
-            </v-row>
         </v-col>
       </v-row>
     
 
-      <v-row align="end">
-        <v-col cols="8"></v-col>
+      <v-row>
+        <v-col cols="9"></v-col>
         <router-link class="routerLink" to="/homes">
           <v-btn class="ma-2" outlined large color="primary">Cancel</v-btn>
         </router-link>
