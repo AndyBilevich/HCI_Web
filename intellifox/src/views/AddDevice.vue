@@ -50,7 +50,7 @@
 
 <script>
   import router from '@/router';
-  import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
+  import { HomeApi, HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   import AddDeviceButton from '@/components/AddDeviceButton.vue';
   export default {
     name: 'Devices',
@@ -69,6 +69,7 @@
         desc: '',
         selectedRoomID: 'none',
         rooms: [],
+        auxHome: {},
         selectedDeviceIndex: -1,
         devices: [
           {
@@ -169,6 +170,13 @@
           const ans = await DeviceApi.add(device);
           if (ans && this.selectedRoomID != 'none')
             await RoomDeviceApi.add(this.selectedRoomID, ans.result.id);
+            
+            const ans2 = await HomeApi.get(this.selectedHomeID);
+            this.auxHome = ans2.result;
+            
+            this.auxHome.meta.rooms = this.auxHome.meta.devs + 1;
+            await HomeApi.modify(this.auxHome);
+
         } catch (err) {
           console.log(err);
         }

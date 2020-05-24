@@ -79,14 +79,15 @@
 
 <script>
 import router from '@/router';
-import { RoomApi } from '@/api';
+import { RoomApi, HomeApi } from '@/api';
     export default {
         data: function() {
             return {
                 dialog: false,
                 room: {
                     meta: {}
-                }
+                },
+                auxHome: {}
             }
         },
         mounted: function() {
@@ -101,6 +102,19 @@ import { RoomApi } from '@/api';
             deleteRoom: async function() {
                 try {
                     await RoomApi.delete(this.room.id);
+                    var auxHomeId = this.room.home ? this.room.home.id : 'none';
+                    if(auxHomeId !== 'none'){ 
+                        const ans2 = await HomeApi.get(auxHomeId);
+                        this.auxHome = ans2.result;
+                        
+                        this.auxHome.meta.rooms = this.auxHome.meta.rooms - 1;
+                        await HomeApi.modify(this.auxHome);
+
+                        // const ans3 = await HomeApi.get(auxHomeId);
+                        // this.auxHome = ans3.result;
+                        
+                        // console.log(JSON.stringify(this.auxHome));
+                    }
                 } catch (err) {
                     console.log(err);
                 }
