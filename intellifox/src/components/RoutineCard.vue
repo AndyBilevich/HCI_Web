@@ -86,6 +86,7 @@ export default {
     return {
       hidden: false,
       dialog:false,
+      fav:false,
     }
   },
   props: {
