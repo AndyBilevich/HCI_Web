@@ -2,8 +2,8 @@
   <div class="routines">
     <h1>Routines</h1>
     <v-row dense>
-      <v-col cols="6" v-for="routine in routineList" :key="routine.name">
-          <RoutineCard class="card" :name="routine.name" :desc="routine.desc" :color="routine.color"  />
+      <v-col cols="6" v-for="routine in routines" :key="routine.name">
+          <RoutineCard @upd="retrieveRoutines" class="card" :id="routine.id"/>
       </v-col>
     </v-row>
 
@@ -19,6 +19,7 @@
 
 <script>
 import RoutineCard from "@/components/RoutineCard.vue";
+import { RoutineApi } from '@/api';
 export default {
   components: {
     RoutineCard
@@ -26,25 +27,18 @@ export default {
   data: function() {
     return {
       hidden: false,
-      routineList: [
-        {
-          name: 'Let there be light!',
-          desc: 'turns on all lights in the hause at max power',
-          color: 'yellow'
-        },
-        {
-          name: 'Lockdown Mode',
-          desc: 'closes all dors and acivates all alarms',
-          color: 'red'
-        },
-        {
-          name: 'Winter is comming',
-          desc: 'Turns all all A/C to max freezing',
-          color: 'blue'
-        },
-      ]
+      routines: []
     }
-  }
+  },
+  mounted: function() {
+    this.retrieveRoutines();
+  },
+  methods: {
+    retrieveRoutines: async function(){
+        const ans = await RoutineApi.getAll();
+        this.routines = ans.result;
+    },
+  },
 };
 </script>
 

@@ -4,15 +4,15 @@ export { RoutineApi, Routine };
 
 class RoutineApi {
   static get url() {
-    return `${Api.baseUrl}/rooms`;
+    return `${Api.baseUrl}/routines`;
   }
 
-  static add(room, controller) {
-   return Api.post(RoutineApi.url, room, controller);
+  static add(routine, controller) {
+    return Api.post(RoutineApi.url, routine, controller);
   }
 
-  static modify(room, controller) {
-    return Api.put(`${RoutineApi.url}/${room.id}`, room, controller);
+  static modify(routine, controller) {
+    return Api.put(`${RoutineApi.url}/${routine.id}`, routine, controller);
   }
 
   static delete(id, controller) {
@@ -26,14 +26,19 @@ class RoutineApi {
   static getAll(controller) {
     return Api.get(RoutineApi.url, controller);
   }
+
+  static execute(id, controller) {
+    return Api.put(`${RoutineApi.url}/${id}/execute`, controller);
+  }
 }
 
 class Routine {
-  constructor(id, name, meta) {
+  constructor(id, name, actions, meta) {
     if (id) {
       this.id = id;
     }
     this.name = name;
+    this.actions = actions;
     this.meta = meta;
   }
 }
