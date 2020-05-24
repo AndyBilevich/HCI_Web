@@ -119,14 +119,7 @@ export default {
     }
   },
   mounted: function() {
-    this.temperature = this.ac.state.temperature;
-    this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
-    this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
-    this.horizontal = this.hSwing.findIndex(e => e == this.ac.state.horizontalSwing);
-    this.speed = this.fanSpeeds.findIndex(e => e == this.ac.state.fanSpeed);
-    this.updateTitle();
-    this.updateDesc();
-    this.updateState();
+    this.updateInfo();
     this.subscribeToEvents();
   },
   data: function() {
@@ -137,19 +130,19 @@ export default {
       switchState:false,
       switchLoading:false,
       switchLocked:false,
-      fanSpeeds: [ "auto", "25%", "50%", "75%", "100%" ],
-      hSwing: [ "auto", "-90°", "-45°", "0°", "45°", "90°"],
-      vSwing: [ "auto", "22°", "45°", "67°", "90°"],
-      modesAux: [ "Cool", "Heat", "Ventilation" ],
+      fanSpeeds: [ "auto", "25", "50", "75", "100" ],
+      hSwing: [ "auto", "-90", "-45", "0", "45", "90"],
+      vSwing: [ "auto", "22", "45", "67", "90"],
+      modesAux: [ "cool", "heat", "fan" ],
       modes: [
         {
-          text: "Cool",
+          text: "cool",
           icon: "mdi-snowflake",
         }, {
-          text: "Heat",
+          text: "heat",
           icon: "mdi-weather-sunny",
         }, {
-          text: "Ventilation",
+          text: "fan",
           icon: "mdi-fan",
         }
       ],
@@ -230,6 +223,10 @@ export default {
       let speed = this.ac.state.fanSpeed;
       this.desc = `Status: ${status} - Temp: ${temperature} - Mode: ${mode} - vSwing: ${vert} - hSwing: ${hor} - Speed: ${speed}`;
       this.temperature = this.ac.state.temperature;
+      this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
+      this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
+      this.horizontal = this.hSwing.findIndex(e => e == this.ac.state.horizontalSwing);
+      this.speed = this.fanSpeeds.findIndex(e => e == this.ac.state.fanSpeed);
     },
     updateState: function() {
       this.switchState = (this.ac.state.status === 'on')?true:false;

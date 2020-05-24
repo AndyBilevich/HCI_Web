@@ -196,6 +196,16 @@
                         </v-card-actions>
                     </v-card>
                 </v-dialog>
+                <v-dialog v-model="dialog4" scrollable max-width="600px" >
+                    <v-card color="background3">
+                        <v-card-title> Oops! </v-card-title>
+                        <v-card-text> This device is allready in the routine! Try adding a diferent one. </v-card-text>
+                        <v-card-actions>
+                            <v-spacer></v-spacer>
+                            <v-btn class="ma-2" outlined large color="primary" @click="dialog4=false;dialog1=true">Ok!</v-btn>
+                        </v-card-actions>
+                    </v-card>
+                </v-dialog>
             </v-col>
         </v-row>
 
@@ -226,6 +236,7 @@
             dialog1: false,
             dialog2: false,
             dialog3: false,
+            dialog4: false,
 
             checkbox: false,
 
@@ -281,17 +292,28 @@
             }
         },
         addDevCard: async function(id){
-            try {
-                const ans = await DeviceApi.get(id); 
-                this.currDev = ans.result;
-                this.allDevActions.push({
-                    device: ans.result,
-                    actions: [],
-                })
-                this.dialog1 = false;
-            } catch (err) {
-                console.log(err);
+            let canAdd = true;
+            this.allDevActions.forEach(devAction => {
+                console.log(devAction.device.id);
+                if(devAction.device.id == id){
+                    this.dialog4=true;
+                    canAdd=false;
+                }
+            });
+            if(canAdd){
+                try {
+                    const ans = await DeviceApi.get(id); 
+                    this.currDev = ans.result;
+                    this.allDevActions.push({
+                        device: ans.result,
+                        actions: [],
+                    })
+                    this.dialog1 = false;
+                } catch (err) {
+                    console.log(err);
+                }
             }
+            
         },
         addActionCard: async function(device){
             this.currDev = device;
