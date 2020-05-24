@@ -56,7 +56,7 @@
                 </v-card-title>
                 <v-card-text>
                     <div v-for="actions in deviceActions.actions" :key="actions.id">
-                        {{actions.action.name}} {{actions.params}}
+                        {{actions.action.name}} {{actions.action.params.length > 0 ? actions.params : '' }}
                     </div>
                 </v-card-text>
                 <v-card-text>
@@ -162,6 +162,7 @@
                         <v-card-text>
                         <v-container>
                             <v-row class="mt-5" v-for="param in currAction.params" :key="param.id">
+                                
                                 <v-text-field
                                     clearable
                                     v-model="paramVal"
@@ -292,7 +293,6 @@
             this.dialog3 = true;
         },
         saveAction: function(){
-            console.log("actions: " + JSON.stringify(this.allDevActions[0].actions));
             this.allDevActions.forEach(devAction => {
                 if(devAction.device.id == this.currDev.id){
                     devAction.actions.push({
@@ -301,8 +301,8 @@
                     });
                 }
             });
+            this.paramVal = '';
             this.dialog3 = false;
-            console.log("actions: " + JSON.stringify(this.allDevActions[0].actions));
         },
         prevDialog: function(){
             this.dialog2 = true;
@@ -375,6 +375,5 @@
   ],
   "meta": {}
 }
-
 
 -->

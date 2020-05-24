@@ -35,6 +35,7 @@
                 v-model="switchValue"
                 :disabled="switchLocked"
                 :loading="switchLoads"
+                @click="emitOnAction(switchValue)"
                 color = "primary"
               ></v-switch>
             </v-col>
@@ -153,6 +154,9 @@ export default {
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
+    },
+    emitOnAction: async function(switchValue){
+      this.$emit('on_action', switchValue);
     }
   },
   computed: {

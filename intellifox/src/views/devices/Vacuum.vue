@@ -15,10 +15,14 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-btn @click="addDevice" class="add_btn" color="primary" fab big bottom right>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 import { DeviceApi } from '@/api';
 import VacuumCard from "@/components/devices/VacuumCard.vue";
 export default {
@@ -38,6 +42,9 @@ export default {
     }
   },
   methods: {
+    addDevice: async function() {
+      router.push({path:'/devices/add', query:{deviceTypeId: 'ofglvd9gqx8yfl3l'}});
+    },
     retrieveDevices: async function() {
       console.log("borrando");
       try {

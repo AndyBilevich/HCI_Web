@@ -15,10 +15,14 @@
         </v-col>
       </v-row>
     </v-container>
+    <v-btn @click="addDevice" class="add_btn" color="primary" fab big bottom right>
+      <v-icon>mdi-plus</v-icon>
+    </v-btn>
   </div>
 </template>
 
 <script>
+import router from '@/router';
 import { DeviceApi } from '@/api';
 import SpeakerCard from "@/components/devices/SpeakerCard.vue";
 export default {
@@ -38,6 +42,9 @@ export default {
     }
   },
   methods: {
+    addDevice: async function() {
+      router.push({path:'/devices/add', query:{deviceTypeId: 'c89b94e8581855bc'}});
+    },
     retrieveDevices: async function() {
       try {      
         const ans2 = await DeviceApi.getDevicesByType('c89b94e8581855bc');
