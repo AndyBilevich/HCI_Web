@@ -34,21 +34,23 @@ export default {
   created: async function() {
     const home = await storage.getActualHome();
     this.home_id = home?home.id:'';
+    this.typeId = await storage.getTypeId("AirConditioner");
     this.retrieveDevices();    
   },
   data: function() {
     return {
+      typeId: '',
       home_id: '',
       acs: [],
     }
   },
   methods: {
     addDevice: async function() {
-      router.push({path:'/devices/add', query:{deviceTypeId: 'li6cbv5sdlatti0j'}});
+      router.push({path:'/devices/add', query:{deviceTypeId: this.typeId}});
     },
     retrieveDevices: async function() {
       try {      
-        const ans2 = await DeviceApi.getDevicesByType('li6cbv5sdlatti0j');
+        const ans2 = await DeviceApi.getDevicesByType(this.typeId);
         this.acs = ans2.result
           .filter(d => {
             return !d.room || !d.room.home || d.room.home.id === this.home_id 

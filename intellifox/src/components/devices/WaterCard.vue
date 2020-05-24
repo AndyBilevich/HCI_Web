@@ -133,9 +133,8 @@ export default {
   
   methods: {
     subscribeCallback: async function(event) {
-          console.log("Received event");
-          const data = await JSON.parse(event.data);
-          this.updateDevice(data);
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
     },
     subscribeToEvents: function() {
       if (!this.source) {
@@ -211,7 +210,6 @@ export default {
         }
         this.buttonLoading = true;
         this.switchLocked=true;
-        console.log(this.quantity + " " + this.units[this.unitVar]);
         await DeviceApi.setAction(this.tap.id, 'dispense', [this.quantity, this.units[this.unitVar]]);
         this.switchLocked=false;
         this.buttonLoading = false;

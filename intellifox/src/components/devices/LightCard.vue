@@ -83,10 +83,8 @@ export default {
       },
       set: function(newFullColor) {
         this.color = newFullColor.substr(0, 7);
-        console.log(this.color);
                 
         this.brightness = newFullColor.substr(7);
-        console.log(this.brightness);
       }
     },
 
@@ -102,9 +100,8 @@ export default {
   
   methods:{
     subscribeCallback: async function(event) {
-          console.log("Received event");
-          const data = await JSON.parse(event.data);
-          this.updateDevice(data);
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
     },
     subscribeToEvents: function() {
       if (!this.source) {
@@ -167,18 +164,12 @@ export default {
       var resp = this.light.state.brightness.toString(16);
       if(this.light.state.brightness <= 16)
         resp = "0" + resp;
-      console.log(resp);
       this.brightness = resp;
-    
     },
 
     colorAction: async function(){
       await DeviceApi.setAction(this.light.id, 'setColor', [this.fullColor.substr(1,6)]);
-     
-     
       await DeviceApi.setAction(this.light.id, 'setBrightness', [ parseInt(this.fullColor.substr(7,8),16) ]);
-      
-      //console.log(this.fullColor);
     },
   
     switchOnOff: async function(new_switch_state) {

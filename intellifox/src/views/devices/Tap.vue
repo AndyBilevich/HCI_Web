@@ -33,25 +33,29 @@ export default {
   created: async function() {
     const home = await storage.getActualHome();
     this.home_id = home?home.id:'';
+    this.typeId = await storage.getTypeId("Tap");      
     this.retrieveDevices();    
   },
   data: function() {
     return {
+      type_id: '',
       home_id: '',
       taps: [],
     }
   },
   methods: {
     addDevice: async function() {
-      router.push({path:'/devices/add', query:{deviceTypeId: 'dbrlsh7o5sn8ur4i'}});
+      router.push({path:'/devices/add', query:{deviceTypeId: this.typeId}});
     },
     retrieveDevices: async function() {
       try {      
-        const ans2 = await DeviceApi.getDevicesByType('dbrlsh7o5sn8ur4i');
+        const ans2 = await DeviceApi.getDevicesByType(this.typeId);
+        /*
         ans2.result.forEach(t => {
           if (t.room && t.room.home)
             console.log(JSON.stringify(t.room.home.id));
         });
+        */
         this.taps = ans2.result
           .filter(t => {
             return !t.room || !t.room.home || t.room.home.id === this.home_id;

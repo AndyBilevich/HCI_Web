@@ -172,9 +172,8 @@ export default {
 
   methods: {
     subscribeCallback: async function(event) {
-          console.log("Received event");
-          const data = await JSON.parse(event.data);
-          this.updateDevice(data);
+      const data = await JSON.parse(event.data);
+      this.updateDevice(data);
     },
     subscribeToEvents: function() {
       if (!this.source) {
@@ -235,7 +234,6 @@ export default {
       this.title = this.vacuum.name;
     },
     updateDesc: function() {
-      console.log("Updasting desc");
       let activity = this.vacuum.state.status;
       let mode = this.vacuum.state.mode;
       let battery = this.vacuum.state.batteryLevel;

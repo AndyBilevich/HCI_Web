@@ -33,22 +33,23 @@ export default {
   created: async function() {
     const home = await storage.getActualHome();
     this.home_id = home?home.id:'';
+    this.typeId = await storage.getTypeId("Vacuum"); 
     this.retrieveDevices();    
   },
   data: function() {
     return {
+      typeId: '',
       home_id: '',
       vacuums: [],
     }
   },
   methods: {
     addDevice: async function() {
-      router.push({path:'/devices/add', query:{deviceTypeId: 'ofglvd9gqx8yfl3l'}});
+      router.push({path:'/devices/add', query:{deviceTypeId: this.typeId}});
     },
     retrieveDevices: async function() {
-      console.log("borrando");
       try {
-        const ans2 = await DeviceApi.getDevicesByType('ofglvd9gqx8yfl3l');
+        const ans2 = await DeviceApi.getDevicesByType(this.typeId);
         this.vacuums = [];
         this.vacuums = ans2.result
           .filter(d => {
