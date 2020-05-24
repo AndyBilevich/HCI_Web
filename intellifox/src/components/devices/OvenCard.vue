@@ -167,7 +167,7 @@ export default {
           this.oven.state.status = data.args.newStatus;
           break;
         case 'temperatureChanged':
-          this.oven.state.temperature = data.args.newTemperature;
+          this.oven.state.temperature = parseInt(data.args.newTemperature);
           break;
         case 'heatChanged':
           this.oven.state.heat = data.args.newHeat;
