@@ -123,44 +123,47 @@
 
               </v-col>
 
-              <v-col class="justify-center" cols="5">
-                <v-row class="d-flex justify-center">
-                  <v-btn
-                    :disabled="actionsLocked" 
-                    icon
-                    @click="() => {
-                      if (volume < 10)
-                        songQuery({action: {name: 'setVolume'}, value: volume + 1});
-                    }" 
-                  >
-                    <v-icon>mdi-chevron-down</v-icon>
-                  </v-btn>
-                  <p class="mt-1">Volume</p>
-                  <v-btn 
-                    :disabled="actionsLocked" 
-                    icon
-                    @click="() => {
-                      if (volume > 0)
-                        songQuery({action: {name: 'setVolume'}, value: volume - 1});
-                    }"
-                  >
-                    <v-icon>mdi-chevron-up</v-icon>
-                  </v-btn>
-                </v-row>
-                <v-slider
-                  :disabled="actionsLocked"
-                  v-model="volume"
-                  @mousedown="editingVolume = true"
-                  @click="() => {
-                    editingVolume = false;
-                    songQuery({action: {name: 'setVolume'}, value: volume});
-                    }"
-                  min="0"
-                  max="10"
-                  vertical
-                />
-              </v-col>
-                
+              <v-layout row wrap align-center>
+                <v-col>
+                  <v-row class="d-flex justify-center">
+                    <v-btn
+                      :disabled="actionsLocked" 
+                      icon
+                      @click="() => {
+                        if (volume < 10)
+                          songQuery({action: {name: 'setVolume'}, value: volume + 1});
+                      }" 
+                    >
+                      <v-icon>mdi-chevron-down</v-icon>
+                    </v-btn>
+                    <p class="mt-1">Volume</p>
+                    <v-btn 
+                      :disabled="actionsLocked" 
+                      icon
+                      @click="() => {
+                        if (volume > 0)
+                          songQuery({action: {name: 'setVolume'}, value: volume - 1});
+                      }"
+                    >
+                      <v-icon>mdi-chevron-up</v-icon>
+                    </v-btn>
+                  </v-row>
+                  <v-row>
+                    <v-slider
+                      :disabled="actionsLocked"
+                      v-model="volume"
+                      @mousedown="editingVolume = true"
+                      @click="() => {
+                        editingVolume = false;
+                        songQuery({action: {name: 'setVolume'}, value: volume});
+                        }"
+                      min="0"
+                      max="10"
+                      vertical
+                    />
+                  </v-row>
+                </v-col>
+              </v-layout>
             </v-row>
 
           </div>

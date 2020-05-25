@@ -6,11 +6,18 @@
           <v-col cols="3">
             <v-icon :color="color" size="100">{{icon}}</v-icon>
           </v-col>
-          <v-col cols="5">
+          <v-col cols="6">
             <v-row>
               <v-card-actions>
-                <v-card-title class="headline">
+                <v-card-title v-if= "title.length <= 18" class="headline">
                 {{ title }}
+                <v-btn icon @click="click">
+                  <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
+                </v-btn>
+                </v-card-title>
+
+                <v-card-title v-else class="headline">
+                {{ title.substr(0,18) + "..." }}
                 <v-btn icon @click="click">
                   <v-icon>{{ show ? 'mdi-chevron-up' : 'mdi-chevron-down' }}</v-icon>
                 </v-btn>
@@ -22,8 +29,6 @@
             </v-row>
           </v-col>
           <!-- <v-col cols="6"> -->
-            <v-col cols="1">
-            </v-col>
             <v-col cols="1">
               <v-switch
                 v-model="switchValue"

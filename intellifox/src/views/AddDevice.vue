@@ -86,11 +86,6 @@
             icon: "mdi-air-conditioner"
           },
           {
-            id: "mxztsyjzsrq7iaqc",
-            name: "Alarm",
-            icon: "mdi-alarm-light-outline"
-          },
-          {
             id: "eu0v2xgprrhhg41g",
             name: "Blind",
             icon: "mdi-blinds"
@@ -99,11 +94,6 @@
             id: "lsf78ly0eqrjbz91",
             name: "Door",
             icon: "mdi-door"
-          },
-          {
-            id: "rnizejqr2di0okho",
-            name: "Fridge",
-            icon: "mdi-fridge-outline"
           },
           {
             id: "im77xxyulpegfmv8",

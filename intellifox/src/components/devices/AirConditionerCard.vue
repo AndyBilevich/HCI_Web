@@ -20,8 +20,7 @@
           <div v-show="show">
             <v-divider></v-divider>
               <v-col>
-                <v-row>
-                  <v-col cols="2"></v-col>
+                <v-row class="d-flex justify-center">
                   <h3 class="mt-3">Temperature:</h3>
                   <v-col cols="1"></v-col>
                       <v-btn icon x-large @click="() => { updateTemp(-1); }">
@@ -35,59 +34,67 @@
 
                 <v-col> 
                   <h3 align="left" class="mt-5">Mode:</h3>
-                  <v-btn-toggle
-                    v-model="mode"
-                    mandatory
-                    tile
-                    @change="() => { updateMode(); }"
-                  >
-                    <v-btn v-for="m in modes" :key="m.id" width="160">
-                      <v-icon>{{m.icon}}</v-icon>
-                      {{m.text}}
-                    </v-btn>
-                  </v-btn-toggle>
+                  <v-row class="d-flex justify-center">
+                    <v-btn-toggle
+                      v-model="mode"
+                      mandatory
+                      tile
+                      @change="() => { updateMode(); }"
+                    >
+                      <v-btn v-for="m in modes" :key="m.id" width="160">
+                        <v-icon>{{m.icon}}</v-icon>
+                        {{m.text}}
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
                 </v-col>
 
                 <v-col> 
                   <h3 align="left" class="mt-5">Vertical blades rotation:</h3>
-                  <v-btn-toggle
-                    v-model="vertical"
-                    mandatory
-                    tile
-                    @change="() => { updateVSwing(); }"
-                  >
-                    <v-btn v-for="vs in vSwing" :key="vs.id" width="70">
-                        {{vs}}
-                    </v-btn>
-                  </v-btn-toggle>
+                  <v-row class="d-flex justify-center">
+                    <v-btn-toggle
+                      v-model="vertical"
+                      mandatory
+                      tile
+                      @change="() => { updateVSwing(); }"
+                    >
+                      <v-btn v-for="vs in vSwing" :key="vs.id" width="70">
+                          {{vs}}
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
                 </v-col>
 
                 <v-col> 
                   <h3 align="left" class="mt-5">Horizontal blades rotation:</h3>
-                  <v-btn-toggle
-                    v-model="horizontal"
-                    mandatory
-                    tile
-                    @change="() => { updateHSwing(); }"
-                  >
-                    <v-btn v-for="hs in hSwing" :key="hs.id" width="70">
-                      {{hs}}
-                    </v-btn>
-                  </v-btn-toggle>
+                  <v-row class="d-flex justify-center">
+                    <v-btn-toggle
+                      v-model="horizontal"
+                      mandatory
+                      tile
+                      @change="() => { updateHSwing(); }"
+                    >
+                      <v-btn v-for="hs in hSwing" :key="hs.id" width="70">
+                        {{hs}}
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
                 </v-col>
 
                 <v-col> 
                   <h3 align="left" class="mt-5">Fan speed:</h3>
-                  <v-btn-toggle
-                    v-model="speed"
-                    mandatory
-                    tile
-                    @change="() => { updateSpeed(); }"
-                  >
-                    <v-btn v-for="fs in fanSpeeds" :key="fs.id" width="70">
-                      {{fs}}
-                    </v-btn>
-                  </v-btn-toggle>
+                  <v-row class="d-flex justify-center">
+                    <v-btn-toggle
+                      v-model="speed"
+                      mandatory
+                      tile
+                      @change="() => { updateSpeed(); }"
+                    >
+                      <v-btn v-for="fs in fanSpeeds" :key="fs.id" width="70">
+                        {{fs}}
+                      </v-btn>
+                    </v-btn-toggle>
+                  </v-row>
                 </v-col>
 
               </v-col>

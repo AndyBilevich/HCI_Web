@@ -9,13 +9,15 @@
       permanent
       class="window"
     >
-      <v-list 
-        dense 
+      <v-list-item-group
+        dense
+        v-model="selected"
+        color="primary"
       >
         <DrawerItem v-for="item in main_opt" :key="item.index" :icon="item.icon" :text="item.name" :to="item.to"/>
         <v-divider :class="miniHidd"></v-divider>
         <DrawerItem v-for="item in sec_opt" :class="miniHidd" :key="item.index" :icon="item.icon" :text="item.name" :to="item.to"/>
-      </v-list>
+      </v-list-item-group>
     </v-navigation-drawer>
 
     <v-app-bar elevation="0" app clipped-left class="window">
@@ -108,7 +110,7 @@ export default {
       drawer: true,
       miniVar: true,
       miniHidd: 'd-none',
-      fill: "   >  ",
+      selected: -1,
       main_opt: [
         {
           index: 1,

@@ -20,31 +20,31 @@
           <div v-show="show">
             <v-divider></v-divider>
             <v-col>
-              <h3 align="left" >Dispence:</h3>
+              <h3 align="left" >Dispense:</h3>
               <v-col>
-                  <v-row> 
-                    
-                      <v-col cols="4">
-                        <v-text-field
-                          v-model="quantity"
-                          counter="3"
-                          type="number"
-                          label="How many?"
-                        ></v-text-field>
-                      </v-col>
-                  
-                      <v-btn-toggle 
-                        v-model="unitVar"
-                        class="ml-5 mt-4" 
-                        tile 
-                        mandatory
-                      >
-                        <v-btn v-for="unit in units" :key="unit.id">
-                          {{unit}}
-                        </v-btn> 
-                      </v-btn-toggle>
-                  </v-row>
-                 <v-btn 
+                <v-row>
+                  <v-col cols="4">
+                    <v-text-field
+                      v-model="quantity"
+                      counter="3"
+                      type="number"
+                      label="How many?"
+                    ></v-text-field>
+                  </v-col>
+              
+                  <v-btn-toggle 
+                    v-model="unitVar"
+                    class="ml-5 mt-4" 
+                    tile 
+                    mandatory
+                  >
+                    <v-btn v-for="unit in units" :key="unit.id">
+                      {{unit}}
+                    </v-btn> 
+                  </v-btn-toggle>
+                </v-row>
+                <v-row class="d-flex justify-center">
+                  <v-btn 
                   class="primary" 
                   large
                     @click="() => {
@@ -53,9 +53,10 @@
                     :disabled="buttonDisabled"
                     :buttonState="buttonState"
                     :loading="buttonLoading"
-                 >
-                  dispense
-                 </v-btn>
+                  >
+                  Dispense
+                  </v-btn>
+                </v-row>
                 
               </v-col>
             </v-col>

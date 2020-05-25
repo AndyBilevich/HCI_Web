@@ -18,17 +18,16 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-              <v-row>
-                <v-col cols="2"></v-col>
-                  <h3 class="mt-3">Level:</h3>
-                  <v-col cols="1"></v-col>
-                  <v-btn icon x-large @click="() => { updateLevel(-5); }">
-                    <v-icon x-large>mdi-chevron-down</v-icon>
-                  </v-btn>
-                  <h1>{{ this.blinds.state.level}}</h1>
-                  <v-btn icon x-large @click="() => { updateLevel(+5); }">
-                    <v-icon x-large>mdi-chevron-up</v-icon>
-                  </v-btn>
+              <v-row class="d-flex justify-center">
+                <h3 class="mt-3">Level:</h3>
+                <v-col cols="1"></v-col>
+                <v-btn icon x-large @click="() => { updateLevel(-5); }">
+                  <v-icon x-large>mdi-chevron-down</v-icon>
+                </v-btn>
+                <h1>{{ this.blinds.state.level}}</h1>
+                <v-btn icon x-large @click="() => { updateLevel(+5); }">
+                  <v-icon x-large>mdi-chevron-up</v-icon>
+                </v-btn>
               </v-row>
           </div>
         </v-expand-transition>

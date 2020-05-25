@@ -5,10 +5,10 @@
     </div>
     <div class="card_bottom background1">
       <div v-if= "categoryName.length <= 16">
-        <v-card-text class="text--primary"> {{categoryName }}</v-card-text>
+        <v-card-text class="text--primary font-weight-bold"> {{categoryName }}</v-card-text>
       </div>
       <div v-else>
-        <v-card-text class="text--primary"> {{categoryName.substr(0,12) + "..."}}</v-card-text>
+        <v-card-text class="text--primary font-weight-bold"> {{categoryName.substr(0,12) + "..."}}</v-card-text>
       </div>
         
     </div>

@@ -22,12 +22,11 @@
             <v-divider></v-divider>
             
               <h3 class="ml-5 mt-4" align="left">Choose color and brightness:</h3>
-              <v-row>
-                <v-col cols="2"></v-col>
+              <v-row class="d-flex justify-center">
                 <v-col v-on:click="() => { colorAction(); }" cols="8">
                   <v-color-picker v-model="fullColor" class="ma-5 background1"  :mode.sync="mode"></v-color-picker>
                 </v-col>
-                              </v-row>         
+              </v-row>         
           </div>
         </v-expand-transition>
     </div>

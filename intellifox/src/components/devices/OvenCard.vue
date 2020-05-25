@@ -20,10 +20,8 @@
           <div v-show="show">
             <v-divider></v-divider>
             <v-col>   
-              <v-row>
-                <v-col cols="2"></v-col>
+              <v-row class="d-flex justify-center">
                 <h3 class="mt-3">Temperature:</h3>
-                <v-col cols="1"></v-col>
                 <v-btn icon x-large @click="() => { updateTemp(-10); }">
                   <v-icon x-large>mdi-chevron-down</v-icon>
                 </v-btn>
@@ -35,47 +33,53 @@
 
               <v-col> 
                 <h3 align="left" class="mx-5 mt-5">Heat source:</h3>
-                <v-btn-toggle
-                  v-model="heat"
-                  mandatory
-                  tile
-                  class="mt-5"
-                  @change="() => { updateHeatSrc(); }"
-                >
-                  <v-btn v-for="h in heatSrc" :key="h.id" width="160">
-                      {{h}}
-                    </v-btn>
-                </v-btn-toggle>
+                <v-row class="d-flex justify-center">
+                  <v-btn-toggle
+                    v-model="heat"
+                    mandatory
+                    tile
+                    class="mt-5"
+                    @change="() => { updateHeatSrc(); }"
+                  >
+                    <v-btn v-for="h in heatSrc" :key="h.id" width="160">
+                        {{h}}
+                      </v-btn>
+                  </v-btn-toggle>
+                </v-row>
               </v-col>
 
               <v-col> 
                 <h3 align="left" class="mx-5 mt-5">Grill mode:</h3>
-                <v-btn-toggle
-                  v-model="grill"
-                  mandatory
-                  tile
-                  class="mt-5"
-                  @change="() => { updateGrill(); }"
-                >
-                  <v-btn v-for="g in grillMode" :key="g.id" width="160">
-                      {{g}}
-                  </v-btn>
-                </v-btn-toggle>
+                <v-row class="d-flex justify-center">
+                  <v-btn-toggle
+                    v-model="grill"
+                    mandatory
+                    tile
+                    class="mt-5"
+                    @change="() => { updateGrill(); }"
+                  >
+                    <v-btn v-for="g in grillMode" :key="g.id" width="160">
+                        {{g}}
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-row>
               </v-col>
 
               <v-col> 
                 <h3 align="left" class="mx-5 mt-5">Convection mode:</h3>
-                <v-btn-toggle
-                  v-model="convection"
-                  mandatory
-                  tile
-                  class="mt-5"
-                  @change="() => { updateConvection(); }"
-                >
-                  <v-btn v-for="c in convectionMode" :key="c.id" width="160">
-                    {{c}}
-                  </v-btn>
-                </v-btn-toggle>
+                <v-row class="d-flex justify-center">
+                  <v-btn-toggle
+                    v-model="convection"
+                    mandatory
+                    tile
+                    class="mt-5"
+                    @change="() => { updateConvection(); }"
+                  >
+                    <v-btn v-for="c in convectionMode" :key="c.id" width="160">
+                      {{c}}
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-row>
               </v-col>
 
             </v-col>
