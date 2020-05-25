@@ -221,7 +221,7 @@ export default {
       let vert = this.ac.state.verticalSwing;
       let hor = this.ac.state.horizontalSwing;
       let speed = this.ac.state.fanSpeed;
-      this.desc = `Status: ${status} - Temp: ${temperature} - Mode: ${mode} - vSwing: ${vert} - hSwing: ${hor} - Speed: ${speed}`;
+      this.desc = `Status: ${status} - Temp: ${temperature} - Mode: ${mode} - Vertical Swing: ${vert} - Horizontal Swing: ${hor} - Speed: ${speed}`;
       this.temperature = this.ac.state.temperature;
       this.mode = this.modesAux.findIndex(e => e == this.ac.state.mode);
       this.vertical = this.vSwing.findIndex(e => e == this.ac.state.verticalSwing);
