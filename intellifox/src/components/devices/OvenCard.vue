@@ -195,7 +195,7 @@ export default {
       let heat = this.oven.state.heat;
       let grill = this.oven.state.grill;
       let convection = this.oven.state.convection;
-      this.desc = `Status: ${status} - Temp: ${temperature} - heat: ${heat} - grill: ${grill} - convection: ${convection}`;
+      this.desc = `Status: ${status} - Temp: ${temperature} - Heat: ${heat} - Grill: ${grill} - Convection: ${convection}`;
       this.temperature = this.oven.state.temperature;
       this.heat = this.heatSrc.findIndex(e => e == this.oven.state.heat);
       this.grill = this.grillMode.findIndex(e => e == this.oven.state.grill);

@@ -119,7 +119,7 @@ export default {
       this.title = this.blinds.name;
     },
     updateDesc: function() {
-      this.desc = `${(this.blinds.state.status === 'closed')? 'Closed':`Open`} - level: ${this.blinds.state.level} - Current Level: ${this.blinds.state.currentLevel}`;
+      this.desc = `${(this.blinds.state.status === 'closed')? 'Closed':`Open`} - Level: ${this.blinds.state.level} - Current Level: ${this.blinds.state.currentLevel}`;
     },
     updateState: function() {
       this.switchState = (this.blinds.state.status === 'opened')?true:false;

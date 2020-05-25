@@ -34,11 +34,11 @@
                 }"
             />
             <v-toolbar-title>
-              <v-img v-if="this.$vuetify.theme.dark" id="logoweb" src="./assets/logo_web_dark.png" contain></v-img>
-              <v-img v-else id="logoweb" src="./assets/logo_web_light.png" contain></v-img>
+              <v-img height="40px" width="122px" v-if="this.$vuetify.theme.dark" id="logoweb" src="./assets/logo_web_dark.png" contain></v-img>
+              <v-img height="40px" width="122px" v-else id="logoweb" src="./assets/logo_web_light.png" contain></v-img>
             </v-toolbar-title>
-            <pre class="font-weight-bold">   >   </pre>
-            <h3 v-if="!home.id">No home selected</h3><h3 v-else class="font-weight-bold">{{ home.name }}</h3> 
+            <pre>   >   </pre>
+            <h3 v-if="!home.id">No home selected</h3><h3 v-else >{{ home.name }}</h3> 
           </v-row>
         </v-col>
       </v-row>
