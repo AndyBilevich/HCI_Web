@@ -25,7 +25,7 @@
 
 <script>
   import storage from '@/storage';
-  import { HomeRoomApi, RoomApi } from '@/api';
+  import { RoomApi } from '@/api';
   import CategoryCard from "@/components/CategoryCard";
   export default {
     name: 'Rooms',
@@ -49,15 +49,12 @@
       retrieveRooms: async function() {
         if (this.home_id) {
           try {
-            const ans = await HomeRoomApi.get(this.home_id);
-            this.rooms = ans.result;
-            const ans2 = await RoomApi.getAll();
-            var i;
-            for (i = 0; i < ans2.result.length; i++) {
-                if(!ans2.result[i].home){
-                    this.rooms.push( ans2.result[i] );
-                }
-            }
+            const ans = await RoomApi.getAll();
+            this.rooms = [];
+            ans.result.forEach(r => {
+                if(!r.home || r.home.id === this.home_id)
+                    this.rooms.push( r );
+            });
           }
           catch(err) {
             console.log(err);

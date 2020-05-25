@@ -109,7 +109,7 @@ import {
     FridgeCard,
     WindowCard
 } from '@/components/devices'
-import { RoomApi, HomeApi , DeviceApi } from '@/api';
+import { RoomApi, HomeApi , RoomDeviceApi, DeviceApi } from '@/api';
     export default {
         data: function() {
             return {
@@ -163,6 +163,10 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
             },
             deleteRoom: async function() {
                 try {
+                    const devs = await RoomDeviceApi.get(this.room.id);
+                    for (let j = 0; j < devs.result.length; j++) {
+                        await DeviceApi.delete(devs.result[j].id);
+                    }
                     await RoomApi.delete(this.room.id);
                     var auxHomeId = (this.room.home.id !== '') ? this.room.home.id : '';
                     if(auxHomeId !== ''){
@@ -170,6 +174,7 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                         const auxHome = ans2.result;
 
                         auxHome.meta.rooms = auxHome.meta.rooms - 1;
+                        auxHome.meta.devs -= devs.result.length;
                         await HomeApi.modify(auxHome);
                     }
                 } catch (err) {

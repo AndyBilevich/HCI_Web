@@ -117,8 +117,15 @@
 </template>
 
 <script>
+import storage from '@/storage';
 import router from '@/router';
-import { HomeApi } from '@/api';
+import { 
+  HomeApi, 
+  HomeRoomApi, 
+  RoomApi, 
+  RoomDeviceApi, 
+  DeviceApi 
+} from '@/api';
 export default {
   props: {
     selected: Boolean,
@@ -126,13 +133,31 @@ export default {
   },
   data: function() {
     return {
+      actualHome: {},
       dialog: false,
     }
+  },
+  created: async function() {
+    const home = await storage.getActualHome();
+    this.actualHomeId = home?home.id:'';
   },
   methods: {
     deleteHome: async function() {
       try {
+        console.log(`Home_id is ${this.home.id}`)
+        const rooms = await HomeRoomApi.get(this.home.id);
+        console.log(rooms.result);
+        let devs;
+        for (let i = 0; i < rooms.result.length; i++) {
+          devs = await RoomDeviceApi.get(rooms.result[i].id);
+          for (let j = 0; j < devs.result.length; j++) {
+            await DeviceApi.delete(devs.result[j].id);
+          }
+          await RoomApi.delete(rooms.result[i].id);
+        }
         await HomeApi.delete(this.home.id);
+        if (this.home.id === this.actualHomeId)
+          this.$emit('deletedActualHome');
         this.$emit('update');
       } catch (err) {
         console.log(err);

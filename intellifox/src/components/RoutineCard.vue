@@ -70,6 +70,36 @@
       </v-dialog>
 
       </v-card>
+
+      <v-snackbar
+        v-model="succ_snackbar"
+        bottom
+        color="primary"
+        timeout="5000"
+      >
+        <h3>Routine executed successfully</h3>
+        <v-btn
+          text
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
+
+      <v-snackbar
+        v-model="err_snackbar"
+        bottom
+        color="error"
+        timeout="5000"
+      >
+        <h3>Something went wrong, routine execution failed</h3>
+        <v-btn
+          text
+          @click="snackbar = false"
+        >
+          Close
+        </v-btn>
+      </v-snackbar>
     </div>
   </div>
 </template>
@@ -82,7 +112,9 @@ export default {
       hidden: false,
       dialog:false,
       fav:false,
-      routine: { meta: {} }, 
+      routine: { meta: {} },
+      succ_snackbar:false,
+      err_snackbar:false,
     }
   },
   props: {
@@ -93,15 +125,29 @@ export default {
   },
   methods: {
     retrieveRoutine: async function(){
-      const ans = await RoutineApi.get(this.id);
-      this.routine = ans.result; 
+      try {
+        const ans = await RoutineApi.get(this.id);
+        this.routine = ans.result;  
+      } catch (err) {
+        console.log(err);
+      }
     },
     executeRoutine: async function(){
-      await RoutineApi.execute(this.id);
+      try {
+        await RoutineApi.execute(this.id);
+        this.succ_snackbar = true; 
+      } catch (err) {
+        this.err_snackbar = true;
+        console.log(err);
+      }
     },
     deleteRoutine: async function(){
+      try {
         await RoutineApi.delete(this.routine.id);
-        this.emitUpdRoutines();
+        this.emitUpdRoutines(); 
+      } catch (err) {
+        console.log(err);
+      }
     },
     emitUpdRoutines: async function(){
       this.$emit('upd');

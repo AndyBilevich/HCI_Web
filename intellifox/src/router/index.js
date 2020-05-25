@@ -142,4 +142,6 @@ const router = new VueRouter({
   routes,
 });
 
+router.replace({ path: '/homes', redirect: '/' })
+
 export default router;

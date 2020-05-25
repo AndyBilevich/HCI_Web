@@ -13,6 +13,7 @@
           <v-col v-for="h in homes" :key="h.id" cols="6">
             <HomeCard 
               class="card" 
+              @deletedActualHome="selectedHomeID = ''"
               @update="retrieveHomes" 
               :selected="selectedHomeID === h.id" 
               :home="h" 
@@ -64,7 +65,7 @@ export default {
         console.log(err);
       }
       this.noItemsText = "You don't have houses yet. Add one with the bottom right button."
-    }
+    },
   },
   watch: {
     selectedHomeID: function(new_val) {

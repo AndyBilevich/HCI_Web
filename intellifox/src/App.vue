@@ -201,9 +201,14 @@ export default {
   methods: {
     updateHome: async function(new_id) {
       try {
-        const ans = await HomeApi.get(new_id);
+        let ans;
+        if (new_id !== '')
+          ans = await HomeApi.get(new_id);
         if (ans.result) {
-          this.home = ans.result;
+          if (new_id !== '')
+            this.home = ans.result;
+          else
+            this.home = {};
           await storage.setActualHome(this.home);
         }
       } catch (err) {
