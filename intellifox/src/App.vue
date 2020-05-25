@@ -32,7 +32,8 @@
                 }"
             />
             <v-toolbar-title>
-              <v-img id="logoweb" src="./assets/logo_web.png" contain></v-img>
+              <v-img v-if="this.$vuetify.theme.dark" id="logoweb" src="./assets/logo_web_dark.png" contain></v-img>
+              <v-img v-else id="logoweb" src="./assets/logo_web_light.png" contain></v-img>
             </v-toolbar-title>
             <pre class="font-weight-bold">   >   </pre>
             <h3 v-if="!home.id">No home selected</h3><h3 v-else class="font-weight-bold">{{ home.name }}</h3> 
