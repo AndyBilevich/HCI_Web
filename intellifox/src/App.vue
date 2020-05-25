@@ -1,5 +1,3 @@
-
-
 <template>
   <v-app :light="!this.$vuetify.theme.dark" :dark="this.$vuetify.theme.dark">
     <v-navigation-drawer
@@ -44,6 +42,7 @@
     </v-app-bar>
 
     <v-row
+      class="background1"
       id="screen_cont" 
       @click.stop="() => {
         miniVar = true;
