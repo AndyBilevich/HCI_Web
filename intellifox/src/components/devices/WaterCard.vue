@@ -70,7 +70,7 @@
                     <p>Please insert a value between 1 and 100</p>
                   <v-row>
                     <v-col cols="1"></v-col>
-                    <v-btn class="ma-2" outlined medium color="error" @click="dialog=false">ok</v-btn>
+                    <v-btn class="ma-2" outlined medium color="primary" @click="dialog=false">ok</v-btn>
                   </v-row> 
                 </v-card>
               </v-dialog>

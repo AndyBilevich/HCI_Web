@@ -38,7 +38,6 @@
                     </v-col>
                 </v-row>
             </v-col>
-         
             <v-col cols="6" >
                 <h3 align="left">Choose color:</h3>
                 <v-row>

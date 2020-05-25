@@ -101,7 +101,7 @@
           </v-btn>
 
           <v-btn
-            color="error"
+            color="primary"
             @click="() => {
               dialog = false
               deleteHome();
