@@ -128,6 +128,7 @@ import { RoutineApi } from '@/api';
                 ans.result.actions.forEach(r => {
                     if (!this.deviceActions[r.device.id]) {
                         this.deviceInfo[r.device.id] = r.device;
+                        this.deviceInfo[r.device.id].icon = await storage.getTypeIcon(d.type.name)
                         this.deviceActions[r.device.id] = [];
                     }
                     this.deviceActions[r.device.id].push({
