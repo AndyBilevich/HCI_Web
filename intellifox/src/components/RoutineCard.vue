@@ -10,6 +10,9 @@
             <v-row>
               <v-card-title class="headline">
               {{ routine.name }}
+              <v-btn icon @click="goToRoutine">
+                  <v-icon>mdi-chevron-right</v-icon>
+              </v-btn>
               </v-card-title>
             </v-row>
             <v-row>
@@ -105,6 +108,7 @@
 </template>
 
 <script>
+import router from '@/router';
 import { RoutineApi } from '@/api';
 export default {
   data: function() {
@@ -151,6 +155,9 @@ export default {
     },
     emitUpdRoutines: async function(){
       this.$emit('upd');
+    },
+    goToRoutine: function(){
+      router.push({name:"Routine", params:{id: this.routine.id}});
     }
   }
 };

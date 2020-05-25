@@ -26,7 +26,7 @@ import EditRoutine from "@/views/EditRoutine.vue";
 import EditRoom from "@/views/EditRoom.vue";
 
 import Room from "@/views/Room.vue";
-
+import Routine from "@/views/Routine.vue";
 
 Vue.use(VueRouter);
 
@@ -134,6 +134,11 @@ const routes = [
     name: "Room",
     component: Room,
   },
+  {
+    path: "/routines/:id",
+    name: "Routine",
+    component: Routine,
+  }
 ];
 
 const router = new VueRouter({
