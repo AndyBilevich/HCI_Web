@@ -63,7 +63,7 @@
             console.log(err);
           }
         }
-        this.noItemsText = "You don't have rooms yet. Add one with the bottom right button."
+        this.noItemsText = "You don't have rooms yet. Add one with the bottom right button.";
       }
     }
   };

@@ -1,18 +1,20 @@
 <template>
   <div class="devices">
     <h1 align="center">Devices</h1>
-
-
-    <v-row dense>
-      <v-col cols="2" v-for="d in devicesAvail" :key="d.title">
+    <div v-if="devicesAvail.length === 0">
+      <h3 class="noItemsMessage mt-5" align="center"> {{noItemsText}} </h3>
+    </div>
+    <div v-else>
+      <v-row dense>
+        <v-col cols="2" v-for="d in devicesAvail" :key="d.title">
           <CategoryCard :categoryName="`${d.title + 's'}`" :categoryIcon="d.icon" routeName="Device" :devName="d.name" />
-      </v-col>
-    </v-row>
-
+        </v-col>
+      </v-row>
+    </div>
+    
     <v-btn @click="addDevice" class="add_btn" color="primary" fab big bottom right>
       <v-icon>mdi-plus</v-icon>
     </v-btn>
-
   </div>
 </template>
 
@@ -36,6 +38,7 @@
     },
     data: function() {
       return {
+        noItemsText: "",
         hidden: false,
         devicesAvail: [],
         deviceInfo: {},
@@ -57,6 +60,7 @@
             .reduce((unique, name) => unique.includes(name) ? unique: [...unique, name],[])
             .map(name => this.deviceInfo[name]);
           //console.log(this.devicesAvail);
+          this.noItemsText = "You don't have devices yet. Add one with the bottom right button.";
         }
         catch(err) {
           console.log(err);
