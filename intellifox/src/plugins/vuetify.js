@@ -21,17 +21,17 @@ export default new Vuetify({
           error: '#ED483D',
         },
         light: {
-          background1: '#EDEDED',
-          background2: '#C9C9C9',
-          background3: '#9C9C9C',
-          window: '#DBDBDB',
+          background1: '#c9c9c9',
+          background2: '#EFEDED',
+          background3: '#ded9e0',
+          window: '#c8c7c9',
           sidebar: '#757575',
           icon: '#545454',
-          text: '#2F2F2F',
+          text: '#050505',
           sub_header: '#1D1D1D',
           header: '#111111',
           primary: '#8e36f9',
-          cards: '#801dff',
+          cards: '#954cba',
           error: '#12B7C2',
         }
       }    
