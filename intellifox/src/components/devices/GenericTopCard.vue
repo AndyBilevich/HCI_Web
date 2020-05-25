@@ -39,10 +39,10 @@
             </v-col>
             <v-col>
               <v-row class="ml-1">
-                <v-btn v-if="!fav" @click="fav=true" text icon>
+                <v-btn v-if="!model.meta.favourites" @click="addToFavourites" text icon>
                   <v-icon large>mdi-heart-outline</v-icon>
                 </v-btn>
-                <v-btn v-if="fav" @click="fav=false" text icon>
+                <v-btn v-else @click="addToFavourites" text icon>
                   <v-icon large>mdi-heart</v-icon>
                 </v-btn>
                 <v-menu close-on-click close-on-content-click absolute>
@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import { HomeApi, DeviceApi } from '@/api';
+import { HomeApi, DeviceApi , Device} from '@/api';
 import router from '@/router';
 export default {
   props: {
@@ -123,7 +123,7 @@ export default {
     return {
       hidden:false,
       dialog:false,
-      fav:false, 
+
       switch1:this.switchState,
       switchDisabled:this.switchLocked,
       switchLoading:this.switchLoads,
@@ -135,17 +135,22 @@ export default {
       this.switchLoading = 'error';
       this.switchDisabled = true;
     },
-    switchFav: function(){
-      if(this.fav){
-        this.fav = false;
-      }else{
-        this.fav = true;
-      }
-    },
+
+
     editDevice: function(){
       var roomId = this.model.room ? this.model.room.id : 'none';
       router.push({ name: 'EditDevice', query: { room:roomId }, params:{id: this.model.id} });
     },
+
+    addToFavourites: async function(){
+      const device = new Device(
+        this.model.id,
+        this.model.name,
+        { favourites: this.mode.favourites ? !this.model.favourites : true},
+      )
+      await DeviceApi.modify(device);
+    },
+
     deleteDevice: async function() {
       try {
           await DeviceApi.delete(this.model.id);
@@ -169,7 +174,7 @@ export default {
     },
     emitOnAction: async function(switchValue){
       this.$emit('on_action', switchValue);
-    }
+    },
   },
   computed: {
     color: {

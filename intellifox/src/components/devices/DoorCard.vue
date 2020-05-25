@@ -12,6 +12,7 @@
         :show="show"
         :title="title"
         :subtitle="desc"
+        :fav="favourite"
         icon="mdi-door">
       </TopCard>
     </div>
@@ -52,6 +53,7 @@ export default {
     this.updateTitle();
     this.updateDesc();
     this.updateState();
+    this.updateFavourite();
     this.subscribeToEvents();
   },
   data: function() {
@@ -65,6 +67,7 @@ export default {
       locked:false,
       title: '',
       desc: '',
+      favourite: false,
 
       buttonDisabled:false,
       buttonState:false,
@@ -139,6 +142,9 @@ export default {
     },
     updateDesc: function() {
       this.desc = `${(this.door.state.status === 'opened')? 'Opened':`Closed - ${(this.door.state.lock === 'locked')?'Locked':'Unlocked'}`}`;
+    },
+    updateFavourite: function(){
+      this.favourite = this.door.fav;
     },
     updateState: function() {
       this.switchState = this.door.state.status === 'opened';
