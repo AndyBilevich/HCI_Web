@@ -1,80 +1,74 @@
-/*
 import { DeviceTypeApi } from '@/api';
-
-
-import {
-    SpeakerCard, 
-    WaterCard,
-    AirConditionerCard,
-    LightCard,
-    VacuumCard,
-    AlarmCard,
-    OvenCard,
-    DoorCard,
-    FridgeCard,
-    WindowCard
-} from '@/components/devices';
 
 const types = {
     'speaker': {
-        component: 'SpeakerCard', 
         title: 'Speaker',
-        roomTitle: 'Speakers'
+        icon: 'mdi-speaker'
     },
     'faucet': {
-        component: 'WaterCard',
         title: 'Tap',
-        roomTitle: 'Taps'
+        icon: 'mdi-water-pump'
     },
     'ac': {
-        component: 'AirConditionerCard',
         title: 'Air Conditioner',
-        roomTitle: 'Air Conditioners'
+        icon: 'mdi-air-conditioner'
     },
     'lamp': {
-        component: 'LightCard', 
         title: 'Light',
-        roomTitle: 'Lights'
+        icon: 'mdi-lightbulb-on-outline'
     },
     'vacuum': {
-        component: 'VacuumCard', 
         title: 'Vacuum',
-        roomTitle: 'Vacuums'
+        icon: 'mdi-robot-vacuum'
     },
     'alarm': {
-        component: 'AlarmCard', 
         title: 'Alarm',
-        roomTitle: 'Alarms'
+        icon: 'mdi-alarm-light-outline'
     },
     'oven': {
-        component: 'OvenCard', 
         title: 'Oven',
-        roomTitle: 'Ovens'
+        icon: 'mdi-toaster-oven'
     },
     'door': {
-        component: 'DoorCard', 
         title: 'Door',
-        roomTitle: 'Doors'
+        icon: 'mdi-door'
     },
     'refrigerator': {
-        component: 'FridgeCard', 
         title: 'Fridge',
-        roomTitle: 'Fridges'
-    },    'blinds': {
-        component: 'WindowCard', 
-        title: 'Blind',
-        roomTitle: 'Blinds'
+        icon: 'mdi-fridge-outline'
     },
+    'blinds': {
+        title: 'Blind',
+        icon: 'mdi-blinds'
+    }
 }
-*/
 
 export default {
     state: undefined,
-    initializeState: async function () {
-        this.state = { darkMode: true, types: {} };
+    initializeState: async function() {
+        this.state = {darkMode: true, types: {}};
+        await this.fetchTypes();
     },
-    fetchState: async function () {
-        console.log("Fetching state");
+    fetchTypes: async function() {
+        try {
+            const ans = await DeviceTypeApi.getAll();
+            this.state.typesByName = {};
+            if (ans.result) {
+                ans.result.forEach(dt => {
+                    this.state.typesByName[dt.name] = {
+                        id: dt.id,
+                        name: dt.name,
+                        icon: types[dt.name].icon,
+                        title: types[dt.name].title,
+                    }
+                });
+            }
+            //console.log(this.state.typesByName);
+        } catch (err) {
+            console.log(err);
+        }
+    },
+    fetchState: async function() {
         //await localStorage.removeItem('intellifox_state');
         let aux = await JSON.parse(localStorage.getItem('intellifox_state'));
         if (!aux) {
@@ -112,7 +106,28 @@ export default {
     getActualHome: async function () {
         if (!this.state)
             await this.fetchState();
-        console.log(this.state.actualHome)
         return this.state.actualHome;
     },
+    getTypeId: async function(name) {
+        if (!this.state)
+            await this.fetchState();
+        if (!this.state.typesByName)
+            await this.fetchTypes();
+        return this.state.typesByName[name].id;
+    },
+    getTypeTitle: async function(name) {
+        if (!this.state)
+            await this.fetchState();
+        if (!this.state.typesByName)
+            await this.fetchTypes();
+        //console.log("Entre");
+        return this.state.typesByName[name].title;
+    },
+    getAllTypes: async function() {
+        if (!this.state)
+            await this.fetchState();
+        if (!this.state.typesByName)
+            await this.fetchTypes();
+        return this.state.typesByName;        
+    }
 }

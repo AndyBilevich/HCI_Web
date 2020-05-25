@@ -48,7 +48,7 @@
         <div v-else>
             <v-row dense>
                 <v-col v-for="d in devices" :key="d.id" cols="6">
-                    <component v-bind:is="types[d.type.id]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
+                    <component v-bind:is="types[typesInfo[d.type.name].title]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
                 </v-col>
             </v-row>
         </div>
@@ -93,6 +93,7 @@
 </template>
 
 <script>
+import storage from '@/storage';
 import router from '@/router';
 import {
     SpeakerCard,
@@ -128,24 +129,27 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                     meta: {}
                 },
                 devices: [],
+                typesInfo: {},
                 types: {
-                    'speaker': SpeakerCard,
-                    'faucer': WaterCard,
-                    'ac': AirConditionerCard,
-                    'lamp': LightCard,
-                    'vacuum': VacuumCard,
-                    'alarm': AlarmCard,
-                    'oven': OvenCard,
-                    'door': DoorCard,
-                    'refrigerator': FridgeCard,
-                    'blinds': WindowCard,
+                    'Speaker': SpeakerCard,
+                    'Tap': WaterCard,
+                    'Air Conditioner': AirConditionerCard,
+                    'Light': LightCard,
+                    'Vacuum': VacuumCard,
+                    'Alarm': AlarmCard,
+                    'Oven': OvenCard,
+                    'Door': DoorCard,
+                    'Fridge': FridgeCard,
+                    'Blind': WindowCard
                 }
             }
         },
-        mounted: function() {
+        mounted: async function() {
             this.room.id = this.$route.params.id;
-            this.retrieveRoom(this.room.id);
-            this.retrieveDevices();
+            this.typesInfo = await storage.getAllTypes();
+            await this.retrieveRoom(this.room.id);
+            await this.retrieveDevices();
+            //console.log(this.typesInfo);
         },
         methods: {
             addDevice: async function() {
@@ -158,8 +162,8 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
             deleteRoom: async function() {
                 try {
                     await RoomApi.delete(this.room.id);
-                    var auxHomeId = (this.room.home.id !== 'none') ? this.room.home.id : 'none';
-                    if(auxHomeId !== 'none'){
+                    var auxHomeId = (this.room.home.id !== '') ? this.room.home.id : '';
+                    if(auxHomeId !== ''){
                         const ans2 = await HomeApi.get(auxHomeId);
                         const auxHome = ans2.result;
 
@@ -172,20 +176,23 @@ import { RoomApi, HomeApi , DeviceApi } from '@/api';
                 router.go(-1);
             },
             editRoom: function() {
-                var homeid = this.room.home ? this.room.home.id : 'none';
+                var homeid = this.room.home ? this.room.home.id : '';
                 router.push({ name:"EditRoom", params:{ id: this.room.id}, query:{ icon: this.room.meta.icon, home:homeid }})
             },
             retrieveDevices: async function() {
-                const aux = await DeviceApi.getAll();
-                this.devices = [];
-                if (aux.result) {
-                    aux.result.forEach(d => {
-                        if(d.room && d.room.id === this.room.id)
-                            this.devices.push(d);
-                    })
+                try {
+                    const aux = await DeviceApi.getAll();
+                    this.devices = [];
+                    if (aux.result) {
+                        aux.result.forEach(d => {
+                            if(d.room && d.room.id === this.room.id)
+                                this.devices.push(d);
+                        })
+                    }
+                } catch (err) {
+                    console.log(err);
                 }
-
-                 this.noItemsText = "You don't have devices in this room yet. Add one with the bottom right button."
+                this.noItemsText = "You don't have devices in this room yet. Add one with the bottom right button."
             },
             updateModel: function(newModel) {
                 this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;

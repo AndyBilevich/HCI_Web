@@ -3,28 +3,36 @@
     <h1 align="left">Add Room</h1>
 
     <v-row dense> 
-      <v-col cols="4">
+      <v-col cols="5">
           <h3 align="left">Name:</h3>
           <v-text-field
             v-model="name"
             label="Name:"
             solo
           ></v-text-field>
-          <h3 align="left">Image:</h3>
-          <AddRoomCard @upd_icon="updateIcon"></AddRoomCard>
       </v-col>
       <v-col cols="1"></v-col>
-      <v-col cols="4">
+      <v-col cols="5">
           <h3 align="left">Description (optional):</h3>
           <v-text-field
             v-model="desc"
             label="description"
             solo
           ></v-text-field>
-          <v-col>
+          
+        </v-col>
+
+        <v-row>
+          <v-col cols="2">
+          <h3 align="left">Image:</h3>
+          <AddRoomCard @upd_icon="updateIcon"></AddRoomCard>
+          </v-col>
+          <v-col cols="1" />
+          
+          <v-col cols="3">
             <v-row > 
-              <h3 class="pt-5">Select house:</h3>
-              <v-col cols="8">
+              <h3 >Select house:</h3>
+              <v-col cols="10">
               <v-overflow-btn 
                   solo
                   v-model="selectedHomeID"
@@ -35,12 +43,12 @@
               </v-col>
             </v-row>
           </v-col>
-        </v-col>
+        </v-row>
       </v-row>
 
 
     <v-row>
-      <v-col cols="10"></v-col>
+      <v-col cols="9"></v-col>
       <v-btn @click="back" class="ma-2" outlined large color="primary">Cancel</v-btn>
       <v-btn @click="addRoom" class="my-2" depressed large color="primary">Save</v-btn>
     </v-row>

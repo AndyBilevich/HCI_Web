@@ -4,7 +4,7 @@
       <v-icon size="130" class="background2--text">{{categoryIcon}}</v-icon>
     </div>
     <div class="card_bottom background1">
-      <div v-if= "categoryName.length <= 15">
+      <div v-if= "categoryName.length <= 16">
         <v-card-text class="text--primary"> {{categoryName }}</v-card-text>
       </div>
       <div v-else>
@@ -26,11 +26,24 @@ export default {
   props: {
     categoryName: String,
     categoryIcon: String,
-    routePath: String
+    routeName: String,
+    routePath: String,
+    devName: String
   },
   methods: {
     goTo: async function() {
-      router.push({path: this.routePath})
+      if (this.devName) {
+        if (this.routeName)
+          router.push({name: this.routeName, params: {typeName: this.devName}});
+        else
+        router.push({path: this.routePath, params: {typeName: this.devName}});
+      }
+      else {
+        if (this.routeName)
+          router.push({name: this.routeName});
+        else
+          router.push({path: this.routePath});
+      }
     }
   }
 };
