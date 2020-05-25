@@ -79,7 +79,7 @@
         v-model="succ_snackbar"
         bottom
         color="primary"
-        timeout="5000"
+        :timeout="displayTime"
       >
         <h3>Routine executed successfully</h3>
         <v-btn
@@ -94,7 +94,7 @@
         v-model="err_snackbar"
         bottom
         color="error"
-        timeout="5000"
+        :timeout="displayTime"
       >
         <h3>Something went wrong, routine execution failed</h3>
         <v-btn
@@ -114,6 +114,7 @@ import { RoutineApi } from '@/api';
 export default {
   data: function() {
     return {
+      displayTime: 5000,
       hidden: false,
       dialog:false,
       fav:false,

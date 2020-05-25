@@ -198,6 +198,9 @@ export default {
       home: {},
     })
   },
+  beforeMount: function() {
+
+  },
   created: async function() {
     await storage.fetchState();
     this.retrieveTheme();

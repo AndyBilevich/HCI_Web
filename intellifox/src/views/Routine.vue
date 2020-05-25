@@ -19,7 +19,7 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item @click="editRoom">
+                        <v-list-item @click="editRoutine">
                             <v-btn text>
                                 <v-icon>mdi-pencil</v-icon>
                                 Edit
@@ -41,13 +41,26 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-col v-for="deviceAction in routine.actions" :key="deviceAction.id" cols="3">
+            <v-col v-for="d in deviceInfo" :key="d.id" cols="3">
                 <v-card>
                     <v-card-title class="headline">
-                        {{deviceAction.device.name}}
+                        {{d.name}}
                     </v-card-title>
                     <v-card-text>
-                        {{deviceAction.actionName.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}: <span v-for="p in deviceAction.params" :key="p.id">{{p}} </span>
+                        <v-list>
+                            <v-list-item v-for="action in deviceActions[d.id]" :key="action.id">
+                                <v-row>
+                                    <h1>
+                                        {{action.actionName.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}
+                                    </h1>
+                                </v-row>
+                                <v-row>
+                                <v-list-item-action v-for="(param, idx) in action.params" :key="idx">
+                                    {{param}}
+                                </v-list-item-action>
+                                </v-row>
+                            </v-list-item>
+                        </v-list>
                     </v-card-text>
                 </v-card>
             </v-col>
@@ -100,6 +113,8 @@ import { RoutineApi } from '@/api';
                     meta: {}
                 },
                 allDevActions: [],
+                deviceInfo: {},
+                deviceActions: {},
             }
         },
         mounted: async function() {
@@ -108,9 +123,23 @@ import { RoutineApi } from '@/api';
         methods: {
             retrieveRoutine: async function() {
                 const ans = await RoutineApi.get(this.$route.params.id);
-                this.routine = ans.result;
+                this.deviceInfo = {};
+                this.deviceActions = {};
+                ans.result.actions.forEach(r => {
+                    if (!this.deviceActions[r.device.id]) {
+                        this.deviceInfo[r.device.id] = r.device;
+                        this.deviceActions[r.device.id] = [];
+                    }
+                    this.deviceActions[r.device.id].push({
+                        actionName: r.actionName,
+                        meta: r.meta,
+                        params: r.params,
+                    });
+                });
+                console.log(this.deviceActions);
+                console.log(this.deviceInfo);
             },
-            deleteRoutine: async function(){
+            deleteRoutine: async function() {
                 try {
                 await RoutineApi.delete(this.routine.id);
                 this.emitUpdRoutines(); 
@@ -119,6 +148,9 @@ import { RoutineApi } from '@/api';
                 }
                 router.go(-1);
             },
+            editRoutine: async function() {
+
+            }
         }
     }
 </script>

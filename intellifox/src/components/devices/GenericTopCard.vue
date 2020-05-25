@@ -160,10 +160,11 @@ export default {
           id: this.device.type.id,
         },
         this.device.name,
-        { favourites: this.device.favourites ? !this.device.favourites : true }
+        { favourites: this.device.meta.favourites ? !this.device.meta.favourites : true }
       );
       try {
         await DeviceApi.modify(device);
+        this.device.meta.favourites = !this.device.meta.favourites;
       } catch (err) {
         console.log(err);
       }
