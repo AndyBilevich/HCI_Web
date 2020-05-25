@@ -110,14 +110,6 @@ export default {
       fill: "   >  ",
       main_opt: [
         {
-          index: 0,
-          name: 'Favourites',
-          icon: 'mdi-cards-heart',
-          to: {
-            path: '/favourites'
-          }
-        },
-        {
           index: 1,
           name: 'Homes',
           icon: 'mdi-home-group',
