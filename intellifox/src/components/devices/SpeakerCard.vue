@@ -22,49 +22,55 @@
             <v-row class="mt-2"> 
               <v-col cols="1"></v-col>
               <v-col cols="6">
-                <v-row>
-                  <v-col class="justify-center">
-                    <v-slider
-                      min="0"
-                      :max="songDuration"
-                      :value="playTime"
-                      readonly
-                    >
-                      <template v-slot:prepend>
-                        {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.progress:"0:00"}}
-                      </template>
-                      <template v-slot:append>
-                        {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.duration:"0:00"}}
-                      </template>
-                    </v-slider>
-                  </v-col>
-                </v-row>
-
-                <v-row>
-                    <v-col>
-                      <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'previousSong'}, value: 1})">
-                        <v-icon x-large>mdi-skip-previous</v-icon>
-                      </v-btn>
-                      <v-btn :disabled="actionsLocked" icon x-large @click="switchPlay">
-                        <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
-                      </v-btn>
-                      <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'nextSong'}, value: 1})">
-                        <v-icon x-large>mdi-skip-next</v-icon>
-                      </v-btn>
-                    </v-col>                     
+                <v-row class="d-flex justify-center">
+                  <v-slider
+                    min="0"
+                    :max="songDuration"
+                    :value="playTime"
+                    readonly
+                  >
+                    <template v-slot:prepend>
+                      {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.progress:"0:00"}}
+                    </template>
+                    <template v-slot:append>
+                      {{(speaker && speaker.state && speaker.state.song)?speaker.state.song.duration:"0:00"}}
+                    </template>
+                  </v-slider>
                 </v-row>
 
                 <v-row class="d-flex justify-center">
-                  <v-col class="justify-center">
+                  <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'previousSong'}, value: 1})">
+                    <v-icon x-large>mdi-skip-previous</v-icon>
+                  </v-btn>
+                  <v-btn :disabled="actionsLocked" icon x-large @click="switchPlay">
+                    <v-icon x-large>{{play?'mdi-pause':'mdi-play'}}</v-icon>
+                  </v-btn>
+                  <v-btn :disabled="actionsLocked" icon x-large @click="() => songQuery({action: {name: 'setSong', type: 'nextSong'}, value: 1})">
+                    <v-icon x-large>mdi-skip-next</v-icon>
+                  </v-btn>                   
+                </v-row>
+
+                <v-row class="d-flex justify-center">
+                  
+                </v-row>
+                <v-row class="d-flex justify-center">
+                  <v-col>
                     <p>Genre</p>
-                    <v-overflow-btn
-                      v-model="genreIndex"
-                      :disabled="actionsLocked"
-                      :items="genres"
-                      background-color="background2"
-                      solo
-                    />
-                    <p>Select Song from Playlist</p>
+                    <v-row class="d-flex justify-center">
+                      <v-overflow-btn
+                        v-model="genreIndex"
+                        :disabled="actionsLocked"
+                        :items="genres"
+                        background-color="background2"
+                        solo
+                      />
+                    </v-row>
+                  </v-col>
+                </v-row>
+                <v-row class="d-flex justify-center">
+                  <p>Select Song from Playlist</p>
+                </v-row>
+                <v-row class="d-flex justify-center">
                     <v-btn
                       class="cards background2--text"
                       :disabled="actionsLocked"
@@ -113,7 +119,6 @@
                         </v-list>
                       </v-card>
                     </v-overlay>
-                  </v-col>
                 </v-row>
 
               </v-col>
@@ -330,8 +335,11 @@ export default {
         case 'statusChanged':
           this.speaker.state.status = data.args.newStatus;
           break;
-        case 'lockChanged':
-          //this.speaker.state.lock = data.args.newLock;
+        case 'volumeChanged':
+          this.speaker.state.volume = data.args.newVolume;
+          break;
+        case 'songChanged':
+          this.speaker.state.song = data.args.newSong;
           break;
         default:
           return;
@@ -395,8 +403,9 @@ export default {
       if (this.play) {
         if (this.genres)  
           this.lastGenreIndex = this.genreIndex = this.genres.map((x, i) => [i, x]).filter(x => x[1].id == this.speaker.state.genre)[0][0];
-        if (this.showingPlaylist)
-          await this.fetchPlaylist();
+      }
+      if (this.showingPlaylist) {
+        await this.fetchPlaylist();
         if (this.playlist)
           this.lastSongIndex = this.songIndex = this.playlist.map((x, i) => [i, x]).filter(x => x[1].title == this.speaker.state.song.title)[0][0];      
       }

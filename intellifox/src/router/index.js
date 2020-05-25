@@ -13,7 +13,7 @@ import Settings from "@/views/Settings.vue";
 import HelpFeed from "@/views/HelpFeed.vue";
 import ErrorLog from "@/views/ErrorLog.vue";
 
-import Device from "@/views/devices/Device.vue";
+import Device from "@/views/Device.vue";
 
 import AddDevice from "@/views/AddDevice.vue";
 import AddHome from "@/views/AddHome.vue";

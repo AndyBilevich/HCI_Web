@@ -134,7 +134,7 @@
                                             :key="action.id"
                                         >
                                             <v-list-item-icon>
-                                                    <v-icon>mdi-circle</v-icon>
+                                                <v-icon>mdi-circle</v-icon>
                                                 </v-list-item-icon>
                                                 <v-list-item-content>
                                                     <h1>{{ action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() ) }}</h1>
@@ -153,7 +153,7 @@
                             <v-btn  @click="prevDialog" color="primary" fab big bottom text right>
                                 <v-icon x-large >mdi-keyboard-backspace</v-icon>
                             </v-btn>
-                            <span class="headline">mdi-circle</span>
+                            <span class="headline">{{currAction.name?(currAction.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )):''}}</span>
                         </v-card-title>
                         <v-card-text>
                         <v-container>
@@ -172,11 +172,10 @@
                                     v-else-if="(!isNaN(param.minValue) && parseInt(Number(param.minValue)) == param.minValue && !isNaN(parseInt(param.minValue, 10))) && (!isNaN(param.minValue) && parseInt(Number(param.maxValue)) == param.maxValue && !isNaN(parseInt(param.maxValue, 10)))"
                                     :min="param.minValue"
                                     :max="(currAction.name === 'setBrightness')?255:param.maxValue"
-                                    thumb-label="true"
                                     v-model="params[idx]"
                                 >
                                     <template v-slot:prepend>
-                                        {{param.minValue}}
+                                        {{params[idx]}}
                                     </template>
                                     <template v-slot:append>
                                         {{(currAction.name === 'setBrightness')?255:param.maxValue}}

@@ -19,20 +19,19 @@
         <v-expand-transition>
           <div v-show="show">
             <v-divider></v-divider>
-            <v-btn
-              x-large
-              class="my-5"
-              color="primary"
-              @click="() => {
-                locked=!locked;
-                buttonActions();
-              }"
-              :disabled="buttonDisabled"
-              :buttonState="buttonState"
-            >
-              <v-icon class="ma-1">{{buttonText[`${!locked}`].icon}}</v-icon>
-              {{buttonText[`${!locked}`].text}}
-            </v-btn>
+            <v-row class="d-flex justify-center">
+              <v-btn
+                x-large
+                class="my-5"
+                color="primary"
+                @click="buttonSwitch(!locked)"
+                :disabled="buttonDisabled"
+                :buttonState="buttonState"
+              >
+                <v-icon class="ma-1">{{buttonText[`${locked}`].icon}}</v-icon>
+                {{buttonText[`${locked}`].text}}
+              </v-btn>
+            </v-row>
           </div>
         </v-expand-transition>
     </div>
@@ -50,8 +49,6 @@ export default {
     TopCard,
   },
   mounted: function() {
-    this.locked = !(this.door.state.lock === 'locked');
-    this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
     this.updateTitle();
     this.updateDesc();
     this.updateState();
@@ -65,7 +62,7 @@ export default {
       switchState:false,
       switchLoading:false,
       switchLocked:false,
-      locked:true,
+      locked:false,
       title: '',
       desc: '',
 
@@ -133,10 +130,9 @@ export default {
         default:
           return;
       }
-      this.locked = this.door.state.lock === 'locked';
-      this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
+      
+      this.updateState();      
       this.updateDesc();
-      this.updateState();
     },
     updateTitle: function() {
       this.title = this.door.name;
@@ -146,6 +142,10 @@ export default {
     },
     updateState: function() {
       this.switchState = this.door.state.status === 'opened';
+      this.locked = (this.door.state.lock === 'locked');
+      this.switchLocked = !((this.door.state.status === "closed" && this.door.state.lock === "unlocked") || this.door.state.status === 'opened');
+      this.buttonDisabled = this.switchState?true:false;
+      console.log(`switchState: ${this.switchState}, locked: ${this.locked}`);
     },
     switchOnOff: async function(new_switch_state) {
       this.switchState = new_switch_state;
@@ -165,30 +165,27 @@ export default {
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.door.id);
           this.door.state = ans2.result;
-          this.updateTitle();
-          this.updateDesc();
+
           this.updateState();
+          this.updateDesc();
         }
       } catch (err) {
         console.log(err);
       }
     },
-    buttonLockSwitch: function() {
-      if(this.buttonDisabled){
-        this.buttonDisabled = false;
-      }else{
-        this.buttonDisabled = true;
-      }
+    buttonSwitch: async function(newValue) {
+      this.locked = newValue;
+      this.buttonDisabled = true;
+      await this.buttonActions();
+      this.buttonDisabled = false;
     },
     buttonActions: async function() {
       try {
         let ans;
-        this.buttonLockSwitch();
-        if (!this.locked)
+        if (this.locked)
           ans = await DeviceApi.setAction(this.door.id, 'lock');
         else
           ans = await DeviceApi.setAction(this.door.id, 'unlock');
-        this.buttonLockSwitch();
         if (ans.result) {
           const ans2 = await DeviceApi.getState(this.door.id);
           this.door.state = ans2.result;
@@ -203,11 +200,6 @@ export default {
     emitUpdDevs: async function(){
       this.$emit('upd_devs');
     }
-  },
-  watch: {
-    switchState: function(newValue) {
-      this.buttonDisabled = newValue?true:false; // if opened, then disable button
-    },
   },
   beforeDestroy: function() {
     this.unsubscribeToEvents();
