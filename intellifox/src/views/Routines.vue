@@ -1,8 +1,8 @@
 <template>
   <div class="routines">
-    <h1>Routines</h1>
+    <h1 align="center">Routines</h1>
     <div v-if="routines.length === 0">
-      <h3 class="noItemsMessage mt-5"> {{noItemsText}}</h3>
+      <h3 class="noItemsMessage mt-5" align="center"> {{noItemsText}}</h3>
     </div>
     <div v-else>
       <v-row dense>

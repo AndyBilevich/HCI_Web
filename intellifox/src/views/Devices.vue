@@ -1,6 +1,6 @@
 <template>
   <div class="devices">
-    <h1>Devices</h1>
+    <h1 align="center">Devices</h1>
 
 
     <v-row dense>
