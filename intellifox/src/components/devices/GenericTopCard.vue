@@ -63,7 +63,7 @@
         v-model="dialog"
         max-width="290"
       >
-        <v-card color="error_window">
+        <v-card color="background3">
           <v-card-title class="headline">Be careful</v-card-title>
 
           <v-card-text>
