@@ -5,7 +5,7 @@
     </v-row>
 
     <h3 class = "subtitle text-left">About Us </h3>
-    <p>Somos un grupo de alumnos del itba con muchisima paja y unas gigantescas ganas de irnos a la mierda a comer pancitos increibles</p>
+    <p>Somos un grupo de alumnos del itba haciendo una aplicacion web por primera vez en la vida c: </p>
     
     <v-divider></v-divider>
     
