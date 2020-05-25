@@ -48,6 +48,7 @@ import { DeviceApi } from '@/api';
     export default {
         data: function() {
             return {
+                home_id: '',
                 noItemsText: "",
                 components: {
                     SpeakerCard,
@@ -78,6 +79,8 @@ import { DeviceApi } from '@/api';
             }
         },
         mounted: async function() {
+            const home = await storage.getActualHome();
+            this.home_id = home?home.id:'';
             this.typesInfo = await storage.getAllTypes();
             await this.retrieveDevices();
             //console.log(this.typesInfo);
@@ -89,8 +92,7 @@ import { DeviceApi } from '@/api';
                     this.devices = [];
                     if (aux.result) {
                         aux.result.forEach(d => {
-                          console.log(d);
-                            if(d.favourites)
+                            if((!d.room || !d.room.home || d.room.home.id == this.home_id) && d.meta.favourites)
                                 this.devices.push(d);
                         })
                     }
