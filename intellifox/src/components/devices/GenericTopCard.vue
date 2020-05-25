@@ -6,7 +6,7 @@
           <v-col cols="3">
             <v-icon :color="color" size="100">{{icon}}</v-icon>
           </v-col>
-          <v-col cols="6">
+          <v-col cols="5">
             <v-row>
               <v-card-actions>
                 <v-card-title v-if= "title.length <= 18" class="headline">
@@ -29,6 +29,14 @@
             </v-row>
           </v-col>
           <!-- <v-col cols="6"> -->
+            <v-col cols="1" @click="addToFavourites">
+              <v-btn v-if="!device.meta.favourites" text icon>
+                <v-icon large>mdi-heart-outline</v-icon>
+              </v-btn>
+              <v-btn v-else text icon>
+                <v-icon large>mdi-heart</v-icon>
+              </v-btn>
+            </v-col>
             <v-col cols="1">
               <v-switch
                 v-model="switchValue"
@@ -37,14 +45,9 @@
                 color = "primary"
               ></v-switch>
             </v-col>
+            
             <v-col>
               <v-row class="ml-1">
-                <v-btn v-if="!model.meta.favourites" @click="addToFavourites" text icon>
-                  <v-icon large>mdi-heart-outline</v-icon>
-                </v-btn>
-                <v-btn v-else @click="addToFavourites" text icon>
-                  <v-icon large>mdi-heart</v-icon>
-                </v-btn>
                 <v-menu close-on-click close-on-content-click absolute>
                   <template v-slot:activator="{ on }">
                     <v-btn v-on="on" text icon>
@@ -128,27 +131,42 @@ export default {
       switchDisabled:this.switchLocked,
       switchLoading:this.switchLoads,
       rooms: [],
+      device: {
+        meta: {}
+      },
     }
+  },
+  mounted: function(){
+    this.retrieveDevice();
   },
   methods: {
     switchLock: function() {
       this.switchLoading = 'error';
       this.switchDisabled = true;
     },
-
-
+    retrieveDevice: async function(){
+      const ans = await DeviceApi.get(this.model.id);
+      this.device = ans.result;
+      console.log(this.device);
+    },
     editDevice: function(){
       var roomId = this.model.room ? this.model.room.id : 'none';
       router.push({ name: 'EditDevice', query: { room:roomId }, params:{id: this.model.id} });
     },
-
     addToFavourites: async function(){
       const device = new Device(
-        this.model.id,
-        this.model.name,
-        { favourites: this.mode.favourites ? !this.model.favourites : true},
-      )
-      await DeviceApi.modify(device);
+        this.device.id,
+        {
+          id: this.device.type.id,
+        },
+        this.device.name,
+        { favourites: this.device.favourites ? !this.device.favourites : true }
+      );
+      try {
+        await DeviceApi.modify(device);
+      } catch (err) {
+        console.log(err);
+      }
     },
 
     deleteDevice: async function() {

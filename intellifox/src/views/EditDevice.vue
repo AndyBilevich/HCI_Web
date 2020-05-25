@@ -108,7 +108,7 @@
             id: this.device.type.id,
           },
           this.device.name,
-          { }
+          this.device.meta
         );
         try {
           const ans = await DeviceApi.modify(device);
