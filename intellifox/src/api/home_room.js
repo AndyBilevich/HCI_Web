@@ -16,6 +16,6 @@ class HomeRoomApi {
   }
 
   static delete(roomId, controller) {
-    return Api.delete(`${HomeRoomApi.url}/rooms/${roomId}`, {roomId}, controller);
+    return Api.delete(`${HomeRoomApi.url}/rooms/${roomId}`, controller);
   }
 }
