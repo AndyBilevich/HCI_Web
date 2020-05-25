@@ -85,7 +85,7 @@
                     </template>
                     <v-card color="background3">
                         <v-card-title>
-                            <span class="headline">Add Action</span>
+                            <span class="headline">Select device:</span>
                         </v-card-title>
                         <v-card-text>
                         <v-container>
@@ -114,13 +114,10 @@
                 <v-dialog v-model="dialog2" scrollable max-width="600px" >
                     <v-card color="background3">
                         <v-card-title>
-                            <span class="headline">{{currDev.name}} Actions</span>
+                            <span class="headline">Select action for {{currDev.name}}</span>
                         </v-card-title>
                         <v-card-text>
                         <v-container>
-                            <v-row>
-                                <h2>Choose Action</h2>
-                            </v-row>
                             <v-row class="mt-5">
                                 <v-card  class="box" color="background2" width="100%">
                                     <v-list-item-group v-model="selected" color="primary">
