@@ -37,26 +37,33 @@
                 color = "primary"
               ></v-switch>
             </v-col>
-            <v-col cols="1">
-              <v-menu close-on-click close-on-content-click absolute>
-                <template v-slot:activator="{ on }">
-                  <v-btn v-on="on" text icon>
-                    <v-icon large>mdi-dots-vertical</v-icon>
-                  </v-btn>
-                </template>
-                <v-list>
-                  <v-list-item-group>
-                    <v-list-item @click="editDevice">
-                      <v-icon>mdi-pencil</v-icon>Edit
-                    </v-list-item>
-                    <v-list-item @click="dialog=true">
-                      <v-icon>mdi-trash-can</v-icon>Delete
-                    </v-list-item>
-                  </v-list-item-group>
-                </v-list>
-              </v-menu>
-            </v-col>
-          <!-- </v-col> -->
+            <v-col>
+              <v-row class="ml-1">
+                <v-btn v-if="!fav" @click="fav=true" text icon>
+                  <v-icon large>mdi-heart-outline</v-icon>
+                </v-btn>
+                <v-btn v-if="fav" @click="fav=false" text icon>
+                  <v-icon large>mdi-heart</v-icon>
+                </v-btn>
+                <v-menu close-on-click close-on-content-click absolute>
+                  <template v-slot:activator="{ on }">
+                    <v-btn v-on="on" text icon>
+                      <v-icon large>mdi-dots-vertical</v-icon>
+                    </v-btn>
+                  </template>
+                  <v-list>
+                    <v-list-item-group>
+                      <v-list-item @click="editDevice">
+                        <v-icon>mdi-pencil</v-icon>Edit
+                      </v-list-item>
+                      <v-list-item @click="dialog=true">
+                        <v-icon>mdi-trash-can</v-icon>Delete
+                      </v-list-item>
+                    </v-list-item-group>
+                  </v-list>
+                </v-menu>
+              </v-row>
+          </v-col> 
         </v-row>
 
       <v-dialog
@@ -127,6 +134,13 @@ export default {
     switchLock: function() {
       this.switchLoading = 'error';
       this.switchDisabled = true;
+    },
+    switchFav: function(){
+      if(this.fav){
+        this.fav = false;
+      }else{
+        this.fav = true;
+      }
     },
     editDevice: function(){
       var roomId = this.model.room ? this.model.room.id : 'none';

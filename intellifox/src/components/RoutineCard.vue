@@ -20,6 +20,7 @@
             <v-btn @click="executeRoutine" text icon>
               <v-icon large>mdi-play</v-icon>
             </v-btn>
+
             <v-menu close-on-click close-on-content-click absolute>
               <template v-slot:activator="{ on }">
                 <v-btn v-on="on" text icon>
