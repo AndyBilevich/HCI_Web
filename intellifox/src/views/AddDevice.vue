@@ -176,7 +176,9 @@
             id: this.devices[this.selectedDeviceIndex].id,
           },
           this.name,
-          null
+          {
+            favourites: false,
+          }
         );
         try {
           const ans = await DeviceApi.add(device);

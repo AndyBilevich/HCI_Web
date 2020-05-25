@@ -113,6 +113,14 @@ export default {
       selected: -1,
       main_opt: [
         {
+          index: 0,
+          name: 'Favourites',
+          icon: 'mdi-heart',
+          to: {
+            path: '/favourites'
+          }
+        },
+        {
           index: 1,
           name: 'Homes',
           icon: 'mdi-home-group',
