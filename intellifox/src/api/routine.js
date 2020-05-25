@@ -28,7 +28,7 @@ class RoutineApi {
   }
 
   static execute(id, controller) {
-    return Api.put(`${RoutineApi.url}/${id}/execute`, controller);
+    return Api.put(`${RoutineApi.url}/${id}/execute`, null, controller);
   }
 }
 
