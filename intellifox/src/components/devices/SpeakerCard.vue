@@ -160,7 +160,14 @@
                       min="0"
                       max="10"
                       vertical
-                    />
+                    >
+                      <template v-slot:prepend>
+                        {{volume}}
+                      </template>
+                      <template v-slot:append>
+                        {{10}}
+                      </template>
+                    </v-slider>
                   </v-row>
                 </v-col>
               </v-layout>

@@ -75,7 +75,7 @@
 }
 
 #navdrawer {
-  margin-top: 55px;
+  margin-top: 60px;
 }
 
 #screen_cont {

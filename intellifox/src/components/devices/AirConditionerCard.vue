@@ -215,8 +215,8 @@ export default {
         default:
           return;
       }
-      this.updateDesc();
       this.updateState();
+      this.updateDesc();
     },
     updateTitle: function() {
       this.title = this.ac.name;
@@ -327,9 +327,9 @@ export default {
       }catch (err){
         console.log(err);
       }
+      this.updateState();
       this.updateTitle();
       this.updateDesc();
-      this.updateState();
     },
     emitUpdDevs: async function(){
       this.$emit('upd_devs');

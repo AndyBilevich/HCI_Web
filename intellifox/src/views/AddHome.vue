@@ -70,6 +70,8 @@ export default {
         {
           pin: this.pin,
           desc: this.desc,
+          rooms: this.rooms,
+          devs: this.devs,
         }
       );
       try {

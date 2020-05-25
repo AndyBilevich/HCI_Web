@@ -43,7 +43,9 @@
 
 
         <div v-if="devices.length === 0">
-            <h3 class="noItemsMessage">  {{noItemsText}}</h3>
+            <v-row class="d-flex justify-center">
+                <h3 class="noItemsMessage" align="center"> {{noItemsText}} </h3>
+            </v-row>
         </div>
         <div v-else>
             <v-row dense>

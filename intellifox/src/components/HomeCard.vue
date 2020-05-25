@@ -36,9 +36,9 @@
       </v-card-title>
 
       <v-card-subtitle class="text-left background1--text">{{home.meta.desc}}</v-card-subtitle>
-      <!--<v-card-actions>
+      <v-card-actions>
         <v-card-subtitle class="text-left background1--text">Rooms: {{home.meta.rooms}} Devices: {{home.meta.devs}}</v-card-subtitle>
-      </v-card-actions>-->
+      </v-card-actions>
 
     </v-card>
 
