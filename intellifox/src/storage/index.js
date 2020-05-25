@@ -120,8 +120,14 @@ export default {
             await this.fetchState();
         if (!this.state.typesByName)
             await this.fetchTypes();
-        //console.log("Entre");
         return this.state.typesByName[name].title;
+    },
+    getTypeIcon: async function(name) {
+        if (!this.state)
+            await this.fetchState();
+        if (!this.state.typesByName)
+            await this.fetchTypes();
+        return this.state.typesByName[name].icon;
     },
     getAllTypes: async function() {
         if (!this.state)

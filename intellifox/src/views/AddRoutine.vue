@@ -47,27 +47,33 @@
             </v-col>
         </v-row>
         <v-row>
-            <v-card class="ml-5 mt-5" v-for="deviceActions in allDevActions" :key="deviceActions.id">
-                <v-card-title class="headline">
-                    {{deviceActions.device.name}}
-                    <v-btn @click="removeDev(deviceActions.device.id)" color="primary" x-small fab text >
-                        <v-icon>mdi-trash-can</v-icon>
-                    </v-btn>
-                </v-card-title>
-                <v-card-text>
-                    <div v-for="actions in deviceActions.actions" :key="actions.id">
-                        <v-btn @click="removeActionFromDev(deviceActions.device.id, actions.action.name)" color="primary" x-small fab text >
-                            <v-icon>mdi-window-close</v-icon>
+            <v-col v-for="deviceActions in allDevActions" :key="deviceActions.id" cols="3">
+                <v-card>
+                    <v-card-title class="headline">
+                        {{deviceActions.device.name}}
+                        <v-spacer/>
+                        <v-btn @click="removeDev(deviceActions.device.id)" color="primary" small fab text >
+                            <v-icon>mdi-trash-can</v-icon>
                         </v-btn>
-                        {{actions.action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}: {{actions.action.params.length > 0 ? printParams(actions.params) : '' }}
-                    </div>
-                </v-card-text>
-                <v-card-text>
-                    <v-btn @click="addActionCard(deviceActions.device)" color="primary" medium>
-                        <v-icon>mdi-plus</v-icon> Add Action
-                    </v-btn>
-                </v-card-text>
-            </v-card>
+                    </v-card-title>
+                    <v-card-text>
+                        <div v-for="actions in deviceActions.actions" :key="actions.id">
+                            <v-btn @click="removeActionFromDev(deviceActions.device.id, actions.action.name)" color="primary" x-small fab text >
+                                <v-icon>mdi-window-close</v-icon>
+                            </v-btn>
+                            {{actions.action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}: {{actions.action.params.length > 0 ? printParams(actions.params) : '' }}
+                        </div>
+                    </v-card-text>
+                    <v-card-text>
+                        <v-row class="d-flex justify-center">
+                            <v-btn @click="addActionCard(deviceActions.device)" color="primary" medium>
+                                <v-icon>mdi-plus</v-icon> Add Action
+                            </v-btn>
+                        </v-row>
+                        
+                    </v-card-text>
+                </v-card>
+            </v-col>
         </v-row>
         <v-row>
              <v-col cols="4">
@@ -85,42 +91,21 @@
                         <v-card-text>
                         <v-container>
                             <v-row>
-                                <v-col cols="6">
-                                    <v-select
-                                    :items="rooms"
-                                    label="Room"
-                                    ></v-select>
-                                </v-col>
-                                <v-col cols="6">
-                                    <v-select
-                                    :items="types"
-                                    label="Type"
-                                    ></v-select>
-                                </v-col>
-                            </v-row>
-                            <v-row>
-                                <v-col align="center">
-                                    <v-text-field
-                                        background2-color="background2"
-                                        placeholder="Search..."
-                                        clearable
-                                        solo
-                                        append-icon="mdi-magnify"
-                                        hide-details
-                                    />
-                                </v-col>
-                            </v-row>
-                            <v-row>
                                 <v-card  class="box" color="background2" width="100%">
-                                    <div v-for="device in devices" :key="device.id">
-                                        <v-row @click="addDevCard(device.id)">
-                                            <v-col cols="1"/>
-                                            <v-col cols="9">
-                                                <h1>{{ device.name }}</h1>
-                                            </v-col>
-                                        </v-row>
-                                        <v-divider/>
-                                    </div>
+                                    <v-list-item-group v-model="selected" color="primary">
+                                        <v-list-item
+                                            @click="addDevCard(device.id)"
+                                            v-for="device in devices" 
+                                            :key="device.id"
+                                        >
+                                            <v-list-item-icon>
+                                                <v-icon>{{device.icon}}</v-icon>
+                                            </v-list-item-icon>
+                                            <v-list-item-content>
+                                                <h1>{{device.name}}</h1>
+                                            </v-list-item-content>
+                                        </v-list-item>
+                                    </v-list-item-group>
                                 </v-card>
                             </v-row>
                         </v-container>
@@ -139,15 +124,23 @@
                             </v-row>
                             <v-row class="mt-5">
                                 <v-card  class="box" color="background2" width="100%">
-                                    <v-col  @click="action.params.length > 0 ? updateAndShowParams(action) : updateParams(action)" v-for="action in currDevAveilActions" :key="action.id">
-                                        <v-row>
-                                            <v-col cols="1"/>
-                                            <v-col cols="8">
-                                                <h1>{{ action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() ) }}</h1>
-                                            </v-col>
-                                        </v-row>
-                                        <v-divider/>
-                                    </v-col>
+                                    <v-list-item-group v-model="selected" color="primary">
+                                        <v-list-item
+                                            @click="() => {
+                                                action.params.length > 0 ? updateAndShowParams(action) : updateParams(action);
+                                                selected = -1;
+                                            }"
+                                            v-for="action in currDevAveilActions" 
+                                            :key="action.id"
+                                        >
+                                            <v-list-item-icon>
+                                                    <v-icon>mdi-circle</v-icon>
+                                                </v-list-item-icon>
+                                                <v-list-item-content>
+                                                    <h1>{{ action.name.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() ) }}</h1>
+                                                </v-list-item-content>
+                                            </v-list-item>
+                                        </v-list-item-group>
                                 </v-card>
                             </v-row>
                         </v-container>
@@ -160,20 +153,36 @@
                             <v-btn  @click="prevDialog" color="primary" fab big bottom text right>
                                 <v-icon x-large >mdi-keyboard-backspace</v-icon>
                             </v-btn>
-                            <span class="headline">{{currAction.name}}</span>
+                            <span class="headline">mdi-circle</span>
                         </v-card-title>
                         <v-card-text>
                         <v-container>
-                            <v-row class="mt-5" v-for="(param,idx) in currAction.params" :key="param.id">
+                            <v-row class="d-flex justify-center" v-for="(param,idx) in currAction.params" :key="param.id">
                                 <v-btn-toggle v-if="param.supportedValues"
                                     mandatory
                                     tile
                                     class="mt-5"
+                                    :v-model="selectedAux"
                                 >
                                     <v-btn @click="updateParamVal(val, idx)" v-for="val in param.supportedValues" :key="val.id">
                                         {{val}}
                                     </v-btn>
                                 </v-btn-toggle>
+                                <v-slider
+                                    v-else-if="(!isNaN(param.minValue) && parseInt(Number(param.minValue)) == param.minValue && !isNaN(parseInt(param.minValue, 10))) && (!isNaN(param.minValue) && parseInt(Number(param.maxValue)) == param.maxValue && !isNaN(parseInt(param.maxValue, 10)))"
+                                    :min="param.minValue"
+                                    :max="(currAction.name === 'setBrightness')?255:param.maxValue"
+                                    thumb-label="true"
+                                    v-model="params[idx]"
+                                >
+                                    <template v-slot:prepend>
+                                        {{param.minValue}}
+                                    </template>
+                                    <template v-slot:append>
+                                        {{(currAction.name === 'setBrightness')?255:param.maxValue}}
+                                    </template>
+                                </v-slider>
+                                <v-color-picker @update:color="parseColor(idx)" v-else-if="param.minValue === '000000' && param.maxValue === 'FFFFFF'" class="background1" v-model="actionColor" :mode.sync="mode"></v-color-picker>
                                 <v-text-field v-else
                                     clearable
                                     v-model="params[idx]"
@@ -219,16 +228,21 @@
 
 
 <script>
+  import storage from '@/storage';
   import router from '@/router';
-  import { DeviceApi, RoomApi, DeviceTypeApi, RoutineApi, Routine  } from '@/api';
+  import { DeviceApi, DeviceTypeApi, RoutineApi, Routine  } from '@/api';
   export default {
     data: function() {
         return {
             name: '',
             desc: '',
+            actionColor: {},
+
+            selected: -1,
+            selectedAux: -1,
 
             type: 'hex',
-            hex: '#FF00FF',
+            hex: '#AAAAAA',
 
             dialog1: false,
             dialog2: false,
@@ -240,6 +254,8 @@
             devices: [],
             rooms: [],
             types: [],
+
+            mode: "hexa",
 
             params: [],
 
@@ -253,39 +269,20 @@
         }
     },
     mounted: function(){
-        this.retrieveDevice();
-        this.retrieveRooms();
-        this.retrieveTypes();
+        this.retrieveDevices();
     },
     methods: {
-        retrieveDevice: async function(){
+        retrieveDevices: async function(){
             try {
                 const ans = await DeviceApi.getAll(); 
+                let ico;
                 this.devices = ans.result;
+                for(let i = 0; i < this.devices.length; i++) {
+                    ico = await storage.getTypeIcon(this.devices[i].type.name);
+                    this.devices[i].icon = ico;
+                }
             } catch (err) {
-            console.log(err);
-            }
-        },
-        retrieveRooms: async function(){
-            try {
-                const ans = await RoomApi.getAll();
-                this.rooms = [ "none" ];
-                ans.result.forEach(room => {
-                    this.rooms.push(room.name);
-                }) 
-            } catch (err) {
-            console.log(err);
-            }
-        },
-        retrieveTypes: async function(){
-            try {
-                const ans = await DeviceTypeApi.getAll();
-                this.types = [ "none" ];
-                ans.result.forEach(type => {
-                    this.types.push(type.name);
-                }) 
-            } catch (err) {
-            console.log(err);
+                console.log(err);
             }
         },
         addDevCard: async function(id){
@@ -309,6 +306,7 @@
                     console.log(err);
                 }
             }
+            this.selected=-1;
             
         },
         addActionCard: async function(device){
@@ -384,6 +382,7 @@
         },
         updateParamVal: function(val, index){
             this.params[index] = val;
+            this.selectedAux=-1;
         },
         printParams: function(params){
             let resp = '';
@@ -410,6 +409,9 @@
                 }
             }
         },
+        parseColor: function(idx){
+            this.params[idx] = this.actionColor.hex;
+        }
     },
     computed: {
       color: {

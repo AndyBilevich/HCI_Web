@@ -36,22 +36,10 @@
             <v-toolbar-title>
               <v-img id="logoweb" src="./assets/logo_web.png" contain></v-img>
             </v-toolbar-title>
+            <pre class="font-weight-bold">   >   </pre>
+            <h3 v-if="!home.id">No home selected</h3><h3 v-else class="font-weight-bold">{{ home.name }}</h3> 
           </v-row>
         </v-col>
-        <v-col cols="2">
-          <div v-if="!home.id">No home selected</div>
-          <div v-else>at {{home.name}}</div>
-        </v-col>
-        <v-col align="center">
-          <v-text-field
-            placeholder="Search..."
-            clearable
-            solo
-            append-icon="mdi-magnify"
-            hide-details
-          />
-        </v-col>
-        <v-col />
       </v-row>
     </v-app-bar>
 
@@ -120,6 +108,7 @@ export default {
       drawer: true,
       miniVar: true,
       miniHidd: 'd-none',
+      fill: "   >  ",
       main_opt: [
         {
           index: 0,
