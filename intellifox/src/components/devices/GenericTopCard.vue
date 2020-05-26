@@ -172,16 +172,13 @@ export default {
 
     deleteDevice: async function() {
       try {
-          await DeviceApi.delete(this.model.id);
-          
+          await DeviceApi.delete(this.model.id);     
           if(this.model.room.id !== 'none'){
             const ans2 = await HomeApi.get(this.model.room.home.id);
             var auxHome = ans2.result;
             auxHome.meta.devs = auxHome.meta.devs - 1;
             await HomeApi.modify(auxHome);
-           
-          }  
-          
+          }
       } catch (err) {
           console.log(err);
       }

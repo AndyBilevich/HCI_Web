@@ -44,20 +44,23 @@
             <v-col v-for="d in deviceInfo" :key="d.id" cols="3">
                 <v-card>
                     <v-card-title class="headline">
+                        <!-- <v-icon> {{types[d.type.name].icon}} </v-icon> -->
                         {{d.name}}
                     </v-card-title>
                     <v-card-text>
                         <v-list>
                             <v-list-item v-for="action in deviceActions[d.id]" :key="action.id">
                                 <v-row>
-                                    <h1>
-                                        {{action.actionName.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase() )}}
-                                    </h1>
-                                </v-row>
-                                <v-row>
-                                <v-list-item-action v-for="(param, idx) in action.params" :key="idx">
-                                    {{param}}
-                                </v-list-item-action>
+                                    <v-col cols="7">
+                                        <h3>
+                                            {{action.actionName.replace(/([A-Z])/g, ' $1').replace(/^./, (str) => str.toUpperCase())}}
+                                        </h3>
+                                    </v-col>
+                                    <v-col cols="5">
+                                        <h3 v-for="(param, idx) in action.params" :key="idx">
+                                            {{param}}
+                                        </h3>
+                                    </v-col>
                                 </v-row>
                             </v-list-item>
                         </v-list>
@@ -102,7 +105,7 @@
 </template>
 
 <script>
-
+//import storage from '@/storage';
 import router from '@/router';
 import { RoutineApi } from '@/api';
     export default {
@@ -114,6 +117,7 @@ import { RoutineApi } from '@/api';
                 },
                 allDevActions: [],
                 deviceInfo: {},
+                types: {},
                 deviceActions: {},
             }
         },
@@ -125,18 +129,19 @@ import { RoutineApi } from '@/api';
                 const ans = await RoutineApi.get(this.$route.params.id);
                 this.deviceInfo = {};
                 this.deviceActions = {};
-                ans.result.actions.forEach(r => {
-                    if (!this.deviceActions[r.device.id]) {
-                        this.deviceInfo[r.device.id] = r.device;
-                        this.deviceInfo[r.device.id].icon = await storage.getTypeIcon(d.type.name)
-                        this.deviceActions[r.device.id] = [];
+                //this.types = await storage.getAllTypes();
+                //console.log(this.types);
+                for(let i = 0; i< ans.result.actions.length; i++){
+                    if (!this.deviceActions[ans.result.actions[i].device.id]) {
+                        this.deviceInfo[ans.result.actions[i].device.id] = ans.result.actions[i].device;
+                        this.deviceActions[ans.result.actions[i].device.id] = [];
                     }
-                    this.deviceActions[r.device.id].push({
-                        actionName: r.actionName,
-                        meta: r.meta,
-                        params: r.params,
+                    this.deviceActions[ans.result.actions[i].device.id].push({
+                        actionName: ans.result.actions[i].actionName,
+                        meta: ans.result.actions[i].meta,
+                        params: ans.result.actions[i].params,
                     });
-                });
+                }
                 console.log(this.deviceActions);
                 console.log(this.deviceInfo);
             },
