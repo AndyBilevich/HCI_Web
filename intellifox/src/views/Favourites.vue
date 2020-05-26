@@ -35,7 +35,7 @@
         <div v-else>
             <v-row dense>
                 <v-col cols="6" v-for="r in routines" :key="r.id">
-                    <RoutineCard @upd="retrieveRoutines" :id="routine.id"/>
+                    <RoutineCard @upd="retrieveRoutines" :id="r.id"/>
                 </v-col>
             </v-row>
         </div>
@@ -135,19 +135,6 @@ import { DeviceApi, RoutineApi } from '@/api';
                     console.log(err);
                 }
                 this.noRoutinesText = "You don't have rutines added to favourites. Add one pressing the heart button in the rutine you want to add."
-            },
-            retrieveRoutines: async function(){
-                try {
-                    const aux = await RoutineApi.getAll();
-                    if (aux.result) {
-                        aux.result.forEach(d => {
-                            if( d.meta.favourites)
-                                this.devices.push(d);
-                        })
-                    }
-                } catch (err) {
-                    console.log(err);
-                }
             },
             updateModel: function(newModel) {
                 this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;
