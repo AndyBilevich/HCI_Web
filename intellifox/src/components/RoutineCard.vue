@@ -39,12 +39,9 @@
                 </v-btn>
               </template>
               <v-list>
-                <v-list-item>
-                  <v-icon>mdi-pencil</v-icon>Edit
-                </v-list-item>
                 <v-list-item @click="dialog=true">
-                    <v-icon>mdi-trash-can</v-icon>Delete
-                  </v-list-item>
+                  <v-icon>mdi-trash-can</v-icon>Delete
+                </v-list-item>
               </v-list>
             </v-menu>
           </v-col>
@@ -63,6 +60,14 @@
 
           <v-card-actions>
             <v-spacer></v-spacer>
+
+            <v-btn
+              color="window"
+              @click="dialog = false"
+            >
+              Cancel
+            </v-btn>
+
             <v-btn
               color="primary"
               @click="deleteRoutine"

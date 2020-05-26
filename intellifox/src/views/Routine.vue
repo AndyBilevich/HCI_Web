@@ -1,7 +1,7 @@
 <template>
     <div class="room">
         <v-row>
-            <v-col cols="10">
+            <v-col cols="11">
                 <v-row>
                     <router-link class="routerLink" to="/routines">
                         <v-btn color="primary" fab big bottom text right>
@@ -19,12 +19,6 @@
                         </v-btn>
                     </template>
                     <v-list>
-                        <v-list-item @click="editRoutine">
-                            <v-btn text>
-                                <v-icon>mdi-pencil</v-icon>
-                                Edit
-                            </v-btn>
-                        </v-list-item>
                         <v-list-item>
                             <v-btn
                             text
@@ -155,9 +149,6 @@ import { RoutineApi} from '@/api';
                 }
                 router.go(-1);
             },
-            editRoutine: async function() {
-
-            }
         }
     }
 </script>
