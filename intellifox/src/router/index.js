@@ -32,7 +32,7 @@ Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/favourites",
+    path: "/",
     name: "Favourites",
     component: Favourites,
   },
@@ -146,7 +146,5 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes,
 });
-
-router.replace({ path: '/homes', redirect: '/' })
 
 export default router;

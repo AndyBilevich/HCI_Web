@@ -1,44 +1,41 @@
 <template>
-    <div class="Favourites">
-        <v-row>
-            <v-col cols="11">
-                <v-row>
-                    <router-link class="routerLink" to="/rooms">
-                        <v-btn color="primary" fab big bottom text right>
-                            <v-icon x-large >mdi-keyboard-backspace</v-icon>
-                        </v-btn>
-                    </router-link>
-                    <h1>Favourites</h1>
-                </v-row>
+    <div class="favourites">
+        <v-row class="d-flex justify-center">
+            <h1>Favourites</h1>
+        </v-row>
+        <v-row class="d-flex justify-center">
+            <v-col cols="6">
+                <h1>Devices</h1>
+                <div v-if="devices.length === 0">
+                    <v-row class="d-flex justify-center">
+                        <h3 class="noItemsMessage" align="center"> {{noDevicesText}} </h3>
+                    </v-row>
+                </div>
+                <div v-else>
+                    <v-row dense>
+                        <v-col v-for="d in devices" :key="d.id" cols="12">
+                            <component v-bind:is="types[typesInfo[d.type.name].title]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
+                        </v-col>
+                    </v-row>
+                </div>
+                <v-devider/>
+            </v-col>
+            <v-col cols="6">
+                <h1>Routines</h1>
+                <div v-if="routines.length === 0">
+                    <v-row class="d-flex justify-center">
+                        <h3 class="noItemsMessage" align="center"> {{noRoutinesText}} </h3>
+                    </v-row>
+                </div>
+                <div v-else>
+                    <v-row dense>
+                        <v-col cols="12" v-for="r in routines" :key="r.id">
+                            <RoutineCard @upd="retrieveRoutines" :id="r.id"/>
+                        </v-col>
+                    </v-row>
+                </div>
             </v-col>
         </v-row>
-        <h1>Devices</h1>
-        <div v-if="devices.length === 0">
-            <v-row class="d-flex justify-center">
-                <h3 class="noItemsMessage" align="center"> {{noDevicesText}} </h3>
-            </v-row>
-        </div>
-        <div v-else>
-            <v-row dense>
-                <v-col v-for="d in devices" :key="d.id" cols="6">
-                    <component v-bind:is="types[typesInfo[d.type.name].title]" @upd_model="updateModel" @upd_devs="retrieveDevices" :model="d"/>
-                </v-col>
-            </v-row>
-        </div>
-        <v-devider/>
-        <h1>Routines</h1>
-        <div v-if="routines.length === 0">
-            <v-row class="d-flex justify-center">
-                <h3 class="noItemsMessage" align="center"> {{noRoutinesText}} </h3>
-            </v-row>
-        </div>
-        <div v-else>
-            <v-row dense>
-                <v-col cols="6" v-for="r in routines" :key="r.id">
-                    <RoutineCard @upd="retrieveRoutines" :id="r.id"/>
-                </v-col>
-            </v-row>
-        </div>
     </div>
 </template>
 

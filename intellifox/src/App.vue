@@ -117,7 +117,7 @@ export default {
           name: 'Favourites',
           icon: 'mdi-heart',
           to: {
-            path: '/favourites'
+            path: '/'
           }
         },
         {
