@@ -2,7 +2,7 @@ export { Api };
 
 class Api {
   static get baseUrl() {
-    return 'http://127.0.0.1:8082/api';
+    return 'http://127.0.0.1:8080/api';
   }
 
   static get timeout() {
@@ -46,6 +46,7 @@ class Api {
   }
 
   static put(url, data, controller) {
+    console.log(JSON.stringify(data));
     return Api.fetch(url, {
       method: 'PUT',
       headers: {

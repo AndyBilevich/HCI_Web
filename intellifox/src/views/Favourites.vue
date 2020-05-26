@@ -44,7 +44,7 @@ import {
     FridgeCard,
     WindowCard
 } from '@/components/devices'
-import { DeviceApi } from '@/api';
+import { DeviceApi, RoutineApi } from '@/api';
     export default {
         data: function() {
             return {
@@ -83,6 +83,7 @@ import { DeviceApi } from '@/api';
             this.home_id = home?home.id:'';
             this.typesInfo = await storage.getAllTypes();
             await this.retrieveDevices();
+            await this.retrieveRoutines();
             //console.log(this.typesInfo);
         },
         methods: {
@@ -100,6 +101,19 @@ import { DeviceApi } from '@/api';
                     console.log(err);
                 }
                 this.noItemsText = "You don't have devices/rutines added to favourites. Add one pressing the heart button in the device/rutine you want to add."
+            },
+            retrieveRoutines: async function(){
+                try {
+                    const aux = await RoutineApi.getAll();
+                    if (aux.result) {
+                        aux.result.forEach(d => {
+                            if( d.meta.favourites)
+                                this.devices.push(d);
+                        })
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
             },
             updateModel: function(newModel) {
                 this.devices[this.devices.map((x, i) => [i, x]).filter(x => x[1].id == newModel.id)[0][0]] = newModel;

@@ -19,7 +19,15 @@
               <v-card-subtitle>{{ routine.meta.desc }}</v-card-subtitle>
             </v-row>
           </v-col>
-          <v-col cols="3">
+          <v-col cols="1" @click="addToFavourites">
+            <v-btn v-if="!routine.meta.favourites" text icon>
+              <v-icon large>mdi-heart-outline</v-icon>
+            </v-btn>
+            <v-btn v-else text icon>
+              <v-icon large>mdi-heart</v-icon>
+            </v-btn>
+          </v-col>
+          <v-col cols="2">
             <v-btn @click="executeRoutine" text icon>
               <v-icon large>mdi-play</v-icon>
             </v-btn>
@@ -110,14 +118,14 @@
 
 <script>
 import router from '@/router';
-import { RoutineApi } from '@/api';
+import { RoutineApi, Routine } from '@/api';
 export default {
   data: function() {
     return {
       displayTime: 5000,
       hidden: false,
       dialog:false,
-      fav:false,
+
       routine: { meta: {} },
       succ_snackbar:false,
       err_snackbar:false,
@@ -147,6 +155,36 @@ export default {
         console.log(err);
       }
     },
+    addToFavourites: async function(){
+      let actions = [];
+      this.routine.actions.forEach(r => {
+        actions.push({
+          device: {
+            id: r.device.id,
+          },
+          actionName: r.actionName,
+          params: r.params,
+          meta: {},
+        })
+      })
+      const routine = new Routine(
+        this.routine.id,
+        this.routine.name,
+        actions,
+        { desc: this.routine.meta.desc,
+          color: this.routine.meta.color,
+          favourites: this.routine.meta.favourites ? !this.routine.meta.favourites : true }
+      );
+      //console.log(routine);
+      try {        
+          await RoutineApi.modify(routine);
+          this.routine.meta.favourites = !this.routine.meta.favourites;
+      } catch (err) {
+          console.log(err);
+      }
+      
+    },
+    
     deleteRoutine: async function(){
       try {
         await RoutineApi.delete(this.routine.id);

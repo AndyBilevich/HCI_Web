@@ -345,7 +345,11 @@
             router.go(-1);
         },
         saveRoutine: async function(){
-            const routine = new Routine(null, this.name, this.buildFormatedActionArray(), {desc: this.desc, color: this.color });
+            const routine = new Routine(
+                null,
+                this.name,
+                this.buildFormatedActionArray(),
+                {desc: this.desc, color: this.color, favourites: false });
             try {
                 await RoutineApi.add(routine);
             } catch (err) {

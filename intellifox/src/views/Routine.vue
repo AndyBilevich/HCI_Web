@@ -1,7 +1,7 @@
 <template>
     <div class="room">
         <v-row>
-            <v-col cols="11">
+            <v-col cols="10">
                 <v-row>
                     <router-link class="routerLink" to="/routines">
                         <v-btn color="primary" fab big bottom text right>
@@ -73,7 +73,7 @@
         <v-dialog
         v-model="dialog"
         max-width="290"
-      >
+        >
         <v-card color="background3">
           <v-card-title class="headline">Be careful</v-card-title>
 
@@ -107,7 +107,7 @@
 <script>
 //import storage from '@/storage';
 import router from '@/router';
-import { RoutineApi } from '@/api';
+import { RoutineApi} from '@/api';
     export default {
         data: function() {
             return {
@@ -145,6 +145,7 @@ import { RoutineApi } from '@/api';
                 console.log(this.deviceActions);
                 console.log(this.deviceInfo);
             },
+            
             deleteRoutine: async function() {
                 try {
                 await RoutineApi.delete(this.routine.id);
