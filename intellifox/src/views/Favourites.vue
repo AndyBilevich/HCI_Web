@@ -12,11 +12,10 @@
                 </v-row>
             </v-col>
         </v-row>
-
-
+        <h1>Devices</h1>
         <div v-if="devices.length === 0">
             <v-row class="d-flex justify-center">
-                <h3 class="noItemsMessage" align="center"> {{noItemsText}} </h3>
+                <h3 class="noItemsMessage" align="center"> {{noDevicesText}} </h3>
             </v-row>
         </div>
         <div v-else>
@@ -26,11 +25,26 @@
                 </v-col>
             </v-row>
         </div>
+        <v-devider/>
+        <h1>Routines</h1>
+        <div v-if="routines.length === 0">
+            <v-row class="d-flex justify-center">
+                <h3 class="noItemsMessage" align="center"> {{noRoutinesText}} </h3>
+            </v-row>
+        </div>
+        <div v-else>
+            <v-row dense>
+                <v-col cols="6" v-for="r in routines" :key="r.id">
+                    <RoutineCard @upd="retrieveRoutines" :id="routine.id"/>
+                </v-col>
+            </v-row>
+        </div>
     </div>
 </template>
 
 <script>
 import storage from '@/storage';
+import RoutineCard from "@/components/RoutineCard.vue";
 //import router from '@/router';
 import {
     SpeakerCard,
@@ -46,10 +60,14 @@ import {
 } from '@/components/devices'
 import { DeviceApi, RoutineApi } from '@/api';
     export default {
+        components: {
+            RoutineCard
+        },
         data: function() {
             return {
                 home_id: '',
-                noItemsText: "",
+                noRoutinesText: "",
+                noDevicesText: "",
                 components: {
                     SpeakerCard,
                     WaterCard,
@@ -63,6 +81,7 @@ import { DeviceApi, RoutineApi } from '@/api';
                     WindowCard,
                 },
                 devices: [],
+                routines: [],
                 typesInfo: {},
                 types: {
                     'Speaker': SpeakerCard,
@@ -100,7 +119,22 @@ import { DeviceApi, RoutineApi } from '@/api';
                 } catch (err) {
                     console.log(err);
                 }
-                this.noItemsText = "You don't have devices/rutines added to favourites. Add one pressing the heart button in the device/rutine you want to add."
+                this.noDevicesText = "You don't have devices added to favourites. Add one pressing the heart button in the device you want to add."
+            },
+            retrieveRoutines: async function() {
+                try {
+                    const aux = await RoutineApi.getAll();
+                    this.routines = [];
+                    if (aux.result) {
+                        aux.result.forEach(r => {
+                            if(r.meta.favourites)
+                                this.routines.push(r);
+                        })
+                    }
+                } catch (err) {
+                    console.log(err);
+                }
+                this.noRoutinesText = "You don't have rutines added to favourites. Add one pressing the heart button in the rutine you want to add."
             },
             retrieveRoutines: async function(){
                 try {
