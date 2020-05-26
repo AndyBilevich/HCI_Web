@@ -8,7 +8,7 @@ class RoomDeviceApi {
   }
 
   static get(roomId, controller) {
-   return Api.get(`${RoomDeviceApi.url}/${roomId}/devices`, {roomId}, controller);
+   return Api.get(`${RoomDeviceApi.url}/${roomId}/devices`, controller);
   }
 
   static add(roomId, deviceId, controller) {

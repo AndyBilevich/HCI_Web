@@ -8,7 +8,7 @@ class HomeRoomApi {
   }
 
   static get(homeId, controller) {
-   return Api.get(`${HomeRoomApi.url}/${homeId}/rooms`, {homeId}, controller);
+   return Api.get(`${HomeRoomApi.url}/${homeId}/rooms`, controller);
   }
 
   static add(homeId, roomId, controller) {
