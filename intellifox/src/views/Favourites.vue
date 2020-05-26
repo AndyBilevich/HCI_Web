@@ -12,8 +12,7 @@
                 </v-row>
             </v-col>
         </v-row>
-
-
+        <h1>Devices</h1>
         <div v-if="devices.length === 0">
             <v-row class="d-flex justify-center">
                 <h3 class="noItemsMessage" align="center"> {{noDevicesText}} </h3>
@@ -27,6 +26,7 @@
             </v-row>
         </div>
         <v-devider/>
+        <h1>Routines</h1>
         <div v-if="routines.length === 0">
             <v-row class="d-flex justify-center">
                 <h3 class="noItemsMessage" align="center"> {{noRoutinesText}} </h3>
