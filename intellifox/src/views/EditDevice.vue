@@ -36,7 +36,7 @@
 </template>
 
 <script>
-  import storage from '@/router';
+  import storage from '@/storage';
   import router from '@/router';
   import { HomeRoomApi, DeviceApi, Device, RoomDeviceApi, RoomApi } from '@/api';
   export default {
